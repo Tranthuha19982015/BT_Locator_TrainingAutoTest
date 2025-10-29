@@ -1,6 +1,6 @@
 package com.hatester.bt_locators;
 
-public class Locator_LeadPage {
+public class LocatorLeadPage {
     //locator menu Lead
     public static String menuLead = "//ul[@id='side-menu']//span[normalize-space()='Leads' and @class='menu-text']";
 
