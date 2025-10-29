@@ -1,6 +1,6 @@
 package com.hatester.bt_locators;
 
-public class LoginPage {
+public class Locator_LoginPage {
     //Locator Login Page
     public static String headerLoginPage = "//h1[normalize-space()='Login']";
     public static String inputEmail = "//input[@id='email']";
