@@ -10,6 +10,10 @@ public class LocatorLeadPage {
     public static String iconSwitchToKanban = "//a[@data-title='Switch to Kanban']";
     public static String inputSearchLeads = "//div[@id='leads_filter']//input[@type='search']";
 
+    public static String labelLeadsSummary = "//h4[normalize-space()='Leads Summary']";
+    public static String labelActive="//span[normalize-space()='Active']/preceding-sibling::span";
+    public static String lableCustomer="//span[normalize-space()='Customer']/preceding-sibling::span";
+
     public static String getFirstRowItemLeadName(String leadName) {
         String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']";
         return xpath;
