@@ -65,4 +65,30 @@ public class LocatorTaskPage {
 
     public static String dropdownRelatedToFollowingType = "//button[@data-id='rel_id']";
     public static String inputSearchRelatedToFollowingType = "//button[@data-id='rel_id']/following-sibling::div/descendant::input[@type='search']";
+
+    //dropdown Assignees
+    public static String dropdownAssignees = "//button[@data-id='assignees']";
+    public static String inputSearchAssignees = "//button[@data-id='assignees']/following-sibling::div//input[@type='search']";
+
+    public static String getValueAssignees(String assignee) {
+        String xpath = "//button[@data-id='assignees']/following-sibling::div/descendant::span[normalize-space()='" + assignee + "']";
+        return xpath;
+    }
+
+    //dropdown Followers
+    public static String dropdownFollowers = "//button[contains(@data-id,'followers')]";
+    public static String inputSearchFollowers = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::input[@type='search']";
+
+    public static String getValueFollowers(String follower) {
+        String xpath = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::span[normalize-space()='" + follower + "']";
+        return xpath;
+    }
+
+    //input
+    public static String inputTags = "//div[@id='inputTagsWrapper']/descendant::input";
+    public static String inputDescription = "//body[@id='tinymce']/p";
+
+    //button
+    public static String buttonClose = "//div[contains(@id,'task_modal')]/descendant::button[normalize-space()='Close']";
+    public static String buttonSave = "//div[contains(@id,'task_modal')]/descendant::button[normalize-space()='Save']";
 }
