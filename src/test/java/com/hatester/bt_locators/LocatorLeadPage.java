@@ -8,16 +8,62 @@ public class LocatorLeadPage {
     public static String buttonNewLead = "//a[normalize-space()='New Lead']";
     public static String iconLeadsSummary = "//a[@data-title='Leads Summary']";
     public static String iconSwitchToKanban = "//a[@data-title='Switch to Kanban']";
+    public static String iconFilter = "//div[@id='vueApp']/div[@data-title='Filter by']";
+
+    //label lead overview
+    public static String labelLeadsSummary = "//h4[normalize-space()='Leads Summary']";
+    public static String labelActive = "//span[normalize-space()='Active']/preceding-sibling::span";
+    public static String lableCustomer = "//span[normalize-space()='Customer']/preceding-sibling::span";
+
+    //button
+    public static String dropdownDatatableLength = "//div[@id='leads_length']/label";
+    public static String buttonExport = "//div[@id='leads_length']/following-sibling::div/button[text()='Export']";
+    public static String buttonBulkActions = "//div[@id='leads_length']/following-sibling::div/button[text()='Bulk Actions']";
+    public static String buttonReload = "//div[@id='leads_length']/following-sibling::div/button[@data-original-title='Reload']";
+
+    //input search
     public static String inputSearchLeads = "//div[@id='leads_filter']//input[@type='search']";
 
-    public static String labelLeadsSummary = "//h4[normalize-space()='Leads Summary']";
-    public static String labelActive="//span[normalize-space()='Active']/preceding-sibling::span";
-    public static String lableCustomer="//span[normalize-space()='Customer']/preceding-sibling::span";
+    //table
+    public static String checkboxCheckAll = "//table[@id='leads']/descendant::input[@id='mass_select_all']";
+    public static String headerNumber = "//table[@id='leads']/descendant::th[@id='th-number']";
+    public static String headerName = "//table[@id='leads']/descendant::th[@id='th-name']";
+    public static String headerCompany = "//table[@id='leads']/descendant::th[@id='th-company']";
+    public static String headerEmail = "//table[@id='leads']/descendant::th[@id='th-email']";
+    public static String headerPhone = "//table[@id='leads']/descendant::th[@id='th-phone']";
+    public static String headerValue = "//table[@id='leads']/descendant::th[@id='th-lead-value']";
+    public static String headerTags = "//table[@id='leads']/descendant::th[@id='th-tags']";
+    public static String headerAssigned = "//table[@id='leads']/descendant::th[@id='th-assigned']";
+    public static String headerStatus = "//table[@id='leads']/descendant::th[@id='th-status']";
+    public static String headerSource = "//table[@id='leads']/descendant::th[@id='th-source']";
+    public static String headerLastContact = "//table[@id='leads']/descendant::th[@id='th-last-contact']";
+    public static String headerCreated = "//table[@id='leads']/descendant::th[@id='th-date-created']";
+
 
     public static String getFirstRowItemLeadName(String leadName) {
         String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']";
         return xpath;
     }
+
+    public static String buttonView(String leadName) {
+        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='View']";
+        return xpath;
+    }
+
+    public static String buttonEdit(String leadName) {
+        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Edit']";
+        return xpath;
+    }
+
+    public static String buttonDelete(String leadName) {
+        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Delete']";
+        return xpath;
+    }
+
+    public static String labelLeadInfo = "//div[@id='leads_info']";
+    public static String buttonPrevious = "//div[@id='leads_paginate']/descendant::li[@id='leads_previous']";
+    public static String buttonNumberOfPage = "(//div[@id='leads_paginate']/descendant::li[@id='leads_previous'])/following-sibling::li[1]";
+    public static String buttonNext = "//div[@id='leads_paginate']/descendant::li[@id='leads_next']";
 
     //Locator Add New Lead
     //dropdown Status
