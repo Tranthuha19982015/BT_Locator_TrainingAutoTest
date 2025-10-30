@@ -85,6 +85,8 @@ public class LocatorLeadPage {
     //input
     public static String inputCompany = "//input[@id='company']";
     public static String inputDescription = "//textarea[@id='description']";
+    public static String inputDateContacted = "//input[@id='custom_contact_date']";
+    public static String iconDateContactedCalendar = "//input[@id='custom_contact_date']/following-sibling::div";
 
     //checkbox
     public static String checkboxPublic = "//input[@id='lead_public']";
