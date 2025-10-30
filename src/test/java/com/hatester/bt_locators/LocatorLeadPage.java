@@ -25,19 +25,19 @@ public class LocatorLeadPage {
     public static String inputSearchLeads = "//div[@id='leads_filter']//input[@type='search']";
 
     //table
-    public static String checkboxCheckAll = "//table[@id='leads']/descendant::input[@id='mass_select_all']";
-    public static String headerNumber = "//table[@id='leads']/descendant::th[@id='th-number']";
-    public static String headerName = "//table[@id='leads']/descendant::th[@id='th-name']";
-    public static String headerCompany = "//table[@id='leads']/descendant::th[@id='th-company']";
-    public static String headerEmail = "//table[@id='leads']/descendant::th[@id='th-email']";
-    public static String headerPhone = "//table[@id='leads']/descendant::th[@id='th-phone']";
-    public static String headerValue = "//table[@id='leads']/descendant::th[@id='th-lead-value']";
-    public static String headerTags = "//table[@id='leads']/descendant::th[@id='th-tags']";
-    public static String headerAssigned = "//table[@id='leads']/descendant::th[@id='th-assigned']";
-    public static String headerStatus = "//table[@id='leads']/descendant::th[@id='th-status']";
-    public static String headerSource = "//table[@id='leads']/descendant::th[@id='th-source']";
-    public static String headerLastContact = "//table[@id='leads']/descendant::th[@id='th-last-contact']";
-    public static String headerCreated = "//table[@id='leads']/descendant::th[@id='th-date-created']";
+    public static String checkboxCheckAll = "//table[@id='leads']/thead/descendant::input[@id='mass_select_all']";
+    public static String headerNumber = "//table[@id='leads']/thead/descendant::th[@id='th-number']";
+    public static String headerName = "//table[@id='leads']/thead/descendant::th[@id='th-name']";
+    public static String headerCompany = "//table[@id='leads']/thead/descendant::th[@id='th-company']";
+    public static String headerEmail = "//table[@id='leads']/thead/descendant::th[@id='th-email']";
+    public static String headerPhone = "//table[@id='leads']/thead/descendant::th[@id='th-phone']";
+    public static String headerValue = "//table[@id='leads']/thead/descendant::th[@id='th-lead-value']";
+    public static String headerTags = "//table[@id='leads']/thead/descendant::th[@id='th-tags']";
+    public static String headerAssigned = "//table[@id='leads']/thead/descendant::th[@id='th-assigned']";
+    public static String headerStatus = "//table[@id='leads']/thead/descendant::th[@id='th-status']";
+    public static String headerSource = "//table[@id='leads']/thead/descendant::th[@id='th-source']";
+    public static String headerLastContact = "//table[@id='leads']/thead/descendant::th[@id='th-last-contact']";
+    public static String headerCreated = "//table[@id='leads']/thead/descendant::th[@id='th-date-created']";
 
 
     public static String getFirstRowItemLeadName(String leadName) {
