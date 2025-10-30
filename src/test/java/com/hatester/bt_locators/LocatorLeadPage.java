@@ -16,7 +16,7 @@ public class LocatorLeadPage {
     public static String lableCustomer = "//span[normalize-space()='Customer']/preceding-sibling::span";
 
     //button
-    public static String dropdownDatatableLength = "//div[@id='leads_length']/label";
+    public static String dropdownDatatableLeadsLength = "//div[@id='leads_length']//descendant::select";
     public static String buttonExport = "//div[@id='leads_length']/following-sibling::div/button[text()='Export']";
     public static String buttonBulkActions = "//div[@id='leads_length']/following-sibling::div/button[text()='Bulk Actions']";
     public static String buttonReload = "//div[@id='leads_length']/following-sibling::div/button[@data-original-title='Reload']";

@@ -6,21 +6,63 @@ public class LocatorTaskPage {
 
     //Locator Tasks Page
     public static String buttonNewTask = "//a[normalize-space()='New Task']";
+    public static String buttonTasksOverview = "//a[normalize-space()='Tasks Overview']";
+    public static String iconFilter = "//div[@id='vueApp']/div[@data-title='Filter by']";
     public static String iconSwitchToKanban = "//a[normalize-space()='New Task']/following-sibling::a[@data-title='Switch to Kanban']";
     public static String headerTasksSummary = "//span[normalize-space()='Tasks Summary']";
 
+    //label status of task
     public static String labelNotStarted = "//span[normalize-space()='Not Started']/preceding-sibling::span";
     public static String labelInProgress = "//span[normalize-space()='In Progress']/preceding-sibling::span";
     public static String labelTesting = "//span[normalize-space()='Testing']/preceding-sibling::span";
     public static String labelAwaitingFeedback = "//span[normalize-space()='Awaiting Feedback']/preceding-sibling::span";
     public static String labelComplete = "//span[normalize-space()='Complete']/preceding-sibling::span";
 
+    //button
+    public static String dropdownDatatableTasksLength = "//div[@id='tasks_length']/descendant::select";
+    public static String buttonExport = "//div[@id='tasks_length']/following-sibling::div/button[text()='Export']";
+    public static String buttonBulkActions = "//div[@id='tasks_length']/following-sibling::div/button[text()='Bulk Actions']";
+    public static String buttonReload = "//div[@id='tasks_length']/following-sibling::div/button[contains(@class,'btn-dt-reload')]";
+
+    //input search
     public static String inputSearchTasks = "//div[@id='tasks_filter']/descendant::input[@type='search']";
+
+    //table
+    public static String checkboxCheckAll = "//table[@id='tasks']/thead//input[@id='mass_select_all']";
+    public static String headerId = "//table[@id='tasks']/thead//th[normalize-space()='#']";
+    public static String headerName = "//table[@id='tasks']/thead//th[normalize-space()='Name']";
+    public static String headerStatus = "//table[@id='tasks']/thead//th[normalize-space()='Status']";
+    public static String headerStartDate = "//table[@id='tasks']/thead//th[normalize-space()='Start Date']";
+    public static String headerDueDate = "//table[@id='tasks']/thead//th[normalize-space()='Due Date']";
+    public static String headerAssignedTo = "//table[@id='tasks']/thead//th[normalize-space()='Assigned to']";
+    public static String headerTags = "//table[@id='tasks']/thead//th[normalize-space()='Tags']";
+    public static String headerPriority = "//table[@id='tasks']/thead//th[normalize-space()='Priority']";
 
     public static String getFirstRowItemTaskName(String taskName) {
         String xpath = "//table[@id='tasks']/descendant::a[normalize-space()='" + taskName + "']";
         return xpath;
     }
+
+    //button
+    public static String buttonStartTimer(String tasksName) {
+        String xpath = "//table[@id='tasks']/descendant::a[normalize-space()='" + tasksName + "']/following-sibling::div//a[normalize-space()='Start Timer']";
+        return xpath;
+    }
+
+    public static String buttonEdit(String tasksName) {
+        String xpath = "//table[@id='tasks']/descendant::a[normalize-space()='" + tasksName + "']/following-sibling::div//a[normalize-space()='Edit']";
+        return xpath;
+    }
+
+    public static String buttonDelete(String tasksName) {
+        String xpath = "//table[@id='tasks']/descendant::a[normalize-space()='" + tasksName + "']/following-sibling::div//a[normalize-space()='Delete']";
+        return xpath;
+    }
+
+    public static String labelTasksInfo = "//div[@id='tasks_info']";
+    public static String buttonPrevious = "//div[@id='tasks_paginate']//li[@id='tasks_previous']";
+    public static String buttonNext = "//div[@id='tasks_paginate']//li[@id='tasks_next']";
+    public static String dropdownNumberOfPage = "//div[@id='colvis']/following-sibling::div/select[@id='dt-page-jump-tasks']";
 
     //Locator Add New Task
     //checkbox
