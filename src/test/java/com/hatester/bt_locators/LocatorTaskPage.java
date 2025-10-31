@@ -20,8 +20,8 @@ public class LocatorTaskPage {
 
     //button
     public static String dropdownDatatableTasksLength = "//div[@id='tasks_length']/descendant::select";
-    public static String buttonExport = "//div[@id='tasks_length']/following-sibling::div/button[text()='Export']";
-    public static String buttonBulkActions = "//div[@id='tasks_length']/following-sibling::div/button[text()='Bulk Actions']";
+    public static String buttonExport = "//div[@id='tasks_length']/following-sibling::div/button[normalize-space()='Export']";
+    public static String buttonBulkActions = "//div[@id='tasks_length']/following-sibling::div/button[normalize-space()='Bulk Actions']";
     public static String buttonReload = "//div[@id='tasks_length']/following-sibling::div/button[contains(@class,'btn-dt-reload')]";
 
     //input search
