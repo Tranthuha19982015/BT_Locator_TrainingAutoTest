@@ -61,6 +61,12 @@ public class LocatorTaskPage {
 
     public static String labelTasksInfo = "//div[@id='tasks_info']";
     public static String buttonPrevious = "//div[@id='tasks_paginate']//li[@id='tasks_previous']";
+
+    public static String buttonNumberOfPage(String number) {
+        String xpath = "//div[@id='tasks_paginate']/descendant::a[normalize-space()='" + number + "']";
+        return xpath;
+    }
+
     public static String buttonNext = "//div[@id='tasks_paginate']//li[@id='tasks_next']";
     public static String dropdownNumberOfPage = "//div[@id='colvis']/following-sibling::div/select[@id='dt-page-jump-tasks']";
 

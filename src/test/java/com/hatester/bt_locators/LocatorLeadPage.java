@@ -62,7 +62,12 @@ public class LocatorLeadPage {
 
     public static String labelLeadInfo = "//div[@id='leads_info']";
     public static String buttonPrevious = "//div[@id='leads_paginate']/descendant::li[@id='leads_previous']";
-    public static String buttonNumberOfPage = "(//div[@id='leads_paginate']/descendant::li[@id='leads_previous'])/following-sibling::li[1]";
+
+    public static String buttonNumberOfPage(String number) {
+        String xpath = "//div[@id='leads_paginate']/descendant::a[normalize-space()='" + number + "']";
+        return xpath;
+    }
+
     public static String buttonNext = "//div[@id='leads_paginate']/descendant::li[@id='leads_next']";
 
     //Locator Add New Lead
