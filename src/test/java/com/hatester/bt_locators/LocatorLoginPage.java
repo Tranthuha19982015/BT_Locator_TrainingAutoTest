@@ -13,5 +13,5 @@ public class LocatorLoginPage {
     public static String errorMessagePasswordIsNull = "//div[text()='The Password field is required.' and contains(@class,'alert-danger')]";
 
     //locator Menu Dashboard
-    public static String menuDashboard = "//ul[@id='side-menu']//span[normalize-space()='Dashboard' and @class='menu-text']]";
+    public static String menuDashboard = "//ul[@id='side-menu']//span[normalize-space()='Dashboard' and @class='menu-text']";
 }

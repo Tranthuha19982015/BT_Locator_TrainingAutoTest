@@ -17,8 +17,8 @@ public class LocatorLeadPage {
 
     //button
     public static String dropdownDatatableLeadsLength = "//div[@id='leads_length']//descendant::select";
-    public static String buttonExport = "//div[@id='leads_length']/following-sibling::div/button[text()='Export']";
-    public static String buttonBulkActions = "//div[@id='leads_length']/following-sibling::div/button[text()='Bulk Actions']";
+    public static String buttonExport = "//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Export']";
+    public static String buttonBulkActions = "//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Bulk Actions']";
     public static String buttonReload = "//div[@id='leads_length']/following-sibling::div/button[@data-original-title='Reload']";
 
     //input search
