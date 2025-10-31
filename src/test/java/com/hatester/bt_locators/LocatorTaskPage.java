@@ -71,13 +71,24 @@ public class LocatorTaskPage {
     public static String dropdownNumberOfPage = "//div[@id='colvis']/following-sibling::div/select[@id='dt-page-jump-tasks']";
 
     //Locator Add New Task
+    public static String headerAddNewTask = "//h4[@id='myModalLabel']";
     //checkbox
     public static String checkboxPublic = "//input[@id='task_is_public']";
     public static String checkboxBillable = "//input[@id='task_is_billable']";
     //attach files
     public static String textlinkAttachFiles = "//a[normalize-space()='Attach Files']";
-    public static String inputChooseFile = "//div[@id='new-task-attachments']/descendant::input[@type='file']";
     public static String iconAddMoreFileAttachment = "//div[@id='new-task-attachments']/descendant::button[contains(@class,'add_more_attachments')]";
+
+    public static String inputChooseFile(String number) {
+        String xpath = "//div[@id='new-task-attachments']/descendant::input[@type='file' and @name='attachments[" + number + "]']";
+        return xpath;
+    }
+
+    public static String iconDeleteFileAttachment(String number) {
+        String xpath = "//input[@type='file' and @name='attachments[" + number + "]']/following-sibling::span/button[contains(@class,'remove_attachment')]";
+        return xpath;
+    }
+
     //input
     public static String inputSubject = "//input[@id='name']";
     public static String inputHourlyRate = "//input[@id='hourly_rate']";
