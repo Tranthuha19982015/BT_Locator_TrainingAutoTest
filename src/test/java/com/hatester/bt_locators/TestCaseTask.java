@@ -7,7 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TestCaseLead extends BaseTest {
+public class TestCaseTask extends BaseTest {
 
     public void testAddNewLead(String status, String source, String assigned, String tag, String name, String country, String language) throws InterruptedException {
         //click menu Lead
@@ -140,7 +140,7 @@ public class TestCaseLead extends BaseTest {
 
     public static void main(String[] args) throws InterruptedException {
         TestCaseLogin login = new TestCaseLogin();
-        TestCaseLead tcAddLead = new TestCaseLead();
+        TestCaseTask tcAddLead = new TestCaseTask();
         String name = "htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
 
         tcAddLead.createDriver();
