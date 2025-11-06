@@ -32,6 +32,8 @@ public class TestCaseLogin extends BaseTest {
 
     public static void main(String[] args) throws InterruptedException {
         TestCaseLogin login1 = new TestCaseLogin();
+        login1.createDriver();
         login1.loginCRM();
+        login1.closeDriver();
     }
 }
