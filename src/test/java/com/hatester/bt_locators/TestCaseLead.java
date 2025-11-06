@@ -8,6 +8,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TestCaseLead extends BaseTest {
+    public void loginCRM() throws InterruptedException {
+        driver.get(LocatorLoginPage.url);
+        Thread.sleep(500);
+
+        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).clear();
+        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).sendKeys("admin@example.com");
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).clear();
+        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).sendKeys("123456");
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
+        Thread.sleep(1000);
+
+        boolean check = driver.findElement(By.xpath(LocatorLoginPage.menuDashboard)).isDisplayed();
+        if (check) {
+            System.out.println("Đăng nhập CRM thành công!");
+        } else {
+            System.out.println("FAILED!!! Đăng nhập không thành công!");
+        }
+    }
 
     public void testAddNewLead(String status, String source, String assigned, String tag, String name, String country, String language) throws InterruptedException {
         //click menu Lead
@@ -122,9 +142,9 @@ public class TestCaseLead extends BaseTest {
 
     public void verifyAfterAddNewLead(String name) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorLeadPage.buttonClosePopupDetail(name))));
+        js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))));
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorLeadPage.buttonClosePopupDetail(name))).click();
+        driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
@@ -139,14 +159,13 @@ public class TestCaseLead extends BaseTest {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        TestCaseLogin login = new TestCaseLogin();
-        TestCaseLead tcAddLead = new TestCaseLead();
-        String name = "htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        TestCaseLead lead1 = new TestCaseLead();
+        String name = "lead_htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
 
-        tcAddLead.createDriver();
-        login.loginCRM();
-        tcAddLead.testAddNewLead("Customer", "Facebook", "Anh Tester", "htest", name, "Vietnam", "Vietnamese");
-        tcAddLead.verifyAfterAddNewLead(name);
-        tcAddLead.closeDriver();
+        lead1.createDriver();
+        lead1.loginCRM();
+        lead1.testAddNewLead("Customer", "Facebook", "Anh Tester", "htest", name, "Vietnam", "Vietnamese");
+        lead1.verifyAfterAddNewLead(name);
+        lead1.closeDriver();
     }
 }
