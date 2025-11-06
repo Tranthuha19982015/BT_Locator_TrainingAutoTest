@@ -74,8 +74,8 @@ public class LocatorLeadPage {
     //dropdown Status
     public static String headerAddNewLead = "//h4[normalize-space()='Add new lead']";
 
-    public static String buttonClosePopupDetail(String header) {
-        String xpath = "//h4[contains(normalize-space(),'" + header + "')]/preceding-sibling::button[@class='close']";
+    public static String iconClosePopupLeadDetail(String headerLeadDetail) {
+        String xpath = "//h4[contains(normalize-space(),'" + headerLeadDetail + "')]/preceding-sibling::buttonbutton[@aria-label='Close']";
         return xpath;
     }
 

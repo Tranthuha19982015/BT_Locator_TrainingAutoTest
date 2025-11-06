@@ -98,7 +98,7 @@ public class LocatorTaskPage {
     public static String dropdownPriority = "//button[@data-id='priority']";
 
     public static String getValuePriority(String priority) {
-        String xpath = "//button[@data-id='priority']/following-sibling::div/descendant::span[normalize-space()='" + priority + "']";
+        String xpath = "//button[@data-id='priority']/following-sibling::div/descendant::span[contains(normalize-space(),'" + priority + "')]";
         return xpath;
     }
 
@@ -106,7 +106,15 @@ public class LocatorTaskPage {
     public static String dropdownRepeatEvery = "//button[@data-id='repeat_every']";
 
     public static String getValueRepeatEvery(String repeatEvery) {
-        String xpath = "//button[@data-id='repeat_every']/following-sibling::div/descendant::span[normalize-space()='" + repeatEvery + "']";
+        String xpath = "//button[@data-id='repeat_every']/following-sibling::div/descendant::span[contains(normalize-space(),'" + repeatEvery + "')]";
+        return xpath;
+    }
+
+    public static String inputRepeatEveryCustom = "//input[@id='repeat_every_custom']";
+    public static String dropdownRepeatEveryCustom = "//button[@data-id='repeat_type_custom']";
+
+    public static String getValueRepeatEveryCustom(String repeatEveryCustom) {
+        String xpath = "//button[@data-id='repeat_type_custom']/following-sibling::div/descendant::span[contains(normalize-space(),'" + repeatEveryCustom + "')]";
         return xpath;
     }
 
@@ -118,19 +126,24 @@ public class LocatorTaskPage {
     public static String dropdownRelatedTo = "//button[@data-id='rel_type']";
 
     public static String getValueRelatedTo(String relatedTo) {
-        String xpath = "//button[@data-id='rel_type']/following-sibling::div/descendant::span[normalize-space()='Invoice']";
+        String xpath = "//button[@data-id='rel_type']/following-sibling::div/descendant::span[contains(normalize-space(),'" + relatedTo + "')]";
         return xpath;
     }
 
-    public static String dropdownRelatedToFollowingType = "//button[@data-id='rel_id']";
-    public static String inputSearchRelatedToFollowingType = "//button[@data-id='rel_id']/following-sibling::div/descendant::input[@type='search']";
+    public static String dropdownTypeRelatedTo = "//button[@data-id='rel_id']";
+    public static String inputSearchTypeRelatedTo = "//button[@data-id='rel_id']/following-sibling::div/descendant::input[@type='search']";
+
+    public static String getValueTypeRelatedTo(String valueTypeRelatedTo) {
+        String xpath = "//button[@data-id='rel_id']/following-sibling::div/descendant::span[contains(normalize-space(),'" + valueTypeRelatedTo + "')]";
+        return xpath;
+    }
 
     //dropdown Assignees
     public static String dropdownAssignees = "//button[@data-id='assignees']";
     public static String inputSearchAssignees = "//button[@data-id='assignees']/following-sibling::div//input[@type='search']";
 
     public static String getValueAssignees(String assignee) {
-        String xpath = "//button[@data-id='assignees']/following-sibling::div/descendant::span[normalize-space()='" + assignee + "']";
+        String xpath = "//button[@data-id='assignees']/following-sibling::div/descendant::span[contains(normalize-space(),'" + assignee + "')]";
         return xpath;
     }
 
@@ -139,15 +152,23 @@ public class LocatorTaskPage {
     public static String inputSearchFollowers = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::input[@type='search']";
 
     public static String getValueFollowers(String follower) {
-        String xpath = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::span[normalize-space()='" + follower + "']";
+        String xpath = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::span[contains(normalize-space(),'" + follower + "')]";
         return xpath;
     }
 
     //input
-    public static String inputTags = "//div[@id='inputTagsWrapper']/descendant::input";
+    public static String labelTags = "//label[normalize-space()='Tags']";
+    public static String inputTags = "//div[@id='inputTagsWrapper']/descendant::input[@placeholder='Tag']";
     public static String inputDescription = "//body[@id='tinymce']/p";
 
     //button
     public static String buttonClose = "//div[contains(@id,'task_modal')]/descendant::button[normalize-space()='Close']";
     public static String buttonSave = "//div[contains(@id,'task_modal')]/descendant::button[normalize-space()='Save']";
+
+    //icon close popup
+    public static String iconClosePopupTaskDetail(String headerTaskDetail) {
+        String xpath = "//h4[contains(normalize-space(),'" + headerTaskDetail + "')]/preceding-sibling::button[@aria-label='Close']";
+        return xpath;
+    }
+
 }
