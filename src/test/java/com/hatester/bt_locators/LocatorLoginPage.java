@@ -1,6 +1,8 @@
 package com.hatester.bt_locators;
 
 public class LocatorLoginPage {
+
+    public static String url="https://crm.anhtester.com/admin/authentication";
     //Locator Login Page
     public static String headerLoginPage = "//h1[normalize-space()='Login']";
     public static String inputEmail = "//input[@id='email']";
