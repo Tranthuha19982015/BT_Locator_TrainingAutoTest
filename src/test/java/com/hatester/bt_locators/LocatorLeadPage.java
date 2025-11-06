@@ -11,7 +11,7 @@ public class LocatorLeadPage {
     public static String iconFilter = "//div[@id='vueApp']/div[@data-title='Filter by']";
 
     //label lead overview
-    public static String labelLeadsSummary = "//h4[normalize-space()='Leads Summary']";
+    public static String headerLeadsSummary = "//h4[normalize-space()='Leads Summary']";
     public static String labelActive = "//span[normalize-space()='Active']/preceding-sibling::span";
     public static String lableCustomer = "//span[normalize-space()='Customer']/preceding-sibling::span";
 
@@ -72,12 +72,19 @@ public class LocatorLeadPage {
 
     //Locator Add New Lead
     //dropdown Status
+    public static String headerAddNewLead = "//h4[normalize-space()='Add new lead']";
+
+    public static String buttonClosePopupDetail(String header) {
+        String xpath = "//h4[contains(normalize-space(),'" + header + "')]/preceding-sibling::button[@class='close']";
+        return xpath;
+    }
+
     public static String dropdownStatus = "//button[@data-id='status']";
     public static String inputSearchStatus = "//button[@data-id='status']/following-sibling::div//input[@type='search']";
     public static String iconAddStatus = "//label[@for='status']/following-sibling::div/div[@class='input-group-btn']";
 
     public static String getValueStatus(String status) {
-        String xpath = "//button[@data-id='status']/following-sibling::div//span[normalize-space()='" + status + "']";
+        String xpath = "//button[@data-id='status']/following-sibling::div//span[contains(normalize-space(),'" + status + "')]";
         return xpath;
     }
 
@@ -87,7 +94,7 @@ public class LocatorLeadPage {
     public static String iconAddSource = "//label[@for='source']/following-sibling::div/div[@class='input-group-btn']";
 
     public static String getValueSource(String source) {
-        String xpath = "//button[@data-id='source']/following-sibling::div//span[normalize-space()='" + source + "']";
+        String xpath = "//button[@data-id='source']/following-sibling::div//span[contains(normalize-space(),'" + source + "')]";
         return xpath;
     }
 
@@ -96,13 +103,14 @@ public class LocatorLeadPage {
     public static String inputSearchAssigned = "//button[@data-id='assigned']/following-sibling::div//input[@type='search']";
 
     public static String getValueAssigned(String assigned) {
-        String xpath = "//button[@data-id='assigned']/following-sibling::div//span[normalize-space()='" + assigned + "']";
+        String xpath = "//button[@data-id='assigned']/following-sibling::div//span[contains(normalize-space(),'" + assigned + "')]";
         return xpath;
     }
 
     //input
+    public static String labelTags = "//label[normalize-space()='Tags']";
     public static String inputTags = "//input[@id='tags']/following-sibling::ul//input[@placeholder='Tag']";
-    public static String inputName = "//input[@id='name']";
+    public static String inputName = "//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']";
     public static String inputAddress = "//textarea[@id='address']";
     public static String inputPosition = "//input[@id='title']";
     public static String inputCity = "//input[@id='city']";
@@ -115,7 +123,7 @@ public class LocatorLeadPage {
     public static String inputSearchCountry = "//button[@data-id='country']/following-sibling::div//input[@type='search']";
 
     public static String getValueCountry(String country) {
-        String xpath = "//button[@data-id='country']/following-sibling::div//span[normalize-space()='" + country + "']";
+        String xpath = "//button[@data-id='country']/following-sibling::div//span[contains(normalize-space(),'" + country + "')]";
         return xpath;
     }
 
@@ -129,7 +137,7 @@ public class LocatorLeadPage {
     public static String inputSearchDefaultLanguage = "//button[@data-id='default_language']/following-sibling::div//input[@type='search']";
 
     public static String getValueDefaultLanguage(String language) {
-        String xpath = "//button[@data-id='default_language']/following-sibling::div//span[normalize-space()='" + language + "']";
+        String xpath = "//button[@data-id='default_language']/following-sibling::div//span[contains(normalize-space(),'" + language + "')]";
         return xpath;
     }
 
