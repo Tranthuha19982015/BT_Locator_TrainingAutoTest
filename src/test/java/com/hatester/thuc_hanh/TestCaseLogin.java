@@ -1,11 +1,8 @@
-package com.hatester.bt_locators;
+package com.hatester.thuc_hanh;
 
+import com.hatester.bt_locators.LocatorLoginPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TestCaseLogin extends BaseTest {
 
