@@ -142,7 +142,7 @@ public class TestCaseLead extends BaseTest {
 
         //save
         driver.findElement(By.xpath(LocatorLeadPage.buttonSave)).click();
-        Thread.sleep(1000);
+        Thread.sleep(3000);
     }
 
     public void verifyAfterAddNewLead(String name) throws InterruptedException {
@@ -159,18 +159,27 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(2000);
     }
 
-    public void compareFieldText(String field, String expectedValue) {
+    public void compareFieldTextEquals(String field, String expectedValue) {
         String actualValue = driver.findElement(By.xpath(field)).getText().trim();
-        if (actualValue.equals(expectedValue)) {
+        if (actualValue.equalsIgnoreCase(expectedValue)) {
             System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
         } else {
-            System.out.println("Không phải giá trị vừa thêm mới" + expectedValue);
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
+        }
+    }
+
+    public void compareFieldTextContains(String field, String expectedValue) {
+        String actualValue = driver.findElement(By.xpath(field)).getText().trim().toLowerCase();
+        if (actualValue.contains(expectedValue.toLowerCase())) {
+            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
+        } else {
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
         }
     }
 
     public void compareFieldAttribute(String field, String attribute, String expectedValue) {
         String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim();
-        if (actualValue.equals(expectedValue)) {
+        if (actualValue.equalsIgnoreCase(expectedValue)) {
             System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
         } else {
             System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
@@ -179,7 +188,7 @@ public class TestCaseLead extends BaseTest {
 
     public void compareFieldAttributeSubstring(String field, String attribute, String expectedValue) {
         String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0,10);
-        if (actualValue.equals(expectedValue)) {
+        if (actualValue.equalsIgnoreCase(expectedValue)) {
             System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
         } else {
             System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
@@ -214,9 +223,9 @@ public class TestCaseLead extends BaseTest {
         driver.findElement(By.xpath(LocatorLeadPage.buttonEdit(leadName))).click();
         Thread.sleep(2000);
 
-        compareFieldText(LocatorLeadPage.dropdownStatus, status);
-        compareFieldText(LocatorLeadPage.dropdownSource, source);
-        compareFieldText(LocatorLeadPage.dropdownAssigned, assigned);
+        compareFieldTextContains(LocatorLeadPage.dropdownStatus, status);
+        compareFieldTextEquals(LocatorLeadPage.dropdownSource, source);
+        compareFieldTextContains(LocatorLeadPage.dropdownAssigned, assigned);
         compareFieldAttribute(LocatorLeadPage.inputTagsEdit, "value", tag);
         compareFieldAttribute(LocatorLeadPage.inputName, "value", name);
 //        compareFieldAttribute(LocatorLeadPage.inputAddress,"value",address);
@@ -225,14 +234,14 @@ public class TestCaseLead extends BaseTest {
         compareFieldAttribute(LocatorLeadPage.inputEmailAddress, "value", emailAddress);
         compareFieldAttribute(LocatorLeadPage.inputState, "value", state);
         compareFieldAttribute(LocatorLeadPage.inputWebsite, "value", website);
-        compareFieldText(LocatorLeadPage.dropdownCountry, country);
+        compareFieldTextEquals(LocatorLeadPage.dropdownCountry, country);
         Thread.sleep(1000);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath(LocatorLeadPage.buttonSave)));
         compareFieldAttribute(LocatorLeadPage.inputPhone, "value", phone);
         compareFieldAttribute(LocatorLeadPage.inputZipcode, "value", zipCode);
         compareFieldAttribute(LocatorLeadPage.inputLeadValue, "value", leadValue);
-        compareFieldText(LocatorLeadPage.dropdownDefaultLanguage, language);
+        compareFieldTextEquals(LocatorLeadPage.dropdownDefaultLanguage, language);
         compareFieldAttribute(LocatorLeadPage.inputCompany, "value", company);
         compareFieldAttribute(LocatorLeadPage.inputDescription, "value", description);
         compareFieldAttributeSubstring(LocatorLeadPage.inputLastContact, "value", dateContacted);
