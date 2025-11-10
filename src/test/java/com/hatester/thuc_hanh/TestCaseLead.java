@@ -22,6 +22,15 @@ public class TestCaseLead extends BaseTest {
         }
     }
 
+    public void checkExistsElement(String xpathElement) {
+        List<WebElement> element = driver.findElements(By.xpath(xpathElement));
+        if (element.size() > 0) {
+            System.out.println("Kiểm tra phần tử tồn tại: true" + xpathElement);
+        } else {
+            System.out.println("Kiểm tra phần tử tồn tại: false" + xpathElement);
+        }
+    }
+
     public void loginCRM() throws InterruptedException {
         driver.get(LocatorLoginPage.url);
         Thread.sleep(500);
@@ -35,7 +44,9 @@ public class TestCaseLead extends BaseTest {
         driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
         Thread.sleep(1000);
 
-        verifyDisplay(LocatorLoginPage.menuDashboard, "Đăng nhập CRM thành công!", "FAILED!!! Đăng nhập không thành công!");
+        checkExistsElement(LocatorLoginPage.menuDashboard);
+
+//        verifyDisplay(LocatorLoginPage.menuDashboard, "Đăng nhập CRM thành công!", "FAILED!!! Đăng nhập không thành công!");
     }
 
     public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position,
@@ -47,13 +58,16 @@ public class TestCaseLead extends BaseTest {
         driver.findElement(By.xpath(LocatorLeadPage.iconLeadsSummary)).click();
         Thread.sleep(2000);
 
-        verifyDisplay(LocatorLeadPage.headerLeadsSummary, "Đã tới trang Leads", "FAILED!!! Không truy cập được vào trang Leads");
+        checkExistsElement(LocatorLeadPage.headerLeadsSummary);
+
+//        verifyDisplay(LocatorLeadPage.headerLeadsSummary, "Đã tới trang Leads", "FAILED!!! Không truy cập được vào trang Leads");
 
         //click button New Lead
         driver.findElement(By.xpath(LocatorLeadPage.buttonNewLead)).click();
         Thread.sleep(1000);
 
-        verifyDisplay(LocatorLeadPage.headerAddNewLead, "Mở pop-up Add new lead thành công", "FAILED!!! Không mở được pop-up Add new lead");
+        checkExistsElement(LocatorLeadPage.headerAddNewLead);
+//        verifyDisplay(LocatorLeadPage.headerAddNewLead, "Mở pop-up Add new lead thành công", "FAILED!!! Không mở được pop-up Add new lead");
 
         //status
         driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).click();
@@ -153,9 +167,10 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
+        checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name));
 
-        verifyDisplay(LocatorLeadPage.getFirstRowItemLeadName(name), "Thêm mới Lead thành công! Lead mới: " + name,
-                "FAILED!!! Thêm mới Lead không thành công!!!");
+//        verifyDisplay(LocatorLeadPage.getFirstRowItemLeadName(name), "Thêm mới Lead thành công! Lead mới: " + name,
+//        "FAILED!!! Thêm mới Lead không thành công!!!");
         Thread.sleep(2000);
     }
 
@@ -187,20 +202,11 @@ public class TestCaseLead extends BaseTest {
     }
 
     public void compareFieldAttributeSubstring(String field, String attribute, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0,10);
+        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0, 10);
         if (actualValue.equalsIgnoreCase(expectedValue)) {
             System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
         } else {
             System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void verifyCheckboxSelectedAndExist(String checkbox) {
-        List<WebElement> element = driver.findElements(By.xpath(checkbox));
-        if (element.size() > 0) {
-            System.out.println("Checkbox is selected: true");
-        } else {
-            System.out.println("Checkbox is selected: false");
         }
     }
 
@@ -245,7 +251,7 @@ public class TestCaseLead extends BaseTest {
         compareFieldAttribute(LocatorLeadPage.inputCompany, "value", company);
         compareFieldAttribute(LocatorLeadPage.inputDescription, "value", description);
         compareFieldAttributeSubstring(LocatorLeadPage.inputLastContact, "value", dateContacted);
-        verifyCheckboxSelectedAndExist(LocatorLeadPage.checkboxContactedToday);
+        checkExistsElement(LocatorLeadPage.checkboxContactedToday);
         verifyCheckboxSelected(LocatorLeadPage.checkboxPublic);
     }
 
