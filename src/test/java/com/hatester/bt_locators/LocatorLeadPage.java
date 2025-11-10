@@ -75,7 +75,7 @@ public class LocatorLeadPage {
     public static String headerAddNewLead = "//h4[normalize-space()='Add new lead']";
 
     public static String iconClosePopupLeadDetail(String headerLeadDetail) {
-        String xpath = "//h4[contains(normalize-space(),'" + headerLeadDetail + "')]/preceding-sibling::buttonbutton[@aria-label='Close']";
+        String xpath = "//h4[contains(normalize-space(),'" + headerLeadDetail + "')]/preceding-sibling::button[@aria-label='Close']";
         return xpath;
     }
 
@@ -110,6 +110,7 @@ public class LocatorLeadPage {
     //input
     public static String labelTags = "//label[normalize-space()='Tags']";
     public static String inputTags = "//input[@id='tags']/following-sibling::ul//input[@placeholder='Tag']";
+    public static String inputTagsEdit="//input[@id='tags']";
     public static String inputName = "//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']";
     public static String inputAddress = "//textarea[@id='address']";
     public static String inputPosition = "//input[@id='title']";
@@ -145,6 +146,7 @@ public class LocatorLeadPage {
     public static String inputCompany = "//input[@id='company']";
     public static String inputDescription = "//textarea[@id='description']";
     public static String inputDateContacted = "//input[@id='custom_contact_date']";
+    public static String inputLastContact = "//input[@id='lastcontact']";
     public static String iconDateContactedCalendar = "//input[@id='custom_contact_date']/following-sibling::div";
 
     //checkbox
