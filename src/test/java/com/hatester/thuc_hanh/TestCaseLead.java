@@ -13,15 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 public class TestCaseLead extends BaseTest {
-    public void verifyDisplay(String field, String messageTrue, String messageFalse) {
-        boolean check = driver.findElement(By.xpath(field)).isDisplayed();
-        if (check) {
-            System.out.println(messageTrue);
-        } else {
-            System.out.println(messageFalse);
-        }
-    }
-
     public void checkExistsElement(String xpathElement) {
         List<WebElement> element = driver.findElements(By.xpath(xpathElement));
         if (element.size() > 0) {
