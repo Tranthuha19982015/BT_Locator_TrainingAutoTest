@@ -5,13 +5,26 @@ import com.hatester.bt_locators.LocatorTaskPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TestCaseTask extends BaseTest {
+    public void checkExistsElement(String xpathElement) {
+        List<WebElement> element = driver.findElements(By.xpath(xpathElement));
+        if (element.size() > 0) {
+            System.out.println("Phần tử tồn tại: true" + xpathElement);
+        } else {
+            System.out.println("Phần tử không tồn tại: false" + xpathElement);
+        }
+    }
+
     public void loginCRM() throws InterruptedException {
         driver.get(LocatorLoginPage.url);
         Thread.sleep(500);
@@ -25,45 +38,39 @@ public class TestCaseTask extends BaseTest {
         driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
         Thread.sleep(1000);
 
-        boolean check = driver.findElement(By.xpath(LocatorLoginPage.menuDashboard)).isDisplayed();
-        if (check) {
-            System.out.println("Đăng nhập CRM thành công!");
-        } else {
-            System.out.println("FAILED!!! Đăng nhập không thành công!");
-        }
+        checkExistsElement(LocatorLoginPage.menuDashboard);
     }
-    public void testAddNewTask(String subject, String startDate, String dueDate, String priority, String typeRepeatEvery, String relatedTo, String typeRelatedTo, String assignee, String follower) throws InterruptedException, AWTException {
+
+    public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
+                               String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
+                               String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
         //click menu Task
         driver.findElement(By.xpath(LocatorTaskPage.menuTasks)).click();
         Thread.sleep(2000);
-        boolean checkMenuTaskDisplay = driver.findElement(By.xpath(LocatorTaskPage.headerTasksSummary)).isDisplayed();
-        if (checkMenuTaskDisplay) {
-            System.out.println("Đã tới trang Tasks");
-        } else {
-            System.out.println("FAILED!!! Không truy cập được vào trang Tasks");
-        }
+
+        checkExistsElement(LocatorTaskPage.headerTasksSummary);
 
         //click button New Task
         driver.findElement(By.xpath(LocatorTaskPage.buttonNewTask)).click();
         Thread.sleep(1000);
-        boolean checkPopupAddNewDisplay = driver.findElement(By.xpath(LocatorTaskPage.headerAddNewTask)).isDisplayed();
-        if (checkPopupAddNewDisplay) {
-            System.out.println("Mở pop-up Add new task thành công");
-        } else {
-            System.out.println("FAILED!!! Không mở được pop-up Add new task");
-        }
+
+        checkExistsElement(LocatorTaskPage.headerAddNewTask);
 
         //checkbox
-        driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).click();
-        Thread.sleep(500);
+        if (flag == 1) {
+            driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).click();
+            Thread.sleep(500);
+        }
+        if (flag == 0) {
+            driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).click();
+            Thread.sleep(500);
+        }
 
         //input
         driver.findElement(By.xpath(LocatorTaskPage.inputSubject)).sendKeys(subject);
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.inputHourlyRate)).clear();
-        driver.findElement(By.xpath(LocatorTaskPage.inputHourlyRate)).sendKeys("8");
+        driver.findElement(By.xpath(LocatorTaskPage.inputHourlyRate)).sendKeys(hourlyRate);
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.inputStartDate)).clear();
         driver.findElement(By.xpath(LocatorTaskPage.inputStartDate)).sendKeys(startDate);
@@ -81,23 +88,23 @@ public class TestCaseTask extends BaseTest {
         //Repeat every
         driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEvery)).click();
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEvery(typeRepeatEvery))).click();
+        driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEvery(repeatEvery))).click();
         Thread.sleep(500);
-        if (typeRepeatEvery.equals("Custom")) {
+        if (repeatEvery.equals("Custom")) {
             driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).clear();
-            driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).sendKeys("4");
+            driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).sendKeys(numberRepeatEveryCustom);
             Thread.sleep(500);
             driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEveryCustom)).click();
             Thread.sleep(1000);
-            driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEveryCustom("Week"))).click();
+            driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEveryCustom(typeRepeatEveryCustom))).click();
             Thread.sleep(500);
-        } else if (typeRepeatEvery.equals("Weeks") || typeRepeatEvery.equals("2 Weeks")
-                || typeRepeatEvery.equals("1 Months") || typeRepeatEvery.equals("2 Months") || typeRepeatEvery.equals("3 Months") || typeRepeatEvery.equals("6 Months")
-                || typeRepeatEvery.equals("1 Year")) {
+        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Year")) {
             driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity)).click();
             Thread.sleep(500);
             driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).clear();
-            driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).sendKeys("2");
+            driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).sendKeys(totalCycles);
             Thread.sleep(500);
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
@@ -138,7 +145,7 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(500);
 
         //input
-        driver.findElement(By.xpath(LocatorTaskPage.inputTags)).sendKeys("htest");
+        driver.findElement(By.xpath(LocatorTaskPage.inputTags)).sendKeys(tag);
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.labelTags)).click();
         driver.findElement(By.xpath(LocatorTaskPage.labelTags)).click();
@@ -153,7 +160,7 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(2000);
     }
 
-    public void verifyAfterAddNewTask(String taskName) throws InterruptedException {
+    public void searchAndCheckNewTask(String taskName) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))));
         Thread.sleep(1000);
@@ -162,22 +169,125 @@ public class TestCaseTask extends BaseTest {
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
-        boolean check = driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName))).isDisplayed();
-        if (check) {
-            System.out.println("Thêm mới Task thành công! Task mới: " + taskName);
-        } else {
-            System.out.println("FAILED!!! Thêm mới Task không thành công!!!");
-        }
+        checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName));
         Thread.sleep(2000);
     }
 
+    public void compareFieldText(String field, String expectedValue) {
+        String actualValue = driver.findElement(By.xpath(field)).getText().trim();
+        if (actualValue.equals(expectedValue)) {
+            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
+        } else {
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
+        }
+    }
+
+    public void compareFieldTextContains(String field, String expectedValue) {
+        String actualValue = driver.findElement(By.xpath(field)).getText().trim();
+        if (actualValue.contains(expectedValue)) {
+            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
+        } else {
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
+        }
+    }
+
+    public void compareFieldAttribute(String field, String attribute, String expectedValue) {
+        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().toLowerCase();
+        if (actualValue.equals(expectedValue)) {
+            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
+        } else {
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
+        }
+    }
+
+    public void compareFieldAttributeSubstring(String field, String attribute, String expectedValue) {
+        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0, 10);
+        if (actualValue.equals(expectedValue)) {
+            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
+        } else {
+            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
+        }
+    }
+
+    public void verifyCheckboxSelected(String checkbox) {
+        boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
+        if (checked) {
+            System.out.println("Checkbox đã tích chọn: " + checked + "--" + checkbox);
+        } else {
+            System.out.println("Checkbox không tích chọn: " + checked+ "--" + checkbox);
+        }
+    }
+
+    public void verifyNewTaskInTaskEdit(String rowTaskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
+                                        String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
+                                        String relatedTo, String typeRelatedTo, String tag) throws InterruptedException {
+        Thread.sleep(1000);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(rowTaskName)))).perform();
+        Thread.sleep(1000);
+
+        driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(rowTaskName))).click();
+        Thread.sleep(500);
+
+        verifyCheckboxSelected(LocatorTaskPage.checkboxPublic);
+        verifyCheckboxSelected(LocatorTaskPage.checkboxBillable);
+        compareFieldAttribute(LocatorTaskPage.inputSubject, "value", subject);
+        compareFieldAttribute(LocatorTaskPage.inputStartDate, "value", startDate);
+        compareFieldAttribute(LocatorTaskPage.inputDueDate, "value", dueDate);
+        compareFieldText(LocatorTaskPage.dropdownPriority, priority);
+        compareFieldText(LocatorTaskPage.dropdownRepeatEvery, repeatEvery);
+        if (repeatEvery.equals("Custom")) {
+            compareFieldAttribute(LocatorTaskPage.inputRepeatEveryCustom, "value", numberRepeatEveryCustom);
+            compareFieldText(LocatorTaskPage.dropdownRepeatEveryCustom, typeRepeatEveryCustom);
+        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Year")) {
+            verifyCheckboxSelected(LocatorTaskPage.checkboxInfinity);
+            compareFieldAttribute(LocatorTaskPage.inputTotalCycles, "value", totalCycles);
+        } else {
+            System.out.println("Đã chọn loại khác");
+        }
+        compareFieldText(LocatorTaskPage.dropdownRelatedTo, relatedTo);
+        compareFieldTextContains(LocatorTaskPage.dropdownTypeRelatedTo, typeRelatedTo);
+        checkExistsElement(LocatorTaskPage.dropdownAssignees);
+        checkExistsElement(LocatorTaskPage.dropdownFollowers);
+        compareFieldAttribute(LocatorTaskPage.inputTagsEdit, "value", tag);
+    }
+
     public static void main(String[] args) throws InterruptedException, AWTException {
+        String hourlyRate = "8";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        // Ngày bắt đầu (hôm nay)
+        Date start = new Date();
+        // Cộng thêm 6 ngày
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.add(Calendar.DAY_OF_MONTH, 6);
+
+        String startDate = sdf.format(start);
+        String dueDate = sdf.format(cal.getTime());
+        String priority = "High";
+        String repeatEvery = "Week";
+        String numberRepeatEveryCustom = "5";
+        String typeRepeatEveryCutom = "Week(s)";
+        String totalCycles = "6";
+        String relateTo = "Lead";
+        String typeRelateTo = "lead_htest_11112025_110540";
+        String assignee = "Admin Anh Tester";
+        String follower = "Admin Example";
+        String tag = "htest";
+        int flag = 1;
+
         TestCaseTask task1 = new TestCaseTask();
-        String taskName = "task_htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         task1.createDriver();
         task1.loginCRM();
-        task1.testAddNewTask(taskName, "06-11-2025", "06-01-2026", "Medium", "Custom", "Lead", "lead_htest", "Anh Tester", "Example");
-        task1.verifyAfterAddNewTask(taskName);
+        task1.testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
+                typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
+        task1.searchAndCheckNewTask(taskName);
+        task1.verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
+                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag);
         task1.closeDriver();
     }
 }

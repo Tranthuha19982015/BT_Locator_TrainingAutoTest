@@ -159,6 +159,7 @@ public class LocatorTaskPage {
     //input
     public static String labelTags = "//label[normalize-space()='Tags']";
     public static String inputTags = "//div[@id='inputTagsWrapper']/descendant::input[@placeholder='Tag']";
+    public static String inputTagsEdit = "//input[@id='tags']";
     public static String inputDescription = "//body[@id='tinymce']/p";
 
     //button
