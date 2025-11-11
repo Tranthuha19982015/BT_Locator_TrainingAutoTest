@@ -5,8 +5,10 @@ import com.hatester.bt_locators.LocatorTaskPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,31 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 public class TestCaseTask extends BaseTest {
-    public void checkExistsElement(String xpathElement) {
-        List<WebElement> element = driver.findElements(By.xpath(xpathElement));
-        if (element.size() > 0) {
-            System.out.println("Phần tử tồn tại: true" + xpathElement);
-        } else {
-            System.out.println("Phần tử không tồn tại: false" + xpathElement);
-        }
-    }
-
-    public void loginCRM() throws InterruptedException {
-        driver.get(LocatorLoginPage.url);
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).sendKeys("admin@example.com");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).sendKeys("123456");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
-        Thread.sleep(1000);
-
-        checkExistsElement(LocatorLoginPage.menuDashboard);
-    }
-
     public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                                String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
                                String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
@@ -214,7 +191,7 @@ public class TestCaseTask extends BaseTest {
         if (checked) {
             System.out.println("Checkbox đã tích chọn: " + checked + "--" + checkbox);
         } else {
-            System.out.println("Checkbox không tích chọn: " + checked+ "--" + checkbox);
+            System.out.println("Checkbox không tích chọn: " + checked + "--" + checkbox);
         }
     }
 
@@ -254,7 +231,8 @@ public class TestCaseTask extends BaseTest {
         compareFieldAttribute(LocatorTaskPage.inputTagsEdit, "value", tag);
     }
 
-    public static void main(String[] args) throws InterruptedException, AWTException {
+    @Test
+    public void testAddNewTaskAndVerify() throws InterruptedException, AWTException {
         String hourlyRate = "8";
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -279,15 +257,11 @@ public class TestCaseTask extends BaseTest {
         String tag = "htest";
         int flag = 1;
 
-        TestCaseTask task1 = new TestCaseTask();
         String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        task1.createDriver();
-        task1.loginCRM();
-        task1.testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
+        testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
                 typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
-        task1.searchAndCheckNewTask(taskName);
-        task1.verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
+        searchAndCheckNewTask(taskName);
+        verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag);
-        task1.closeDriver();
     }
 }

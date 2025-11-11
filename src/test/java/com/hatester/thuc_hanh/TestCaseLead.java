@@ -5,41 +5,16 @@ import com.hatester.bt_locators.LocatorLoginPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class TestCaseLead extends BaseTest {
-    public void checkExistsElement(String xpathElement) {
-        List<WebElement> element = driver.findElements(By.xpath(xpathElement));
-        if (element.size() > 0) {
-            System.out.println("Phần tử tồn tại: true" + xpathElement);
-        } else {
-            System.out.println("Phần tử không tồn tại: false" + xpathElement);
-        }
-    }
-
-    public void loginCRM() throws InterruptedException {
-        driver.get(LocatorLoginPage.url);
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).sendKeys("admin@example.com");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).sendKeys("123456");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
-        Thread.sleep(1000);
-
-        checkExistsElement(LocatorLoginPage.menuDashboard);
-
-//        verifyDisplay(LocatorLoginPage.menuDashboard, "Đăng nhập CRM thành công!", "FAILED!!! Đăng nhập không thành công!");
-    }
-
     public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position,
                                String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
                                String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
@@ -245,8 +220,8 @@ public class TestCaseLead extends BaseTest {
         verifyCheckboxSelected(LocatorLeadPage.checkboxPublic);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        TestCaseLead lead1 = new TestCaseLead();
+    @Test
+    public void testAddAndCheckNewLead() throws InterruptedException {
         String leadName = "lead_htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         String status = "Customer";
         String source = "Facebook";
@@ -266,13 +241,10 @@ public class TestCaseLead extends BaseTest {
         String description = "htest add new lead";
         String lastContacted = "10-11-2025";
 
-        lead1.createDriver();
-        lead1.loginCRM();
-        lead1.testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
+        testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
                 leadValue, language, company, description, lastContacted, 1);
-        lead1.verifyAfterAddNewLead(leadName);
-        lead1.verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
+        verifyAfterAddNewLead(leadName);
+        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
                 leadValue + ".00", language, company, description, lastContacted);
-        lead1.closeDriver();
     }
 }
