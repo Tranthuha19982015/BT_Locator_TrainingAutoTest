@@ -16,9 +16,9 @@ public class TestCaseLead extends BaseTest {
     public void checkExistsElement(String xpathElement) {
         List<WebElement> element = driver.findElements(By.xpath(xpathElement));
         if (element.size() > 0) {
-            System.out.println("Kiểm tra phần tử tồn tại: true" + xpathElement);
+            System.out.println("Phần tử tồn tại: true" + xpathElement);
         } else {
-            System.out.println("Kiểm tra phần tử tồn tại: false" + xpathElement);
+            System.out.println("Phần tử không tồn tại: false" + xpathElement);
         }
     }
 
@@ -204,10 +204,9 @@ public class TestCaseLead extends BaseTest {
     public void verifyCheckboxSelected(String checkbox) {
         boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
         if (checked) {
-            System.out.println("Checkbox is selected: " + checked);
+            System.out.println("Checkbox đã tích chọn: " + checked);
         } else {
-            System.out.println("Checkbox is selected: " + checked);
-
+            System.out.println("Checkbox không tích chọn: " + checked);
         }
     }
 
