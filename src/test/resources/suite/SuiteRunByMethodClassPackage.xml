@@ -2,9 +2,9 @@
 
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
-        <packages>
-            <package name="com.hatester.thuc_hanh"/>
-        </packages>
+<!--        <packages>-->
+<!--            <package name="com.hatester.thuc_hanh"/>-->
+<!--        </packages>-->
         <classes>
             <class name="com.hatester.thuc_hanh.TestCaseTask">
                 <methods>
