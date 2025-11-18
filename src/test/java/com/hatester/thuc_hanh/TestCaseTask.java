@@ -18,21 +18,23 @@ import java.util.Date;
 import java.util.List;
 
 public class TestCaseTask extends BaseTest {
-    public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
-                               String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                               String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
-        //click menu Task
+    public void clickMenuTask() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.menuTasks)).click();
         Thread.sleep(2000);
 
         checkExistsElement(LocatorTaskPage.headerTasksSummary);
+    }
 
-        //click button New Task
+    public void clickButtonNewTask() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonNewTask)).click();
         Thread.sleep(1000);
 
         checkExistsElement(LocatorTaskPage.headerAddNewTask);
+    }
 
+    public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
+                               String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
+                               String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
         //checkbox
         if (flag == 1) {
             driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).click();
@@ -137,17 +139,19 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(2000);
     }
 
-    public void searchAndCheckNewTask(String taskName) throws InterruptedException {
+    public void clickClosePopupTaskDetail(String taskName) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))));
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))).click();
         Thread.sleep(1000);
+    }
+
+    public void searchAndCheckNewTask(String taskName) throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
         checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName));
-        Thread.sleep(2000);
     }
 
     public void compareFieldText(String field, String expectedValue) {
@@ -195,15 +199,17 @@ public class TestCaseTask extends BaseTest {
         }
     }
 
-    public void verifyNewTaskInTaskEdit(String rowTaskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
-                                        String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag) throws InterruptedException {
+    public void clickButtonEdit(String taskName) throws InterruptedException {
         Thread.sleep(1000);
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(rowTaskName)))).perform();
+        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName)))).perform();
         Thread.sleep(1000);
+    }
 
-        driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(rowTaskName))).click();
+    public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
+                                        String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
+                                        String relatedTo, String typeRelatedTo, String tag) throws InterruptedException {
+        driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
         Thread.sleep(500);
 
         verifyCheckboxSelected(LocatorTaskPage.checkboxPublic);
@@ -256,11 +262,15 @@ public class TestCaseTask extends BaseTest {
         String follower = "Admin Example";
         String tag = "htest";
         int flag = 1;
-
         String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+
+        clickMenuTask();
+        clickButtonNewTask();
         testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
                 typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
+        clickClosePopupTaskDetail(taskName);
         searchAndCheckNewTask(taskName);
+        clickButtonEdit(taskName);
         verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag);
     }
