@@ -15,26 +15,26 @@ import java.util.Date;
 import java.util.List;
 
 public class TestCaseLead extends BaseTest {
-    public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position,
-                               String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
-                               String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
-        //click menu Lead
+    public void clickMenuLead() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.menuLead)).click();
         Thread.sleep(2000);
+
         driver.findElement(By.xpath(LocatorLeadPage.iconLeadsSummary)).click();
         Thread.sleep(2000);
 
         checkExistsElement(LocatorLeadPage.headerLeadsSummary);
+    }
 
-//        verifyDisplay(LocatorLeadPage.headerLeadsSummary, "Đã tới trang Leads", "FAILED!!! Không truy cập được vào trang Leads");
-
-        //click button New Lead
+    public void clickButtonNewLead() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.buttonNewLead)).click();
         Thread.sleep(1000);
 
         checkExistsElement(LocatorLeadPage.headerAddNewLead);
-//        verifyDisplay(LocatorLeadPage.headerAddNewLead, "Mở pop-up Add new lead thành công", "FAILED!!! Không mở được pop-up Add new lead");
+    }
 
+    public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position,
+                               String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
+                               String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
         //status
         driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).click();
         Thread.sleep(500);
@@ -125,12 +125,15 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(3000);
     }
 
-    public void verifyAfterAddNewLead(String name) throws InterruptedException {
+    public void clickIconClosePopupLeadDetail(String name) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))));
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))).click();
         Thread.sleep(1000);
+    }
+
+    public void verifyAfterAddNewLead(String name) throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
         checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name));
@@ -185,14 +188,16 @@ public class TestCaseLead extends BaseTest {
         }
     }
 
-    public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name, String position,
-                                         String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
-                                         String leadValue, String language, String company, String description, String dateContacted) throws InterruptedException {
-
+    public void clickButtonEdit(String leadName) throws InterruptedException {
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(By.xpath(LocatorLeadPage.getFirstRowItemLeadName(leadName)))).perform();
         driver.findElement(By.xpath(LocatorLeadPage.buttonEdit(leadName))).click();
         Thread.sleep(2000);
+    }
+
+    public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name, String position,
+                                         String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
+                                         String leadValue, String language, String company, String description, String dateContacted) throws InterruptedException {
 
         compareFieldTextContains(LocatorLeadPage.dropdownStatus, status);
         compareFieldTextEquals(LocatorLeadPage.dropdownSource, source);
@@ -222,14 +227,14 @@ public class TestCaseLead extends BaseTest {
 
     @Test
     public void testAddAndCheckNewLead() throws InterruptedException {
-        String leadName = "lead_htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         String status = "Customer";
         String source = "Facebook";
         String assigned = "Anh Tester";
         String tag = "htest";
         String position = "Tester";
         String city = "Việt Nam";
-        String emailAddress = "hatest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
         String state = "htest state";
         String website = "htester.com.vn";
         String country = "Vietnam";
@@ -241,9 +246,13 @@ public class TestCaseLead extends BaseTest {
         String description = "htest add new lead";
         String lastContacted = "10-11-2025";
 
+        clickMenuLead();
+        clickButtonNewLead();
         testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
                 leadValue, language, company, description, lastContacted, 1);
+        clickIconClosePopupLeadDetail(leadName);
         verifyAfterAddNewLead(leadName);
+        clickButtonEdit(leadName);
         verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
                 leadValue + ".00", language, company, description, lastContacted);
     }
