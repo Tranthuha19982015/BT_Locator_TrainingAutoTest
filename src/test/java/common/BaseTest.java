@@ -7,12 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.util.List;
 
 public class BaseTest {
     public WebDriver driver;
+    public SoftAssert softAssert;
 
     public void checkExistsElement(String xpathElement) {
         List<WebElement> element = driver.findElements(By.xpath(xpathElement));
@@ -45,6 +47,7 @@ public class BaseTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        softAssert = new SoftAssert();
         loginCRM();
     }
 
@@ -54,5 +57,6 @@ public class BaseTest {
             driver.quit();
             System.out.println("Đóng trình duyệt");
         }
+        softAssert.assertAll();
     }
 }
