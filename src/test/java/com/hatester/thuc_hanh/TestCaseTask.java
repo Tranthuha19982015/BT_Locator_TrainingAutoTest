@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -22,14 +23,14 @@ public class TestCaseTask extends BaseTest {
         driver.findElement(By.xpath(LocatorTaskPage.menuTasks)).click();
         Thread.sleep(2000);
 
-        checkExistsElement(LocatorTaskPage.headerTasksSummary);
+        Assert.assertTrue(checkExistsElement(LocatorTaskPage.headerTasksSummary), "Không mở được Menu Task");
     }
 
     public void clickButtonNewTask() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonNewTask)).click();
         Thread.sleep(1000);
 
-        checkExistsElement(LocatorTaskPage.headerAddNewTask);
+        Assert.assertTrue(checkExistsElement(LocatorTaskPage.headerAddNewTask), "Không mở được pop-up Add Task");
     }
 
     public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
@@ -147,56 +148,12 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(1000);
     }
 
+
     public void searchAndCheckNewTask(String taskName) throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
-        checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName));
-    }
-
-    public void compareFieldText(String field, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getText().trim();
-        if (actualValue.equals(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldTextContains(String field, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getText().trim();
-        if (actualValue.contains(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldAttribute(String field, String attribute, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().toLowerCase();
-        if (actualValue.equals(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldAttributeSubstring(String field, String attribute, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0, 10);
-        if (actualValue.equals(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void verifyCheckboxSelected(String checkbox) {
-        boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
-        if (checked) {
-            System.out.println("Checkbox đã tích chọn: " + checked + "--" + checkbox);
-        } else {
-            System.out.println("Checkbox không tích chọn: " + checked + "--" + checkbox);
-        }
+        Assert.assertTrue(checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Không đúng giá trị vừa thêm mới");
     }
 
     public void clickButtonEdit(String taskName) throws InterruptedException {
@@ -208,33 +165,37 @@ public class TestCaseTask extends BaseTest {
 
     public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag) throws InterruptedException {
+                                        String relatedTo, String typeRelatedTo, String tag,int flag) throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
         Thread.sleep(500);
 
-        verifyCheckboxSelected(LocatorTaskPage.checkboxPublic);
-        verifyCheckboxSelected(LocatorTaskPage.checkboxBillable);
-        compareFieldAttribute(LocatorTaskPage.inputSubject, "value", subject);
-        compareFieldAttribute(LocatorTaskPage.inputStartDate, "value", startDate);
-        compareFieldAttribute(LocatorTaskPage.inputDueDate, "value", dueDate);
-        compareFieldText(LocatorTaskPage.dropdownPriority, priority);
-        compareFieldText(LocatorTaskPage.dropdownRepeatEvery, repeatEvery);
-        if (repeatEvery.equals("Custom")) {
-            compareFieldAttribute(LocatorTaskPage.inputRepeatEveryCustom, "value", numberRepeatEveryCustom);
-            compareFieldText(LocatorTaskPage.dropdownRepeatEveryCustom, typeRepeatEveryCustom);
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
-                || repeatEvery.equals("1 Year")) {
-            verifyCheckboxSelected(LocatorTaskPage.checkboxInfinity);
-            compareFieldAttribute(LocatorTaskPage.inputTotalCycles, "value", totalCycles);
-        } else {
-            System.out.println("Đã chọn loại khác");
-        }
-        compareFieldText(LocatorTaskPage.dropdownRelatedTo, relatedTo);
-        compareFieldTextContains(LocatorTaskPage.dropdownTypeRelatedTo, typeRelatedTo);
-        checkExistsElement(LocatorTaskPage.dropdownAssignees);
-        checkExistsElement(LocatorTaskPage.dropdownFollowers);
-        compareFieldAttribute(LocatorTaskPage.inputTagsEdit, "value", tag);
+        Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).isSelected(), "Checkbox không được chọn");
+        Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).isSelected(), "Checkbox không được chọn");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputSubject)).getAttribute("value").trim(),
+                subject, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputStartDate)).getAttribute("value").trim(),
+                startDate, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputDueDate)).getAttribute("value").trim(),
+                dueDate, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownPriority)).getText().trim(),
+                priority, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEvery)).getText().trim(),
+                repeatEvery, "Không đúng giá trị đã thêm mới");
+        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).getAttribute("value").trim(),
+                numberRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
+        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEveryCustom)).getText().trim(),
+                typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
+        softAssert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity)).isSelected(), "Checkbox không được chọn");
+        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).getAttribute("value").trim(),
+                totalCycles, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRelatedTo)).getText().trim(), relatedTo,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo)).getText().trim(), typeRelatedTo,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertTrue(checkExistsElement(LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
+        Assert.assertTrue(checkExistsElement(LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTagsEdit)).getAttribute("value").trim(), tag,
+                "Không đúng giá trị đã thêm mới");
     }
 
     @Test
@@ -257,13 +218,13 @@ public class TestCaseTask extends BaseTest {
         String typeRepeatEveryCutom = "Week(s)";
         String totalCycles = "6";
         String relateTo = "Lead";
-        String typeRelateTo = "lead_htest_11112025_110540";
+        String typeRelateTo = "Giang Chan";
         String assignee = "Admin Anh Tester";
         String follower = "Admin Example";
         String tag = "htest";
         int flag = 1;
         String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-
+        System.out.println(taskName);
         clickMenuTask();
         clickButtonNewTask();
         testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
@@ -271,7 +232,8 @@ public class TestCaseTask extends BaseTest {
         clickClosePopupTaskDetail(taskName);
         searchAndCheckNewTask(taskName);
         clickButtonEdit(taskName);
+        System.out.println(taskName);
         verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag);
+                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag,flag);
     }
 }
