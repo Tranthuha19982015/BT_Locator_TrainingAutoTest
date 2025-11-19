@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
@@ -16,12 +17,14 @@ public class BaseTest {
     public WebDriver driver;
     public SoftAssert softAssert;
 
-    public void checkExistsElement(String xpathElement) {
+    public boolean checkExistsElement(String xpathElement) {
         List<WebElement> element = driver.findElements(By.xpath(xpathElement));
         if (element.size() > 0) {
             System.out.println("Phần tử tồn tại: true" + xpathElement);
+            return true;
         } else {
             System.out.println("Phần tử không tồn tại: false" + xpathElement);
+            return false;
         }
     }
 
@@ -38,7 +41,7 @@ public class BaseTest {
         driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
         Thread.sleep(1000);
 
-        checkExistsElement(LocatorLoginPage.menuDashboard);
+        Assert.assertTrue(checkExistsElement(LocatorLoginPage.menuDashboard),"Đăng nhập không thành công!");
     }
 
     @BeforeMethod
