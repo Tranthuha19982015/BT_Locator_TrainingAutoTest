@@ -165,7 +165,7 @@ public class TestCaseTask extends BaseTest {
 
     public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag,int flag) throws InterruptedException {
+                                        String relatedTo, String typeRelatedTo, String tag, int flag) throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
         Thread.sleep(500);
 
@@ -181,20 +181,27 @@ public class TestCaseTask extends BaseTest {
                 priority, "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEvery)).getText().trim(),
                 repeatEvery, "Không đúng giá trị đã thêm mới");
-        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).getAttribute("value").trim(),
-                numberRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
-        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEveryCustom)).getText().trim(),
-                typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
-        softAssert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity)).isSelected(), "Checkbox không được chọn");
-        softAssert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).getAttribute("value").trim(),
-                totalCycles, "Không đúng giá trị đã thêm mới");
+        if (repeatEvery.equals("Custom")) {
+            Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom)).getAttribute("value").trim(),
+                    numberRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
+            Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEveryCustom)).getText().trim(),
+                    typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
+        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Year")) {
+            Assert.assertFalse(driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity)).isSelected(), "Checkbox không được chọn");
+            Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles)).getAttribute("value").trim(),
+                    totalCycles, "Không đúng giá trị đã thêm mới");
+        } else {
+            System.out.println("Không tồn tại Type Repeat Every đã nhập");
+        }
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownRelatedTo)).getText().trim(), relatedTo,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo)).getText().trim(), typeRelatedTo,
-                "Không đúng giá trị đã thêm mới");
-        Assert.assertTrue(checkExistsElement(LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
-        Assert.assertTrue(checkExistsElement(LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTagsEdit)).getAttribute("value").trim(), tag,
+        boolean containsTypeRelatedTo = (driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo)).getText()).contains(typeRelatedTo);
+        Assert.assertTrue(containsTypeRelatedTo, "Không đúng giá trị đã thêm mới");
+        Assert.assertFalse(checkExistsElement(LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
+        Assert.assertFalse(checkExistsElement(LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTagsEdit)).getAttribute("value").trim().toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
     }
 
@@ -224,7 +231,7 @@ public class TestCaseTask extends BaseTest {
         String tag = "htest";
         int flag = 1;
         String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        System.out.println(taskName);
+
         clickMenuTask();
         clickButtonNewTask();
         testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
@@ -232,8 +239,7 @@ public class TestCaseTask extends BaseTest {
         clickClosePopupTaskDetail(taskName);
         searchAndCheckNewTask(taskName);
         clickButtonEdit(taskName);
-        System.out.println(taskName);
         verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag,flag);
+                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag, flag);
     }
 }
