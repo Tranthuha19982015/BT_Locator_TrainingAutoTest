@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
@@ -22,19 +23,17 @@ public class TestCaseLead extends BaseTest {
         driver.findElement(By.xpath(LocatorLeadPage.iconLeadsSummary)).click();
         Thread.sleep(2000);
 
-        checkExistsElement(LocatorLeadPage.headerLeadsSummary);
+        Assert.assertTrue(checkExistsElement(LocatorLeadPage.headerLeadsSummary), "Chưa chuyển hướng tới menu Lead");
     }
 
     public void clickButtonNewLead() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.buttonNewLead)).click();
         Thread.sleep(1000);
 
-        checkExistsElement(LocatorLeadPage.headerAddNewLead);
+        Assert.assertTrue(checkExistsElement(LocatorLeadPage.headerAddNewLead), "Mở popup Add New Lead không thành công");
     }
 
-    public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position,
-                               String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
-                               String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
+    public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position, String city, String emailAddress, String state, String website, String country, String phone, String zipCode, String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
         //status
         driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).click();
         Thread.sleep(500);
@@ -136,47 +135,8 @@ public class TestCaseLead extends BaseTest {
     public void verifyAfterAddNewLead(String name) throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
-        checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name));
-
-//        verifyDisplay(LocatorLeadPage.getFirstRowItemLeadName(name), "Thêm mới Lead thành công! Lead mới: " + name,
-//        "FAILED!!! Thêm mới Lead không thành công!!!");
+        Assert.assertTrue(checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         Thread.sleep(2000);
-    }
-
-    public void compareFieldTextEquals(String field, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getText().trim();
-        if (actualValue.equalsIgnoreCase(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldTextContains(String field, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getText().trim().toLowerCase();
-        if (actualValue.contains(expectedValue.toLowerCase())) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldAttribute(String field, String attribute, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim();
-        if (actualValue.equalsIgnoreCase(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
-    }
-
-    public void compareFieldAttributeSubstring(String field, String attribute, String expectedValue) {
-        String actualValue = driver.findElement(By.xpath(field)).getAttribute(attribute).trim().substring(0, 10);
-        if (actualValue.equalsIgnoreCase(expectedValue)) {
-            System.out.println("Đúng giá trị đã thêm mới: " + expectedValue);
-        } else {
-            System.out.println("Không phải giá trị vừa thêm mới: " + expectedValue);
-        }
     }
 
     public void verifyCheckboxSelected(String checkbox) {
@@ -195,34 +155,56 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(2000);
     }
 
-    public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name, String position,
-                                         String city, String emailAddress, String state, String website, String country, String phone, String zipCode,
-                                         String leadValue, String language, String company, String description, String dateContacted) throws InterruptedException {
+    public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name,
+                                         String position, String city, String emailAddress, String state, String website, String country,
+                                         String phone, String zipCode, String leadValue, String language, String company, String description,
+                                         String dateContacted) throws InterruptedException {
 
-        compareFieldTextContains(LocatorLeadPage.dropdownStatus, status);
-        compareFieldTextEquals(LocatorLeadPage.dropdownSource, source);
-        compareFieldTextContains(LocatorLeadPage.dropdownAssigned, assigned);
-        compareFieldAttribute(LocatorLeadPage.inputTagsEdit, "value", tag);
-        compareFieldAttribute(LocatorLeadPage.inputName, "value", name);
-//        compareFieldAttribute(LocatorLeadPage.inputAddress,"value",address);
-        compareFieldAttribute(LocatorLeadPage.inputPosition, "value", position);
-        compareFieldAttribute(LocatorLeadPage.inputCity, "value", city);
-        compareFieldAttribute(LocatorLeadPage.inputEmailAddress, "value", emailAddress);
-        compareFieldAttribute(LocatorLeadPage.inputState, "value", state);
-        compareFieldAttribute(LocatorLeadPage.inputWebsite, "value", website);
-        compareFieldTextEquals(LocatorLeadPage.dropdownCountry, country);
+        boolean containsStatus = (driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).getText()).contains(status);
+        Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.dropdownSource)).getText(), source,
+                "Không đúng giá trị đã thêm mới");
+        boolean containsAssigned = driver.findElement(By.xpath(LocatorLeadPage.dropdownAssigned)).getText().contains(assigned);
+        Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputTagsEdit)).getAttribute("value").toLowerCase(), tag,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputName)).getAttribute("value"), name,
+                "Không đúng giá trị đã thêm mới");
+//        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputAddress)).getAttribute("value"), address,
+//        "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputPosition)).getAttribute("value"), position,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputCity)).getAttribute("value"), city,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputEmailAddress)).getAttribute("value"), emailAddress,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputState)).getAttribute("value"), state,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputWebsite)).getAttribute("value"), website,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.dropdownCountry)).getText(), country,
+                "Không đúng giá trị đã thêm mới");
+
         Thread.sleep(1000);
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath(LocatorLeadPage.buttonSave)));
-        compareFieldAttribute(LocatorLeadPage.inputPhone, "value", phone);
-        compareFieldAttribute(LocatorLeadPage.inputZipcode, "value", zipCode);
-        compareFieldAttribute(LocatorLeadPage.inputLeadValue, "value", leadValue);
-        compareFieldTextEquals(LocatorLeadPage.dropdownDefaultLanguage, language);
-        compareFieldAttribute(LocatorLeadPage.inputCompany, "value", company);
-        compareFieldAttribute(LocatorLeadPage.inputDescription, "value", description);
-        compareFieldAttributeSubstring(LocatorLeadPage.inputLastContact, "value", dateContacted);
-        checkExistsElement(LocatorLeadPage.checkboxContactedToday);
-        verifyCheckboxSelected(LocatorLeadPage.checkboxPublic);
+
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputPhone)).getAttribute("value"), phone,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputZipcode)).getAttribute("value"), zipCode,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputLeadValue)).getAttribute("value"), leadValue,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.dropdownDefaultLanguage)).getText(), language,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputCompany)).getAttribute("value"), company,
+                "Không đúng giá trị đã thêm mới");
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputDescription)).getAttribute("value"), description,
+                "Không đúng giá trị đã thêm mới");
+        boolean containsLastContact = driver.findElement(By.xpath(LocatorLeadPage.inputLastContact)).getAttribute("value").contains(dateContacted);
+        Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
+        Assert.assertFalse(checkExistsElement(LocatorLeadPage.checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
+        Assert.assertTrue(driver.findElement(By.xpath(LocatorLeadPage.checkboxPublic)).isSelected(), "Không tích chọn checkbox");
     }
 
     @Test
@@ -248,12 +230,10 @@ public class TestCaseLead extends BaseTest {
 
         clickMenuLead();
         clickButtonNewLead();
-        testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
-                leadValue, language, company, description, lastContacted, 1);
+        testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode, leadValue, language, company, description, lastContacted, 1);
         clickIconClosePopupLeadDetail(leadName);
         verifyAfterAddNewLead(leadName);
         clickButtonEdit(leadName);
-        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode,
-                leadValue + ".00", language, company, description, lastContacted);
+        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
     }
 }
