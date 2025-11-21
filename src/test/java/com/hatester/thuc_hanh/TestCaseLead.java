@@ -159,7 +159,7 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(1000);
     }
 
-    public void verifyNewLead(String name) throws InterruptedException {
+    public void searchAndCheckLeads(String name) throws InterruptedException {
         driver.navigate().refresh();
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
@@ -269,7 +269,7 @@ public class TestCaseLead extends BaseTest {
                 zipCode, leadValue, language, company, description, lastContacted, 1, 0);
         clickButtonSave();
         clickIconClosePopupLeadDetail(leadName);
-        verifyNewLead(leadName);
+        searchAndCheckLeads(leadName);
         clickButtonEdit(leadName);
         verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
                 website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
@@ -302,7 +302,7 @@ public class TestCaseLead extends BaseTest {
                 phone, zipCode, leadValue, language, company, description, lastContacted, 1, 0);
         clickButtonSave();
         clickIconClosePopupLeadDetail(leadName);
-        verifyNewLead(leadName);
+        searchAndCheckLeads(leadName);
         clickButtonEdit(leadName);
         verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
                 website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
@@ -331,7 +331,7 @@ public class TestCaseLead extends BaseTest {
                 languageEdit, companyEdit, descriptionEdit, lastContactedEdit, 0, 1);
         clickButtonSave();
         clickIconClosePopupLeadDetail(leadNameEdit);
-        verifyNewLead(leadNameEdit);
+        searchAndCheckLeads(leadNameEdit);
     }
 
     @Test
@@ -361,7 +361,7 @@ public class TestCaseLead extends BaseTest {
                 zipCode, leadValue, language, company, description, lastContacted, 1, 0);
         clickButtonSave();
         clickIconClosePopupLeadDetail(leadName);
-        verifyNewLead(leadName);
+        searchAndCheckLeads(leadName);
         clickButtonDelete(leadName);
         confirmAlertDelete();
         verifyAfterDeleteLead(leadName);
