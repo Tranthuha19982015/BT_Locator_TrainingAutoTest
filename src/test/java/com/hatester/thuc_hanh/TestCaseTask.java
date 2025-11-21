@@ -1,12 +1,9 @@
 package com.hatester.thuc_hanh;
 
-import com.hatester.bt_locators.LocatorLoginPage;
 import com.hatester.bt_locators.LocatorTaskPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -16,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class TestCaseTask extends BaseTest {
     public void clickMenuTask() throws InterruptedException {
@@ -33,9 +29,9 @@ public class TestCaseTask extends BaseTest {
         Assert.assertTrue(checkExistsElement(LocatorTaskPage.headerAddNewTask), "Không mở được pop-up Add Task");
     }
 
-    public void testAddNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
-                               String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                               String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
+    public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
+                                String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
+                                String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
         //checkbox
         if (flag == 1) {
             driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).click();
@@ -134,8 +130,9 @@ public class TestCaseTask extends BaseTest {
         //checkbox
 //        driver.findElement(By.xpath(LocatorTaskPage.inputDescription)).click();
 //        Thread.sleep(500);
+    }
 
-        //save
+    public void clickButtonSave() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonSave)).click();
         Thread.sleep(2000);
     }
@@ -157,20 +154,25 @@ public class TestCaseTask extends BaseTest {
     }
 
     public void clickButtonEdit(String taskName) throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(500);
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName)))).perform();
-        Thread.sleep(1000);
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
+        Thread.sleep(500);
     }
 
     public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
                                         String relatedTo, String typeRelatedTo, String tag, int flag) throws InterruptedException {
-        driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
-        Thread.sleep(500);
-
-        Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).isSelected(), "Checkbox không được chọn");
-        Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).isSelected(), "Checkbox không được chọn");
+        if (flag == 1) {
+            Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).isSelected(), "Checkbox không được chọn");
+            Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).isSelected(), "Checkbox không được chọn");
+        }
+        if (flag == 0) {
+            Assert.assertFalse(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).isSelected(), "Checkbox được tích chọn");
+            Assert.assertFalse(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).isSelected(), "Checkbox được tích chọn");
+        }
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputSubject)).getAttribute("value").trim(),
                 subject, "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputStartDate)).getAttribute("value").trim(),
@@ -205,6 +207,8 @@ public class TestCaseTask extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
     }
 
+//    public void fillDataEdit()
+
     @Test
     public void testAddNewTaskAndVerify() throws InterruptedException, AWTException {
         String hourlyRate = "8";
@@ -229,13 +233,14 @@ public class TestCaseTask extends BaseTest {
         String assignee = "Admin Anh Tester";
         String follower = "Admin Example";
         String tag = "htest";
-        int flag = 1;
+        int flag = 0;
         String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
 
         clickMenuTask();
         clickButtonNewTask();
-        testAddNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
+        fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
                 typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
+        clickButtonSave();
         clickClosePopupTaskDetail(taskName);
         searchAndCheckNewTask(taskName);
         clickButtonEdit(taskName);
