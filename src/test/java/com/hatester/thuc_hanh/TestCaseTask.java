@@ -4,6 +4,8 @@ import com.hatester.bt_locators.LocatorTaskPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -146,7 +148,7 @@ public class TestCaseTask extends BaseTest {
     }
 
 
-    public void searchAndCheckNewTask(String taskName) throws InterruptedException {
+    public void searchAndCheckTask(String taskName) throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
@@ -207,7 +209,119 @@ public class TestCaseTask extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
     }
 
-//    public void fillDataEdit()
+    public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
+                             String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
+                             String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
+        Actions actions = new Actions(driver);
+        Robot robot = new Robot();
+        //checkbox
+        if (flag == 1) {
+            actions.click(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic))).perform();
+            Thread.sleep(500);
+        }
+        if (flag == 0) {
+            actions.click(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable))).perform();
+            Thread.sleep(500);
+        }
+
+        //input
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSubject)), subject).perform();
+        Thread.sleep(500);
+
+        WebElement elementHourlyRate = driver.findElement(By.xpath(LocatorTaskPage.inputHourlyRate));
+        actions.click(elementHourlyRate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        actions.sendKeys(elementHourlyRate, hourlyRate).perform();
+        Thread.sleep(500);
+
+        WebElement elementStartDate = driver.findElement(By.xpath(LocatorTaskPage.inputStartDate));
+        actions.click(elementStartDate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        actions.sendKeys(elementStartDate, startDate).perform();
+        Thread.sleep(500);
+
+        WebElement elementDueDate = driver.findElement(By.xpath(LocatorTaskPage.inputDueDate));
+        actions.click(elementDueDate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        actions.sendKeys(elementDueDate, dueDate).perform();
+        Thread.sleep(500);
+
+        //Priority
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownPriority))).perform();
+        Thread.sleep(500);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValuePriority(priority)))).perform();
+        Thread.sleep(1000);
+
+        //Repeat every
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEvery))).perform();
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEvery(repeatEvery)))).perform();
+        Thread.sleep(500);
+        if (repeatEvery.equals("Custom")) {
+            WebElement elementRepeatEveryCustom = driver.findElement(By.xpath(LocatorTaskPage.inputRepeatEveryCustom));
+            actions.click(elementRepeatEveryCustom).perform();
+            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            actions.sendKeys(elementRepeatEveryCustom, numberRepeatEveryCustom).perform();
+            Thread.sleep(500);
+            actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownRepeatEveryCustom))).perform();
+            Thread.sleep(1000);
+            actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEveryCustom(typeRepeatEveryCustom)))).perform();
+            Thread.sleep(500);
+        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Year")) {
+            actions.click(driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity))).perform();
+            Thread.sleep(500);
+
+            WebElement elementTotalCycles = driver.findElement(By.xpath(LocatorTaskPage.inputTotalCycles));
+            actions.click(elementTotalCycles).perform();
+            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            actions.sendKeys(elementTotalCycles, totalCycles).perform();
+            Thread.sleep(500);
+        } else {
+            System.out.println("Không tồn tại Type Repeat Every đã nhập");
+        }
+
+        //Related To
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownRelatedTo))).perform();
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueRelatedTo(relatedTo)))).perform();
+        Thread.sleep(500);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo))).perform();
+        Thread.sleep(500);
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchTypeRelatedTo)), typeRelatedTo).perform();
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueTypeRelatedTo(typeRelatedTo)))).perform();
+        Thread.sleep(500);
+
+        //Assignees
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownAssignees))).perform();
+        Thread.sleep(500);
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchAssignees)), assignee).perform();
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueAssignees(assignee)))).perform();
+        Thread.sleep(500);
+
+        //Followers
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers))).perform();
+        Thread.sleep(500);
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchFollowers)), follower).perform();
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueFollowers(follower)))).perform();
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers))).perform();
+        Thread.sleep(500);
+
+        //input
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputTags)), tag).perform();
+        Thread.sleep(500);
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.labelTags))).perform();
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.labelTags))).perform();
+        Thread.sleep(500);
+    }
 
     @Test
     public void testAddNewTaskAndVerify() throws InterruptedException, AWTException {
@@ -242,7 +356,7 @@ public class TestCaseTask extends BaseTest {
                 typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
         clickButtonSave();
         clickClosePopupTaskDetail(taskName);
-        searchAndCheckNewTask(taskName);
+        searchAndCheckTask(taskName);
         clickButtonEdit(taskName);
         verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag, flag);
