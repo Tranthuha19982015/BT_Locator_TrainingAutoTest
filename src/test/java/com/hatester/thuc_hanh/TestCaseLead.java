@@ -1,19 +1,16 @@
 package com.hatester.thuc_hanh;
 
 import com.hatester.bt_locators.LocatorLeadPage;
-import com.hatester.bt_locators.LocatorLoginPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class TestCaseLead extends BaseTest {
     public void clickMenuLead() throws InterruptedException {
@@ -33,7 +30,10 @@ public class TestCaseLead extends BaseTest {
         Assert.assertTrue(checkExistsElement(LocatorLeadPage.headerAddNewLead), "Mở popup Add New Lead không thành công");
     }
 
-    public void testAddNewLead(String status, String source, String assigned, String tag, String name, String position, String city, String emailAddress, String state, String website, String country, String phone, String zipCode, String leadValue, String language, String company, String description, String dateContacted, int flag) throws InterruptedException {
+    public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
+                             String city, String emailAddress, String state, String website, String country, String phone,
+                             String zipCode, String leadValue, String language, String company, String description,
+                             String dateContacted, int flag, int flagEdit) throws InterruptedException {
         //status
         driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).click();
         Thread.sleep(500);
@@ -59,7 +59,33 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(500);
 
         //input
-        driver.findElement(By.xpath(LocatorLeadPage.inputTags)).sendKeys(tag);
+        if (flagEdit == 1) {
+            driver.findElement(By.xpath(LocatorLeadPage.iconCloseTag)).click();
+            driver.findElement(By.xpath(LocatorLeadPage.inputName)).clear();
+//            driver.findElement(By.xpath(LocatorLeadPage.inputAddress)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputPosition)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputCity)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputEmailAddress)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputState)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputWebsite)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputPhone)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputZipcode)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputLeadValue)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputCompany)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputDescription)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputLastContact)).clear();
+
+            driver.findElement(By.xpath(LocatorLeadPage.labelPhone)).click();
+            driver.findElement(By.xpath(LocatorLeadPage.labelPhone)).click();
+            Thread.sleep(1000);
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)));
+            Thread.sleep(1000);
+            driver.findElement(By.xpath(LocatorLeadPage.inputTags)).click();
+
+        }
+
+        driver.findElement(By.xpath(LocatorLeadPage.inputTags)).sendKeys(tag, Keys.ENTER);
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorLeadPage.labelTags)).click();
         driver.findElement(By.xpath(LocatorLeadPage.labelTags)).click();
@@ -112,14 +138,15 @@ public class TestCaseLead extends BaseTest {
         //checkbox
         driver.findElement(By.xpath(LocatorLeadPage.checkboxPublic)).click();
         Thread.sleep(500);
-        if (flag == 1) {
+        if (flag == 1 && flagEdit == 0) {
             driver.findElement(By.xpath(LocatorLeadPage.checkboxContactedToday)).click();
             Thread.sleep(500);
             driver.findElement(By.xpath(LocatorLeadPage.inputDateContacted)).sendKeys(dateContacted);
             Thread.sleep(500);
         }
+    }
 
-        //save
+    public void clickButtonSave() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.buttonSave)).click();
         Thread.sleep(3000);
     }
@@ -132,34 +159,26 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(1000);
     }
 
-    public void verifyAfterAddNewLead(String name) throws InterruptedException {
+    public void verifyNewLead(String name) throws InterruptedException {
+        driver.navigate().refresh();
+        Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
         Assert.assertTrue(checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         Thread.sleep(2000);
     }
 
-    public void verifyCheckboxSelected(String checkbox) {
-        boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
-        if (checked) {
-            System.out.println("Checkbox đã tích chọn: " + checked);
-        } else {
-            System.out.println("Checkbox không tích chọn: " + checked);
-        }
-    }
-
     public void clickButtonEdit(String leadName) throws InterruptedException {
         Actions action = new Actions(driver);
         action.moveToElement(driver.findElement(By.xpath(LocatorLeadPage.getFirstRowItemLeadName(leadName)))).perform();
         driver.findElement(By.xpath(LocatorLeadPage.buttonEdit(leadName))).click();
-        Thread.sleep(2000);
     }
 
     public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name,
                                          String position, String city, String emailAddress, String state, String website, String country,
                                          String phone, String zipCode, String leadValue, String language, String company, String description,
                                          String dateContacted) throws InterruptedException {
-
+        Thread.sleep(1000);
         boolean containsStatus = (driver.findElement(By.xpath(LocatorLeadPage.dropdownStatus)).getText()).contains(status);
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.dropdownSource)).getText(), source,
@@ -184,11 +203,6 @@ public class TestCaseLead extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.dropdownCountry)).getText(), country,
                 "Không đúng giá trị đã thêm mới");
-
-        Thread.sleep(1000);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath(LocatorLeadPage.buttonSave)));
-
         Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputPhone)).getAttribute("value"), phone,
                 "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorLeadPage.inputZipcode)).getAttribute("value"), zipCode,
@@ -205,10 +219,31 @@ public class TestCaseLead extends BaseTest {
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(checkExistsElement(LocatorLeadPage.checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
         Assert.assertTrue(driver.findElement(By.xpath(LocatorLeadPage.checkboxPublic)).isSelected(), "Không tích chọn checkbox");
+        Thread.sleep(1000);
     }
 
+    public void clickButtonDelete(String leadName) {
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath(LocatorLeadPage.getFirstRowItemLeadName(leadName)))).perform();
+        driver.findElement(By.xpath(LocatorLeadPage.buttonDelete(leadName))).click();
+    }
+
+    public void confirmAlertDelete() throws InterruptedException {
+        Thread.sleep(1000);
+       driver.switchTo().alert().accept();
+    }
+
+    public void verifyAfterDeleteLead(String name) throws InterruptedException {
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
+        Thread.sleep(1000);
+        Assert.assertFalse(checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
+        Thread.sleep(1000);
+    }
+
+
     @Test
-    public void testAddAndCheckNewLead() throws InterruptedException {
+    public void testAddNewLead() throws InterruptedException {
         String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         String status = "Customer";
         String source = "Facebook";
@@ -230,10 +265,105 @@ public class TestCaseLead extends BaseTest {
 
         clickMenuLead();
         clickButtonNewLead();
-        testAddNewLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode, leadValue, language, company, description, lastContacted, 1);
+        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone,
+                zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        clickButtonSave();
         clickIconClosePopupLeadDetail(leadName);
-        verifyAfterAddNewLead(leadName);
+        verifyNewLead(leadName);
         clickButtonEdit(leadName);
-        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
+        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
+                website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
+    }
+
+    @Test
+    public void testEditNewLead() throws InterruptedException {
+        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        String status = "Customer";
+        String source = "Facebook";
+        String assigned = "Anh Tester";
+        String tag = "htest";
+        String position = "Tester";
+        String city = "Việt Nam";
+        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        String state = "htest state";
+        String website = "htester.com.vn";
+        String country = "Vietnam";
+        String phone = "0965898989";
+        String zipCode = "0001";
+        String leadValue = "12345";
+        String language = "Vietnamese";
+        String company = "NDJSC";
+        String description = "htest add new lead";
+        String lastContacted = "10-11-2025";
+
+        clickMenuLead();
+        clickButtonNewLead();
+        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country,
+                phone, zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        clickButtonSave();
+        clickIconClosePopupLeadDetail(leadName);
+        verifyNewLead(leadName);
+        clickButtonEdit(leadName);
+        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
+                website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
+
+        String leadNameEdit = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        String statusEdit = "Customer";
+        String sourceEdit = "Google";
+        String assignedEdit = "Example";
+        String tagEdit = "htestedit" + new SimpleDateFormat("HHmmss").format(new Date());
+        String positionEdit = "Tester";
+        String cityEdit = "Việt Nam";
+        String emailAddressEdit = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        String stateEdit = "htest state";
+        String websiteEdit = "htester.com.vn";
+        String countryEdit = "Vietnam";
+        String phoneEdit = "0965898980";
+        String zipCodeEdit = "00001";
+        String leadValueEdit = "123456";
+        String languageEdit = "Vietnamese";
+        String companyEdit = "NDJSC";
+        String descriptionEdit = "htest edit new lead";
+        String lastContactedEdit = "21-11-2025";
+
+        fillDataLead(statusEdit, sourceEdit, assignedEdit, tagEdit, leadNameEdit, positionEdit, cityEdit,
+                emailAddressEdit, stateEdit, websiteEdit, countryEdit, phoneEdit, zipCodeEdit, leadValueEdit,
+                languageEdit, companyEdit, descriptionEdit, lastContactedEdit, 0, 1);
+        clickButtonSave();
+        clickIconClosePopupLeadDetail(leadNameEdit);
+        verifyNewLead(leadNameEdit);
+    }
+
+    @Test
+    public void testDeleteNewLead() throws InterruptedException {
+        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        String status = "Customer";
+        String source = "Facebook";
+        String assigned = "Anh Tester";
+        String tag = "htest";
+        String position = "Tester";
+        String city = "Việt Nam";
+        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        String state = "htest state";
+        String website = "htester.com.vn";
+        String country = "Vietnam";
+        String phone = "0965898989";
+        String zipCode = "0001";
+        String leadValue = "12345";
+        String language = "Vietnamese";
+        String company = "NDJSC";
+        String description = "htest add new lead";
+        String lastContacted = "10-11-2025";
+
+        clickMenuLead();
+        clickButtonNewLead();
+        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone,
+                zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        clickButtonSave();
+        clickIconClosePopupLeadDetail(leadName);
+        verifyNewLead(leadName);
+        clickButtonDelete(leadName);
+        confirmAlertDelete();
+        verifyAfterDeleteLead(leadName);
     }
 }

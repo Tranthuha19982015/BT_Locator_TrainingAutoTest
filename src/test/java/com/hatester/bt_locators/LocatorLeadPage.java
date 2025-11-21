@@ -109,8 +109,10 @@ public class LocatorLeadPage {
 
     //input
     public static String labelTags = "//label[normalize-space()='Tags']";
-    public static String inputTags = "//input[@id='tags']/following-sibling::ul//input[@placeholder='Tag']";
-    public static String inputTagsEdit="//input[@id='tags']";
+    public static String inputTags = "//label[@for='tags']/following-sibling::ul//input[@placeholder='Tag']";
+    public static String inputTagsEdit = "//input[@id='tags']";
+    public static String iconCloseTag = "//a[@class='tagit-close' and normalize-space()='×']";
+
     public static String inputName = "//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']";
     public static String inputAddress = "//textarea[@id='address']";
     public static String inputPosition = "//input[@id='title']";
@@ -129,6 +131,7 @@ public class LocatorLeadPage {
     }
 
     //input
+    public static String labelPhone = "//input[@id='phonenumber']/preceding-sibling::label[@for='phonenumber']";
     public static String inputPhone = "//input[@id='phonenumber']";
     public static String inputZipcode = "//input[@id='zip']";
     public static String inputLeadValue = "//input[@name='lead_value']";
