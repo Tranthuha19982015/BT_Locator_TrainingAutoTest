@@ -173,6 +173,8 @@ public class TestCaseTask extends BaseTest {
 
 
     public void searchAndCheckTask(String taskName) throws InterruptedException {
+        driver.navigate().refresh();
+        Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
@@ -441,5 +443,8 @@ public class TestCaseTask extends BaseTest {
         fillDataEdit(taskEdit.taskName, taskEdit.hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority, taskEdit.repeatEvery,
                 taskEdit.numberRepeatEveryCustom, taskEdit.typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo,
                 taskEdit.typeRelateTo, taskEdit.assignee, taskEdit.follower, taskEdit.tag, taskEdit.description, taskEdit.flag);
+        clickButtonSave();
+        clickClosePopupTaskDetail(taskEdit.taskName);
+        searchAndCheckTask(taskEdit.taskName);
     }
 }
