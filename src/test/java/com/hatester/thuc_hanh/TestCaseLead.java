@@ -13,6 +13,27 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TestCaseLead extends BaseTest {
+    String leadName = "";
+    String status = "";
+    String source = "";
+    String assigned = "";
+    String tag = "";
+    String position = "";
+    String city = "";
+    String emailAddress = "";
+    String state = "";
+    String website = "";
+    String country = "";
+    String phone = "";
+    String zipCode = "";
+    String leadValue = "";
+    String language = "";
+    String company = "";
+    String description = "";
+    String lastContacted = "";
+    int flag;
+    int flagEdit;
+
     public void clickMenuLead() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.menuLead)).click();
         Thread.sleep(2000);
@@ -138,10 +159,15 @@ public class TestCaseLead extends BaseTest {
         //checkbox
         driver.findElement(By.xpath(LocatorLeadPage.checkboxPublic)).click();
         Thread.sleep(500);
-        if (flag == 1 && flagEdit == 0) {
+
+        if (flagEdit == 0) {
             driver.findElement(By.xpath(LocatorLeadPage.checkboxContactedToday)).click();
             Thread.sleep(500);
             driver.findElement(By.xpath(LocatorLeadPage.inputDateContacted)).sendKeys(dateContacted);
+            Thread.sleep(500);
+        } else {
+            driver.findElement(By.xpath(LocatorLeadPage.inputLastContact)).clear();
+            driver.findElement(By.xpath(LocatorLeadPage.inputLastContact)).sendKeys(dateContacted);
             Thread.sleep(500);
         }
     }
@@ -230,7 +256,7 @@ public class TestCaseLead extends BaseTest {
 
     public void confirmAlertDelete() throws InterruptedException {
         Thread.sleep(1000);
-       driver.switchTo().alert().accept();
+        driver.switchTo().alert().accept();
     }
 
     public void verifyAfterDeleteLead(String name) throws InterruptedException {
@@ -244,126 +270,133 @@ public class TestCaseLead extends BaseTest {
 
     @Test
     public void testAddNewLead() throws InterruptedException {
-        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        String status = "Customer";
-        String source = "Facebook";
-        String assigned = "Anh Tester";
-        String tag = "htest";
-        String position = "Tester";
-        String city = "Việt Nam";
-        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
-        String state = "htest state";
-        String website = "htester.com.vn";
-        String country = "Vietnam";
-        String phone = "0965898989";
-        String zipCode = "0001";
-        String leadValue = "12345";
-        String language = "Vietnamese";
-        String company = "NDJSC";
-        String description = "htest add new lead";
-        String lastContacted = "10-11-2025";
+        TestCaseLead leadAdd = new TestCaseLead();
+        leadAdd.leadName = "[htest]lead add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadAdd.status = "Customer";
+        leadAdd.source = "Facebook";
+        leadAdd.assigned = "Anh Tester";
+        leadAdd.tag = "htest";
+        leadAdd.position = "Tester";
+        leadAdd.city = "Việt Nam";
+        leadAdd.emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        leadAdd.state = "htest state";
+        leadAdd.website = "htester.com.vn";
+        leadAdd.country = "Vietnam";
+        leadAdd.phone = "0965898989";
+        leadAdd.zipCode = "0001";
+        leadAdd.leadValue = "12345";
+        leadAdd.language = "Vietnamese";
+        leadAdd.company = "NDJSC";
+        leadAdd.description = "htest add new lead";
+        leadAdd.lastContacted = "10-11-2025";
+        leadAdd.flag = 1;
+        leadAdd.flagEdit = 0;
 
         clickMenuLead();
         clickButtonNewLead();
-        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone,
-                zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        fillDataLead(leadAdd.status, leadAdd.source, leadAdd.assigned, leadAdd.tag, leadAdd.leadName, leadAdd.position, leadAdd.city, leadAdd.emailAddress,
+                leadAdd.state, leadAdd.website, leadAdd.country, leadAdd.phone, leadAdd.zipCode, leadAdd.leadValue, leadAdd.language, leadAdd.company,
+                leadAdd.description, leadAdd.lastContacted, leadAdd.flag, leadAdd.flagEdit);
         clickButtonSave();
-        clickIconClosePopupLeadDetail(leadName);
-        searchAndCheckLeads(leadName);
-        clickButtonEdit(leadName);
-        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
-                website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
+        clickIconClosePopupLeadDetail(leadAdd.leadName);
+        searchAndCheckLeads(leadAdd.leadName);
+        clickButtonEdit(leadAdd.leadName);
+        verifyNewLeadInEditPopup(leadAdd.leadName, leadAdd.status, leadAdd.source, leadAdd.assigned, leadAdd.tag, leadAdd.leadName, leadAdd.position,
+                leadAdd.city, leadAdd.emailAddress, leadAdd.state, leadAdd.website, leadAdd.country, leadAdd.phone, leadAdd.zipCode,
+                leadAdd.leadValue + ".00", leadAdd.language, leadAdd.company, leadAdd.description, leadAdd.lastContacted);
     }
 
     @Test
     public void testEditNewLead() throws InterruptedException {
-        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        String status = "Customer";
-        String source = "Facebook";
-        String assigned = "Anh Tester";
-        String tag = "htest";
-        String position = "Tester";
-        String city = "Việt Nam";
-        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
-        String state = "htest state";
-        String website = "htester.com.vn";
-        String country = "Vietnam";
-        String phone = "0965898989";
-        String zipCode = "0001";
-        String leadValue = "12345";
-        String language = "Vietnamese";
-        String company = "NDJSC";
-        String description = "htest add new lead";
-        String lastContacted = "10-11-2025";
+        TestCaseLead leadEdit = new TestCaseLead();
+        leadEdit.leadName = "[htest]lead add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadEdit.status = "Customer";
+        leadEdit.source = "Facebook";
+        leadEdit.assigned = "Anh Tester";
+        leadEdit.tag = "htest";
+        leadEdit.position = "Tester";
+        leadEdit.city = "Việt Nam";
+        leadEdit.emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        leadEdit.state = "htest state";
+        leadEdit.website = "htester.com.vn";
+        leadEdit.country = "Vietnam";
+        leadEdit.phone = "0965898989";
+        leadEdit.zipCode = "0001";
+        leadEdit.leadValue = "12345";
+        leadEdit.language = "Vietnamese";
+        leadEdit.company = "NDJSC";
+        leadEdit.description = "htest add new lead";
+        leadEdit.lastContacted = "10-11-2025";
+        leadEdit.flag = 1;
+        leadEdit.flagEdit = 0;
 
         clickMenuLead();
         clickButtonNewLead();
-        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country,
-                phone, zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        fillDataLead(leadEdit.status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName, leadEdit.position, leadEdit.city,
+                leadEdit.emailAddress, leadEdit.state, leadEdit.website, leadEdit.country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
+                leadEdit.language, leadEdit.company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         clickButtonSave();
-        clickIconClosePopupLeadDetail(leadName);
-        searchAndCheckLeads(leadName);
-        clickButtonEdit(leadName);
-        verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position, city, emailAddress, state,
-                website, country, phone, zipCode, leadValue + ".00", language, company, description, lastContacted);
+        clickIconClosePopupLeadDetail(leadEdit.leadName);
+        searchAndCheckLeads(leadEdit.leadName);
+        clickButtonEdit(leadEdit.leadName);
+        verifyNewLeadInEditPopup(leadEdit.leadName, leadEdit.status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName,
+                leadEdit.position, leadEdit.city, leadEdit.emailAddress, leadEdit.state, leadEdit.website, leadEdit.country, leadEdit.phone,
+                leadEdit.zipCode, leadEdit.leadValue + ".00", leadEdit.language, leadEdit.company, leadEdit.description, leadEdit.lastContacted);
 
-        String leadNameEdit = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        String statusEdit = "Customer";
-        String sourceEdit = "Google";
-        String assignedEdit = "Example";
-        String tagEdit = "htestedit" + new SimpleDateFormat("HHmmss").format(new Date());
-        String positionEdit = "Tester";
-        String cityEdit = "Việt Nam";
-        String emailAddressEdit = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
-        String stateEdit = "htest state";
-        String websiteEdit = "htester.com.vn";
-        String countryEdit = "Vietnam";
-        String phoneEdit = "0965898980";
-        String zipCodeEdit = "00001";
-        String leadValueEdit = "123456";
-        String languageEdit = "Vietnamese";
-        String companyEdit = "NDJSC";
-        String descriptionEdit = "htest edit new lead";
-        String lastContactedEdit = "21-11-2025";
+        leadEdit.leadName = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadEdit.source = "Google";
+        leadEdit.assigned = "Example";
+        leadEdit.tag += "edit" + new SimpleDateFormat("HHmmss").format(new Date());
+        leadEdit.phone = "0965898980";
+        leadEdit.zipCode += "1";
+        leadEdit.leadValue += "6";
+        leadEdit.description = "htest edit new lead";
+        leadEdit.lastContacted = "24-11-2025";
+        leadEdit.flag = 0;
+        leadEdit.flagEdit = 1;
 
-        fillDataLead(statusEdit, sourceEdit, assignedEdit, tagEdit, leadNameEdit, positionEdit, cityEdit,
-                emailAddressEdit, stateEdit, websiteEdit, countryEdit, phoneEdit, zipCodeEdit, leadValueEdit,
-                languageEdit, companyEdit, descriptionEdit, lastContactedEdit, 0, 1);
+        fillDataLead(leadEdit.status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName, leadEdit.position, leadEdit.city,
+                leadEdit.emailAddress, leadEdit.state, leadEdit.website, leadEdit.country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
+                leadEdit.language, leadEdit.company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         clickButtonSave();
-        clickIconClosePopupLeadDetail(leadNameEdit);
-        searchAndCheckLeads(leadNameEdit);
+        clickIconClosePopupLeadDetail(leadEdit.leadName);
+        searchAndCheckLeads(leadEdit.leadName);
     }
 
     @Test
     public void testDeleteNewLead() throws InterruptedException {
-        String leadName = "[htest]lead" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        String status = "Customer";
-        String source = "Facebook";
-        String assigned = "Anh Tester";
-        String tag = "htest";
-        String position = "Tester";
-        String city = "Việt Nam";
-        String emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
-        String state = "htest state";
-        String website = "htester.com.vn";
-        String country = "Vietnam";
-        String phone = "0965898989";
-        String zipCode = "0001";
-        String leadValue = "12345";
-        String language = "Vietnamese";
-        String company = "NDJSC";
-        String description = "htest add new lead";
-        String lastContacted = "10-11-2025";
+        TestCaseLead leadDelete = new TestCaseLead();
+        leadDelete.leadName = "[htest]lead delete" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadDelete.status = "Customer";
+        leadDelete.source = "Facebook";
+        leadDelete.assigned = "Anh Tester";
+        leadDelete.tag = "htest";
+        leadDelete.position = "Tester";
+        leadDelete.city = "Việt Nam";
+        leadDelete.emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
+        leadDelete.state = "htest state";
+        leadDelete.website = "htester.com.vn";
+        leadDelete.country = "Vietnam";
+        leadDelete.phone = "0965898989";
+        leadDelete.zipCode = "0001";
+        leadDelete.leadValue = "12345";
+        leadDelete.language = "Vietnamese";
+        leadDelete.company = "NDJSC";
+        leadDelete.description = "htest add new lead";
+        leadDelete.lastContacted = "10-11-2025";
+        leadDelete.flag = 1;
+        leadDelete.flagEdit = 0;
 
         clickMenuLead();
         clickButtonNewLead();
-        fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress, state, website, country, phone,
-                zipCode, leadValue, language, company, description, lastContacted, 1, 0);
+        fillDataLead(leadDelete.status, leadDelete.source, leadDelete.assigned, leadDelete.tag, leadDelete.leadName, leadDelete.position, leadDelete.city,
+                leadDelete.emailAddress, leadDelete.state, leadDelete.website, leadDelete.country, leadDelete.phone, leadDelete.zipCode, leadDelete.leadValue,
+                leadDelete.language, leadDelete.company, leadDelete.description, leadDelete.lastContacted, leadDelete.flag, leadDelete.flagEdit);
         clickButtonSave();
-        clickIconClosePopupLeadDetail(leadName);
-        searchAndCheckLeads(leadName);
-        clickButtonDelete(leadName);
+        clickIconClosePopupLeadDetail(leadDelete.leadName);
+        searchAndCheckLeads(leadDelete.leadName);
+        clickButtonDelete(leadDelete.leadName);
         confirmAlertDelete();
-        verifyAfterDeleteLead(leadName);
+        verifyAfterDeleteLead(leadDelete.leadName);
     }
 }
