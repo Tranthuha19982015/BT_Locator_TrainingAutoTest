@@ -160,7 +160,11 @@ public class LocatorTaskPage {
     public static String labelTags = "//label[normalize-space()='Tags']";
     public static String inputTags = "//div[@id='inputTagsWrapper']/descendant::input[@placeholder='Tag']";
     public static String inputTagsEdit = "//input[@id='tags']";
-    public static String inputDescription = "//body[@id='tinymce']/p";
+    public static String iconCloseTag = "//input[@id='tags']/following-sibling::ul/descendant::span[normalize-space()='×']";
+
+    public static String inputDescription = "//textarea[@id='description']";
+    public static String iframeDescription = "//iframe[@id='description_ifr']";
+    public static String inputDescriptionFrame = "//body[@id='tinymce']/p";
 
     //button
     public static String buttonClose = "//div[contains(@id,'task_modal')]/descendant::button[normalize-space()='Close']";

@@ -17,6 +17,23 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TestCaseTask extends BaseTest {
+    String taskName;
+    String hourlyRate;
+    String startDate;
+    String dueDate;
+    String priority;
+    String repeatEvery;
+    String numberRepeatEveryCustom;
+    String typeRepeatEveryCutom;
+    String totalCycles;
+    String relateTo;
+    String typeRelateTo;
+    String assignee;
+    String follower;
+    String tag;
+    int flag;
+    String description;
+
     public void clickMenuTask() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.menuTasks)).click();
         Thread.sleep(2000);
@@ -33,7 +50,8 @@ public class TestCaseTask extends BaseTest {
 
     public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                                 String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                                String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
+                                String typeRelatedTo, String assignee, String follower, String tag, String description, int flag)
+            throws InterruptedException, AWTException {
         //checkbox
         if (flag == 1) {
             driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).click();
@@ -123,15 +141,21 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(500);
 
         //input
-        driver.findElement(By.xpath(LocatorTaskPage.inputTags)).sendKeys(tag);
+        driver.findElement(By.xpath(LocatorTaskPage.inputTags)).sendKeys(tag, Keys.ENTER);
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.labelTags)).click();
         driver.findElement(By.xpath(LocatorTaskPage.labelTags)).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
-        //checkbox
-//        driver.findElement(By.xpath(LocatorTaskPage.inputDescription)).click();
-//        Thread.sleep(500);
+        //iframe
+        driver.findElement(By.xpath(LocatorTaskPage.inputDescription)).click();
+        Thread.sleep(500);
+        driver.switchTo().frame(driver.findElement(By.xpath(LocatorTaskPage.iframeDescription)));
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorTaskPage.inputDescriptionFrame)).sendKeys(description);
+        Thread.sleep(500);
+        driver.switchTo().parentFrame();
+        Thread.sleep(500);
     }
 
     public void clickButtonSave() throws InterruptedException {
@@ -166,7 +190,7 @@ public class TestCaseTask extends BaseTest {
 
     public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag, int flag) throws InterruptedException {
+                                        String relatedTo, String typeRelatedTo, String tag, String description, int flag) throws InterruptedException {
         if (flag == 1) {
             Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic)).isSelected(), "Checkbox không được chọn");
             Assert.assertTrue(driver.findElement(By.xpath(LocatorTaskPage.checkboxBillable)).isSelected(), "Checkbox không được chọn");
@@ -207,13 +231,19 @@ public class TestCaseTask extends BaseTest {
         Assert.assertFalse(checkExistsElement(LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTagsEdit)).getAttribute("value").trim().toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
+        driver.switchTo().frame(driver.findElement(By.xpath(LocatorTaskPage.iframeDescription)));
+        Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputDescriptionFrame)).getText().trim().toLowerCase(), description,
+                "Không đúng giá trị đã thêm mới");
+        driver.switchTo().parentFrame();
     }
 
     public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                              String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                             String typeRelatedTo, String assignee, String follower, String tag, int flag) throws InterruptedException, AWTException {
+                             String typeRelatedTo, String assignee, String follower, String tag, String description, int flag)
+            throws InterruptedException, AWTException {
         Actions actions = new Actions(driver);
         Robot robot = new Robot();
+        Thread.sleep(1500);
         //checkbox
         if (flag == 1) {
             actions.click(driver.findElement(By.xpath(LocatorTaskPage.checkboxPublic))).perform();
@@ -225,7 +255,10 @@ public class TestCaseTask extends BaseTest {
         }
 
         //input
-        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSubject)), subject).perform();
+        WebElement elementSubject = driver.findElement(By.xpath(LocatorTaskPage.inputSubject));
+        actions.click(elementSubject).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        actions.sendKeys(elementSubject, subject).perform();
         Thread.sleep(500);
 
         WebElement elementHourlyRate = driver.findElement(By.xpath(LocatorTaskPage.inputHourlyRate));
@@ -268,7 +301,7 @@ public class TestCaseTask extends BaseTest {
             actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueRepeatEveryCustom(typeRepeatEveryCustom)))).perform();
             Thread.sleep(500);
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             actions.click(driver.findElement(By.xpath(LocatorTaskPage.checkboxInfinity))).perform();
             Thread.sleep(500);
@@ -290,42 +323,34 @@ public class TestCaseTask extends BaseTest {
         actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo))).perform();
         Thread.sleep(500);
         actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchTypeRelatedTo)), typeRelatedTo).perform();
-        Thread.sleep(1000);
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        Thread.sleep(1000);
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueTypeRelatedTo(typeRelatedTo)))).perform();
-        Thread.sleep(500);
-
-        //Assignees
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownAssignees))).perform();
-        Thread.sleep(500);
-        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchAssignees)), assignee).perform();
-        Thread.sleep(1000);
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueAssignees(assignee)))).perform();
-        Thread.sleep(500);
-
-        //Followers
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers))).perform();
-        Thread.sleep(500);
-        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputSearchFollowers)), follower).perform();
-        Thread.sleep(1000);
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.getValueFollowers(follower)))).perform();
-        Thread.sleep(1000);
-        actions.click(driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers))).perform();
+        Thread.sleep(2000);
+        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getValueTypeRelatedTo(typeRelatedTo)))).click().build().perform();
         Thread.sleep(500);
 
         //input
+        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.iconCloseTag))).click().build().perform();
         actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputTags)), tag).perform();
         Thread.sleep(500);
         actions.click(driver.findElement(By.xpath(LocatorTaskPage.labelTags))).perform();
         actions.click(driver.findElement(By.xpath(LocatorTaskPage.labelTags))).perform();
         Thread.sleep(500);
+
+        //iframe
+        actions.click(driver.findElement(By.xpath(LocatorTaskPage.inputDescription)));
+        Thread.sleep(500);
+        driver.switchTo().frame(driver.findElement(By.xpath(LocatorTaskPage.iframeDescription)));
+        Thread.sleep(500);
+        actions.sendKeys(driver.findElement(By.xpath(LocatorTaskPage.inputDescriptionFrame)), description);
+        Thread.sleep(500);
+        driver.switchTo().parentFrame();
+        Thread.sleep(500);
     }
 
     @Test
-    public void testAddNewTaskAndVerify() throws InterruptedException, AWTException {
-        String hourlyRate = "8";
+    public void testAddNewTask() throws InterruptedException, AWTException {
+        TestCaseTask taskAdd = new TestCaseTask();
+        taskAdd.taskName = "A[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskAdd.hourlyRate = "8";
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         // Ngày bắt đầu (hôm nay)
@@ -335,30 +360,86 @@ public class TestCaseTask extends BaseTest {
         cal.setTime(start);
         cal.add(Calendar.DAY_OF_MONTH, 6);
 
-        String startDate = sdf.format(start);
-        String dueDate = sdf.format(cal.getTime());
-        String priority = "High";
-        String repeatEvery = "Week";
-        String numberRepeatEveryCustom = "5";
-        String typeRepeatEveryCutom = "Week(s)";
-        String totalCycles = "6";
-        String relateTo = "Lead";
-        String typeRelateTo = "Giang Chan";
-        String assignee = "Admin Anh Tester";
-        String follower = "Admin Example";
-        String tag = "htest";
-        int flag = 0;
-        String taskName = "[htest]task" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskAdd.startDate = sdf.format(start);
+        taskAdd.dueDate = sdf.format(cal.getTime());
+        taskAdd.priority = "High";
+        taskAdd.repeatEvery = "Week";
+        taskAdd.numberRepeatEveryCustom = "5";
+        taskAdd.typeRepeatEveryCutom = "Week(s)";
+        taskAdd.totalCycles = "6";
+        taskAdd.relateTo = "Lead";
+        taskAdd.typeRelateTo = "Giang Chan";
+        taskAdd.assignee = "Admin Anh Tester";
+        taskAdd.follower = "Admin Example";
+        taskAdd.tag = "htest";
+        taskAdd.flag = 0;
+        taskAdd.description = "htest switch to frame description";
 
         clickMenuTask();
         clickButtonNewTask();
-        fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery, numberRepeatEveryCustom,
-                typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, assignee, follower, tag, flag);
+        fillDataNewTask(taskAdd.taskName, taskAdd.hourlyRate, taskAdd.startDate, taskAdd.dueDate, taskAdd.priority, taskAdd.repeatEvery,
+                taskAdd.numberRepeatEveryCustom, taskAdd.typeRepeatEveryCutom, taskAdd.totalCycles, taskAdd.relateTo, taskAdd.typeRelateTo,
+                taskAdd.assignee, taskAdd.follower, taskAdd.tag, taskAdd.description, taskAdd.flag);
         clickButtonSave();
-        clickClosePopupTaskDetail(taskName);
-        searchAndCheckTask(taskName);
-        clickButtonEdit(taskName);
-        verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo, tag, flag);
+        clickClosePopupTaskDetail(taskAdd.taskName);
+        searchAndCheckTask(taskAdd.taskName);
+        clickButtonEdit(taskAdd.taskName);
+        verifyNewTaskInTaskEdit(taskAdd.taskName, taskAdd.taskName, taskAdd.hourlyRate, taskAdd.startDate, taskAdd.dueDate, taskAdd.priority,
+                taskAdd.repeatEvery, taskAdd.numberRepeatEveryCustom, taskAdd.typeRepeatEveryCutom, taskAdd.totalCycles, taskAdd.relateTo,
+                taskAdd.typeRelateTo, taskAdd.tag, taskAdd.description, taskAdd.flag);
+    }
+
+    @Test
+    public void testEditTask() throws InterruptedException, AWTException {
+        TestCaseTask taskEdit = new TestCaseTask();
+        taskEdit.taskName = "A[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskEdit.hourlyRate = "8";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        // Ngày bắt đầu (hôm nay)
+        Date start = new Date();
+        // Cộng thêm 6 ngày
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.add(Calendar.DAY_OF_MONTH, 6);
+
+        taskEdit.startDate = sdf.format(start);
+        taskEdit.dueDate = sdf.format(cal.getTime());
+        taskEdit.priority = "High";
+        taskEdit.repeatEvery = "Week";
+        taskEdit.numberRepeatEveryCustom = "5";
+        taskEdit.typeRepeatEveryCutom = "Week(s)";
+        taskEdit.totalCycles = "6";
+        taskEdit.relateTo = "Lead";
+        taskEdit.typeRelateTo = "Giang Chan";
+        taskEdit.assignee = "Admin Anh Tester";
+        taskEdit.follower = "Admin Example";
+        taskEdit.tag = "htest";
+        taskEdit.flag = 0;
+        taskEdit.description = "htest switch to frame description";
+
+        clickMenuTask();
+        clickButtonNewTask();
+        fillDataNewTask(taskEdit.taskName, taskEdit.hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority, taskEdit.repeatEvery,
+                taskEdit.numberRepeatEveryCustom, taskEdit.typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo, taskEdit.typeRelateTo,
+                taskEdit.assignee, taskEdit.follower, taskEdit.tag, taskEdit.description, taskEdit.flag);
+        clickButtonSave();
+        clickClosePopupTaskDetail(taskEdit.taskName);
+        searchAndCheckTask(taskEdit.taskName);
+        clickButtonEdit(taskEdit.taskName);
+        verifyNewTaskInTaskEdit(taskEdit.taskName, taskEdit.taskName, taskEdit.hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority,
+                taskEdit.repeatEvery, taskEdit.numberRepeatEveryCustom, taskEdit.typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo,
+                taskEdit.typeRelateTo, taskEdit.tag, taskEdit.description, taskEdit.flag);
+
+        taskEdit.taskName = "A[htest]task edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskEdit.priority = "Medium";
+        taskEdit.repeatEvery = "1 Month";
+        taskEdit.totalCycles = "3";
+        taskEdit.typeRelateTo = "[htest]lead";
+        taskEdit.flag = 1;
+
+        fillDataEdit(taskEdit.taskName, taskEdit.hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority, taskEdit.repeatEvery,
+                taskEdit.numberRepeatEveryCustom, taskEdit.typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo,
+                taskEdit.typeRelateTo, taskEdit.assignee, taskEdit.follower, taskEdit.tag, taskEdit.description, taskEdit.flag);
     }
 }
