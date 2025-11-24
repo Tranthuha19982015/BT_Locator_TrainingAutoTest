@@ -1,5 +1,6 @@
 package com.hatester.thuc_hanh;
 
+import com.hatester.bt_locators.LocatorLeadPage;
 import com.hatester.bt_locators.LocatorTaskPage;
 import common.BaseTest;
 import org.openqa.selenium.By;
@@ -348,6 +349,30 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(500);
     }
 
+    public void clickButtonDelete(String taskName) {
+        Actions action = new Actions(driver);
+        action.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName)))).perform();
+        driver.findElement(By.xpath(LocatorTaskPage.buttonDelete(taskName))).click();
+    }
+
+    public void confirmAcceptAlertDelete() throws InterruptedException {
+        Thread.sleep(1000);
+        driver.switchTo().alert().accept();
+    }
+
+    public void confirmDismissAlertDelete() throws InterruptedException {
+        Thread.sleep(1000);
+        driver.switchTo().alert().dismiss();
+    }
+
+    public void verifyAfterDeleteLead(String taskName) throws InterruptedException {
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
+        Thread.sleep(1000);
+        Assert.assertFalse(checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
+        Thread.sleep(1000);
+    }
+
     @Test
     public void testAddNewTask() throws InterruptedException, AWTException {
         TestCaseTask taskAdd = new TestCaseTask();
@@ -446,5 +471,47 @@ public class TestCaseTask extends BaseTest {
         clickButtonSave();
         clickClosePopupTaskDetail(taskEdit.taskName);
         searchAndCheckTask(taskEdit.taskName);
+    }
+
+    @Test
+    public void testDeleteTask() throws InterruptedException, AWTException {
+        TestCaseTask taskDelete = new TestCaseTask();
+        taskDelete.taskName = "A[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskDelete.hourlyRate = "8";
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        // Ngày bắt đầu (hôm nay)
+        Date start = new Date();
+        // Cộng thêm 6 ngày
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(start);
+        cal.add(Calendar.DAY_OF_MONTH, 6);
+
+        taskDelete.startDate = sdf.format(start);
+        taskDelete.dueDate = sdf.format(cal.getTime());
+        taskDelete.priority = "High";
+        taskDelete.repeatEvery = "Week";
+        taskDelete.numberRepeatEveryCustom = "5";
+        taskDelete.typeRepeatEveryCutom = "Week(s)";
+        taskDelete.totalCycles = "6";
+        taskDelete.relateTo = "Lead";
+        taskDelete.typeRelateTo = "Giang Chan";
+        taskDelete.assignee = "Admin Anh Tester";
+        taskDelete.follower = "Admin Example";
+        taskDelete.tag = "htest";
+        taskDelete.flag = 0;
+        taskDelete.description = "htest switch to frame description";
+
+        clickMenuTask();
+        clickButtonNewTask();
+        fillDataNewTask(taskDelete.taskName, taskDelete.hourlyRate, taskDelete.startDate, taskDelete.dueDate, taskDelete.priority, taskDelete.repeatEvery,
+                taskDelete.numberRepeatEveryCustom, taskDelete.typeRepeatEveryCutom, taskDelete.totalCycles, taskDelete.relateTo, taskDelete.typeRelateTo,
+                taskDelete.assignee, taskDelete.follower, taskDelete.tag, taskDelete.description, taskDelete.flag);
+        clickButtonSave();
+        clickClosePopupTaskDetail(taskDelete.taskName);
+        searchAndCheckTask(taskDelete.taskName);
+        clickButtonDelete(taskDelete.taskName);
+        confirmAcceptAlertDelete();
+        verifyAfterDeleteLead(taskDelete.taskName);
     }
 }
