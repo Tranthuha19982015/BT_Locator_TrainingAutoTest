@@ -9,6 +9,8 @@ import java.util.List;
 
 public class WebUI {
 
+    private static int WAIT_TIMEOUT = 10;
+
     public static void highlightElement(WebDriver driver, WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].style.border='3px solid red';", element);
@@ -20,7 +22,7 @@ public class WebUI {
     }
 
     public static void waitForElementVisible(WebDriver driver, By by) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10), Duration.ofMillis(500));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
@@ -29,14 +31,32 @@ public class WebUI {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
+    public static void waitForElementPresent(WebDriver driver, By by) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
     public static void waitForElementToBeClickable(WebDriver driver, By by) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10), Duration.ofMillis(500));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
         wait.until(ExpectedConditions.elementToBeClickable(by));
     }
 
     public static void waitForElementToBeClickable(WebDriver driver, By by, int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
         wait.until(ExpectedConditions.elementToBeClickable(by));
+    }
+
+    public static void switchToFrame(WebDriver driver, By by) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT));
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
+    }
+
+    public static void switchToParentFrame(WebDriver driver) {
+        driver.switchTo().parentFrame();
+    }
+
+    public static void switchToDefaultContentFrame(WebDriver driver) {
+        driver.switchTo().defaultContent();
     }
 
     public static WebElement getWebElement(WebDriver driver, By by) {
@@ -50,10 +70,22 @@ public class WebUI {
     public static boolean checkExistsElement(WebDriver driver, By by) {
         List<WebElement> element = getWebElements(driver, by);
         if (element.size() > 0) {
-            System.out.println("Phần tử tồn tại: true" + by);
+            System.out.println("Phần tử tồn tại: true " + by);
             return true;
         } else {
-            System.out.println("Phần tử không tồn tại: false" + by);
+            System.out.println("Phần tử không tồn tại: false " + by);
+            return false;
+        }
+    }
+
+    public static boolean checkSeletedElement(WebDriver driver, By by) {
+        waitForElementPresent(driver, by);
+        WebElement element = getWebElement(driver, by);
+        if (element.isSelected()) {
+            System.out.println("Phần tử đã tích chọn: true " + by);
+            return true;
+        } else {
+            System.out.println("Phần tử không tích chọn: false " + by);
             return false;
         }
     }
@@ -63,7 +95,7 @@ public class WebUI {
         System.out.println("Open URL: " + url);
     }
 
-    public static void clearElementText(WebDriver driver, By by) {
+    public static void clearTextElement(WebDriver driver, By by) {
         waitForElementVisible(driver, by);
         getWebElement(driver, by).clear();
         System.out.println("Clear text on element:" + by);
