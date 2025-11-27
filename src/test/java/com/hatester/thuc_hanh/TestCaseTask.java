@@ -125,7 +125,7 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(500);
 
         //Assignees
-        driver.findElement(By.xpath(LocatorTaskPage.dropdownAssignees)).click();
+        driver.findElement(LocatorTaskPage.dropdownAssignees).click();
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchAssignees)).sendKeys(assignee);
         Thread.sleep(1000);
@@ -133,13 +133,13 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(500);
 
         //Followers
-        driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers)).click();
+        driver.findElement(LocatorTaskPage.dropdownFollowers).click();
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchFollowers)).sendKeys(follower);
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorTaskPage.getValueFollowers(follower))).click();
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorTaskPage.dropdownFollowers)).click();
+        driver.findElement(LocatorTaskPage.dropdownFollowers).click();
         Thread.sleep(500);
 
         //input
@@ -186,7 +186,7 @@ public class TestCaseTask extends BaseTest {
     public void clickButtonEdit(String taskName) throws InterruptedException {
         Thread.sleep(500);
         Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName)))).perform();
+        actions.moveToElement(driver.findElement(LocatorTaskPage.getFirstRowItemTaskName(taskName))).perform();
         Thread.sleep(500);
         driver.findElement(By.xpath(LocatorTaskPage.buttonEdit(taskName))).click();
         Thread.sleep(500);
@@ -352,7 +352,7 @@ public class TestCaseTask extends BaseTest {
 
     public void clickButtonDelete(String taskName) {
         Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(By.xpath(LocatorTaskPage.getFirstRowItemTaskName(taskName)))).perform();
+        action.moveToElement(driver.findElement(LocatorTaskPage.getFirstRowItemTaskName(taskName))).perform();
         driver.findElement(By.xpath(LocatorTaskPage.buttonDelete(taskName))).click();
     }
 

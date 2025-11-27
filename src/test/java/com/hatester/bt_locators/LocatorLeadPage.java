@@ -1,162 +1,166 @@
 package com.hatester.bt_locators;
 
+import org.openqa.selenium.By;
+
 public class LocatorLeadPage {
     //locator menu Lead
-    public static String menuLead = "//ul[@id='side-menu']//span[normalize-space()='Leads' and @class='menu-text']";
+    public static By menuLead = By.xpath("//ul[@id='side-menu']//span[normalize-space()='Leads' and @class='menu-text']");
 
     //Locator Lead Page
-    public static String buttonNewLead = "//a[normalize-space()='New Lead']";
-    public static String iconLeadsSummary = "//a[@data-title='Leads Summary']";
-    public static String iconSwitchToKanban = "//a[@data-title='Switch to Kanban']";
-    public static String iconFilter = "//div[@id='vueApp']/div[@data-title='Filter by']";
+    public static By buttonNewLead = By.xpath("//a[normalize-space()='New Lead']");
+    public static By iconLeadsSummary = By.xpath("//a[@data-title='Leads Summary']");
+    public static By iconSwitchToKanban = By.xpath("//a[@data-title='Switch to Kanban']");
+    public static By iconFilter = By.xpath("//div[@id='vueApp']/div[@data-title='Filter by']");
 
     //label lead overview
-    public static String headerLeadsSummary = "//h4[normalize-space()='Leads Summary']";
-    public static String labelActive = "//span[normalize-space()='Active']/preceding-sibling::span";
-    public static String lableCustomer = "//span[normalize-space()='Customer']/preceding-sibling::span";
+    public static By headerLeadsSummary = By.xpath("//h4[normalize-space()='Leads Summary']");
+    public static By labelActive = By.xpath("//span[normalize-space()='Active']/preceding-sibling::span");
+    public static By lableCustomer = By.xpath("//span[normalize-space()='Customer']/preceding-sibling::span");
 
     //button
-    public static String dropdownDatatableLeadsLength = "//div[@id='leads_length']//descendant::select";
-    public static String buttonExport = "//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Export']";
-    public static String buttonBulkActions = "//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Bulk Actions']";
-    public static String buttonReload = "//div[@id='leads_length']/following-sibling::div/button[@data-original-title='Reload']";
+    public static By dropdownDatatableLeadsLength = By.xpath("//div[@id='leads_length']//descendant::select");
+    public static By buttonExport = By.xpath("//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Export']");
+    public static By buttonBulkActions = By.xpath("//div[@id='leads_length']/following-sibling::div/button[normalize-space()='Bulk Actions']");
+    public static By buttonReload = By.xpath("//div[@id='leads_length']/following-sibling::div/button[@data-original-title='Reload']");
 
     //input search
-    public static String inputSearchLeads = "//div[@id='leads_filter']//input[@type='search']";
+    public static By inputSearchLeads = By.xpath("//div[@id='leads_filter']//input[@type='search']");
 
     //table
-    public static String checkboxCheckAll = "//table[@id='leads']/thead/descendant::input[@id='mass_select_all']";
-    public static String headerNumber = "//table[@id='leads']/thead/descendant::th[@id='th-number']";
-    public static String headerName = "//table[@id='leads']/thead/descendant::th[@id='th-name']";
-    public static String headerCompany = "//table[@id='leads']/thead/descendant::th[@id='th-company']";
-    public static String headerEmail = "//table[@id='leads']/thead/descendant::th[@id='th-email']";
-    public static String headerPhone = "//table[@id='leads']/thead/descendant::th[@id='th-phone']";
-    public static String headerValue = "//table[@id='leads']/thead/descendant::th[@id='th-lead-value']";
-    public static String headerTags = "//table[@id='leads']/thead/descendant::th[@id='th-tags']";
-    public static String headerAssigned = "//table[@id='leads']/thead/descendant::th[@id='th-assigned']";
-    public static String headerStatus = "//table[@id='leads']/thead/descendant::th[@id='th-status']";
-    public static String headerSource = "//table[@id='leads']/thead/descendant::th[@id='th-source']";
-    public static String headerLastContact = "//table[@id='leads']/thead/descendant::th[@id='th-last-contact']";
-    public static String headerCreated = "//table[@id='leads']/thead/descendant::th[@id='th-date-created']";
+    public static By checkboxCheckAll = By.xpath("//table[@id='leads']/thead/descendant::input[@id='mass_select_all']");
+    public static By headerNumber = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-number']");
+    public static By headerName = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-name']");
+    public static By headerCompany = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-company']");
+    public static By headerEmail = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-email']");
+    public static By headerPhone = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-phone']");
+    public static By headerValue = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-lead-value']");
+    public static By headerTags = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-tags']");
+    public static By headerAssigned = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-assigned']");
+    public static By headerStatus = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-status']");
+    public static By headerSource = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-source']");
+    public static By headerLastContact = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-last-contact']");
+    public static By headerCreated = By.xpath("//table[@id='leads']/thead/descendant::th[@id='th-date-created']");
 
 
-    public static String getFirstRowItemLeadName(String leadName) {
-        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']";
+    public static By getFirstRowItemLeadName(String leadName) {
+        By xpath = By.xpath("//table[@id='leads']//a[normalize-space()='" + leadName + "']");
         return xpath;
     }
 
-    public static String buttonView(String leadName) {
-        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='View']";
+    public static By buttonView(String leadName) {
+        By xpath = By.xpath("//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='View']");
         return xpath;
     }
 
-    public static String buttonEdit(String leadName) {
-        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Edit']";
+    public static By buttonEdit(String leadName) {
+        By xpath = By.xpath("//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Edit']");
         return xpath;
     }
 
-    public static String buttonDelete(String leadName) {
-        String xpath = "//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Delete']";
+    public static By buttonDelete(String leadName) {
+        By xpath = By.xpath("//table[@id='leads']//a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Delete']");
         return xpath;
     }
 
-    public static String labelLeadInfo = "//div[@id='leads_info']";
-    public static String buttonPrevious = "//div[@id='leads_paginate']/descendant::li[@id='leads_previous']";
+    public static By labelLeadInfo = By.xpath("//div[@id='leads_info']");
+    public static By buttonPrevious = By.xpath("//div[@id='leads_paginate']/descendant::li[@id='leads_previous']");
 
-    public static String buttonNumberOfPage(String number) {
-        String xpath = "//div[@id='leads_paginate']/descendant::a[normalize-space()='" + number + "']";
+    public static By buttonNumberOfPage(String number) {
+        By xpath = By.xpath("//div[@id='leads_paginate']/descendant::a[normalize-space()='" + number + "']");
         return xpath;
     }
 
-    public static String buttonNext = "//div[@id='leads_paginate']/descendant::li[@id='leads_next']";
+    public static By buttonNext = By.xpath("//div[@id='leads_paginate']/descendant::li[@id='leads_next']");
 
     //Locator Add New Lead
     //dropdown Status
-    public static String headerAddNewLead = "//h4[normalize-space()='Add new lead']";
+    public static By headerAddNewLead = By.xpath("//h4[normalize-space()='Add new lead']");
 
-    public static String iconClosePopupLeadDetail(String headerLeadDetail) {
-        String xpath = "//h4[contains(normalize-space(),'" + headerLeadDetail + "')]/preceding-sibling::button[@aria-label='Close']";
+    public static By iconClosePopupLeadDetail(String headerLeadDetail) {
+        By xpath = By.xpath("//h4[contains(normalize-space(),'" + headerLeadDetail + "')]/preceding-sibling::button[@aria-label='Close']");
         return xpath;
     }
 
-    public static String dropdownStatus = "//button[@data-id='status']";
-    public static String inputSearchStatus = "//button[@data-id='status']/following-sibling::div//input[@type='search']";
-    public static String iconAddStatus = "//label[@for='status']/following-sibling::div/div[@class='input-group-btn']";
+    public static By dropdownStatus = By.xpath("//button[@data-id='status']");
+    public static By inputSearchStatus = By.xpath("//button[@data-id='status']/following-sibling::div//input[@type='search']");
+    public static By iconAddStatus = By.xpath("//label[@for='status']/following-sibling::div/div[@class='input-group-btn']");
 
-    public static String getValueStatus(String status) {
-        String xpath = "//button[@data-id='status']/following-sibling::div//span[contains(normalize-space(),'" + status + "')]";
+    public static By getValueStatus(String status) {
+        By xpath = By.xpath("//button[@data-id='status']/following-sibling::div//span[contains(normalize-space(),'" + status + "')]");
         return xpath;
     }
 
     //dropdown Source
-    public static String dropdownSource = "//button[@data-id='source']";
-    public static String inputSearchSource = "//button[@data-id='source']/following-sibling::div//input[@type='search']";
-    public static String iconAddSource = "//label[@for='source']/following-sibling::div/div[@class='input-group-btn']";
+    public static By dropdownSource = By.xpath("//button[@data-id='source']");
+    public static By inputSearchSource = By.xpath("//button[@data-id='source']/following-sibling::div//input[@type='search']");
+    public static By iconAddSource = By.xpath("//label[@for='source']/following-sibling::div/div[@class='input-group-btn']");
 
-    public static String getValueSource(String source) {
-        String xpath = "//button[@data-id='source']/following-sibling::div//span[contains(normalize-space(),'" + source + "')]";
+    public static By getValueSource(String source) {
+        By xpath = By.xpath("//button[@data-id='source']/following-sibling::div//span[contains(normalize-space(),'" + source + "')]");
         return xpath;
     }
 
     //dropdown Assigned
-    public static String dropdownAssigned = "//button[@data-id='assigned']";
-    public static String inputSearchAssigned = "//button[@data-id='assigned']/following-sibling::div//input[@type='search']";
+    public static By dropdownAssigned = By.xpath("//button[@data-id='assigned']");
+    public static By inputSearchAssigned = By.xpath("//button[@data-id='assigned']/following-sibling::div//input[@type='search']");
 
-    public static String getValueAssigned(String assigned) {
-        String xpath = "//button[@data-id='assigned']/following-sibling::div//span[contains(normalize-space(),'" + assigned + "')]";
+    public static By getValueAssigned(String assigned) {
+        By xpath = By.xpath("//button[@data-id='assigned']/following-sibling::div//span[contains(normalize-space(),'" + assigned + "')]");
         return xpath;
     }
 
     //input
-    public static String labelTags = "//label[normalize-space()='Tags']";
-    public static String inputTags = "//label[@for='tags']/following-sibling::ul//input[@placeholder='Tag']";
-    public static String inputTagsEdit = "//input[@id='tags']";
-    public static String iconCloseTag = "//a[@class='tagit-close' and normalize-space()='×']";
+    public static By labelTags = By.xpath("//label[normalize-space()='Tags']");
+    public static By inputTags = By.xpath("//label[@for='tags']/following-sibling::ul//input[@placeholder='Tag']");
+    public static By inputTagsEdit = By.xpath("//input[@id='tags']");
+    public static By iconCloseTag = By.xpath("//a[@class='tagit-close' and normalize-space()='×']");
 
-    public static String inputName = "//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']";
-    public static String inputAddress = "//textarea[@id='address']";
-    public static String inputPosition = "//input[@id='title']";
-    public static String inputCity = "//input[@id='city']";
-    public static String inputEmailAddress = "//input[@id='email']";
-    public static String inputState = "//input[@id='state']";
-    public static String inputWebsite = "//input[@id='website']";
+    public static By inputName = By.xpath("//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']");
+    public static By inputAddress = By.xpath("//textarea[@id='address']");
+    public static By inputPosition = By.xpath("//input[@id='title']");
+    public static By inputCity = By.xpath("//input[@id='city']");
+    public static By inputEmailAddress = By.xpath("//input[@id='email']");
+    public static By inputState = By.xpath("//input[@id='state']");
+    public static By inputWebsite = By.xpath("//input[@id='website']");
 
     //dropdown Country
-    public static String dropdownCountry = "//button[@data-id='country']";
-    public static String inputSearchCountry = "//button[@data-id='country']/following-sibling::div//input[@type='search']";
+    public static By dropdownCountry = By.xpath("//button[@data-id='country']");
+    public static By inputSearchCountry = By.xpath("//button[@data-id='country']/following-sibling::div//input[@type='search']");
 
-    public static String getValueCountry(String country) {
-        String xpath = "//button[@data-id='country']/following-sibling::div//span[contains(normalize-space(),'" + country + "')]";
+    public static By getValueCountry(String country) {
+        By xpath = By.xpath("//button[@data-id='country']/following-sibling::div//span[contains(normalize-space(),'" + country + "')]");
         return xpath;
     }
 
     //input
-    public static String labelPhone = "//input[@id='phonenumber']/preceding-sibling::label[@for='phonenumber']";
-    public static String inputPhone = "//input[@id='phonenumber']";
-    public static String inputZipcode = "//input[@id='zip']";
-    public static String inputLeadValue = "//input[@name='lead_value']";
+    public static By labelPhone = By.xpath("//input[@id='phonenumber']/preceding-sibling::label[@for='phonenumber']");
+    public static By inputPhone = By.xpath("//input[@id='phonenumber']");
+    public static By inputZipcode = By.xpath("//input[@id='zip']");
+    public static By inputLeadValue = By.xpath("//input[@name='lead_value']");
 
     //dropdown Default Language
-    public static String dropdownDefaultLanguage = "//button[@data-id='default_language']";
-    public static String inputSearchDefaultLanguage = "//button[@data-id='default_language']/following-sibling::div//input[@type='search']";
+    public static By dropdownDefaultLanguage = By.xpath("//button[@data-id='default_language']");
+    public static By inputSearchDefaultLanguage = By.xpath("//button[@data-id='default_language']/following-sibling::div//input[@type='search']");
 
-    public static String getValueDefaultLanguage(String language) {
-        String xpath = "//button[@data-id='default_language']/following-sibling::div//span[contains(normalize-space(),'" + language + "')]";
+    public static By getValueDefaultLanguage(String language) {
+        By xpath = By.xpath("//button[@data-id='default_language']/following-sibling::div//span[contains(normalize-space(),'" + language + "')]");
         return xpath;
     }
 
     //input
-    public static String inputCompany = "//input[@id='company']";
-    public static String inputDescription = "//textarea[@id='description']";
-    public static String inputDateContacted = "//input[@id='custom_contact_date']";
-    public static String inputLastContact = "//input[@id='lastcontact']";
-    public static String iconDateContactedCalendar = "//input[@id='custom_contact_date']/following-sibling::div";
+    public static By inputCompany = By.xpath("//input[@id='company']");
+    public static By inputDescription = By.xpath("//textarea[@id='description']");
+    public static By inputDateContacted = By.xpath("//input[@id='custom_contact_date']");
+    public static By inputLastContact = By.xpath("//input[@id='lastcontact']");
+    public static By iconDateContactedCalendar = By.xpath("//input[@id='custom_contact_date']/following-sibling::div");
 
     //checkbox
-    public static String checkboxPublic = "//input[@id='lead_public']";
-    public static String checkboxContactedToday = "//input[@id='contacted_today']";
+    public static By checkboxPublic = By.xpath("//input[@id='lead_public']");
+    public static By labelCheckboxPublic = By.xpath("//label[@for='lead_public']");
+    public static By checkboxContactedToday = By.xpath("//input[@id='contacted_today']");
+    public static By labelCheckboxContactedToday = By.xpath("//label[normalize-space()='Contacted Today']");
 
     //button
-    public static String buttonClose = "//div[@class='lead-edit']/button[normalize-space()='Close']";
-    public static String buttonSave = "//button[normalize-space()='Save' and @id='lead-form-submit']";
+    public static By buttonClose = By.xpath("//div[@class='lead-edit']/button[normalize-space()='Close']");
+    public static By buttonSave = By.xpath("//button[normalize-space()='Save' and @id='lead-form-submit']");
 }

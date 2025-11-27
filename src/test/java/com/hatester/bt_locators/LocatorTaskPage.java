@@ -1,5 +1,7 @@
 package com.hatester.bt_locators;
 
+import org.openqa.selenium.By;
+
 public class LocatorTaskPage {
     //Locator menu Tasks
     public static String menuTasks = "//ul[@id='side-menu']//span[normalize-space()='Tasks' and @class='menu-text']";
@@ -9,7 +11,7 @@ public class LocatorTaskPage {
     public static String buttonTasksOverview = "//a[normalize-space()='Tasks Overview']";
     public static String iconFilter = "//div[@id='vueApp']/div[@data-title='Filter by']";
     public static String iconSwitchToKanban = "//a[normalize-space()='New Task']/following-sibling::a[@data-title='Switch to Kanban']";
-    public static String headerTasksSummary = "//span[normalize-space()='Tasks Summary']";
+    public static By headerTasksSummary = By.xpath("//span[normalize-space()='Tasks Summary']");
 
     //label status of task
     public static String labelNotStarted = "//span[normalize-space()='Not Started']/preceding-sibling::span";
@@ -38,8 +40,8 @@ public class LocatorTaskPage {
     public static String headerTags = "//table[@id='tasks']/thead//th[normalize-space()='Tags']";
     public static String headerPriority = "//table[@id='tasks']/thead//th[normalize-space()='Priority']";
 
-    public static String getFirstRowItemTaskName(String taskName) {
-        String xpath = "//table[@id='tasks']/descendant::a[normalize-space()='" + taskName + "']";
+    public static By getFirstRowItemTaskName(String taskName) {
+        By xpath = By.xpath("//table[@id='tasks']/descendant::a[normalize-space()='" + taskName + "']");
         return xpath;
     }
 
@@ -71,7 +73,7 @@ public class LocatorTaskPage {
     public static String dropdownNumberOfPage = "//div[@id='colvis']/following-sibling::div/select[@id='dt-page-jump-tasks']";
 
     //Locator Add New Task
-    public static String headerAddNewTask = "//h4[@id='myModalLabel']";
+    public static By headerAddNewTask = By.xpath("//h4[@id='myModalLabel']") ;
     //checkbox
     public static String checkboxPublic = "//input[@id='task_is_public']";
     public static String checkboxBillable = "//input[@id='task_is_billable']";
@@ -139,7 +141,7 @@ public class LocatorTaskPage {
     }
 
     //dropdown Assignees
-    public static String dropdownAssignees = "//button[@data-id='assignees']";
+    public static By dropdownAssignees = By.xpath("//button[@data-id='assignees']");
     public static String inputSearchAssignees = "//button[@data-id='assignees']/following-sibling::div//input[@type='search']";
 
     public static String getValueAssignees(String assignee) {
@@ -148,7 +150,7 @@ public class LocatorTaskPage {
     }
 
     //dropdown Followers
-    public static String dropdownFollowers = "//button[contains(@data-id,'followers')]";
+    public static By dropdownFollowers = By.xpath("//button[contains(@data-id,'followers')]");
     public static String inputSearchFollowers = "//button[contains(@data-id,'followers')]/following-sibling::div/descendant::input[@type='search']";
 
     public static String getValueFollowers(String follower) {

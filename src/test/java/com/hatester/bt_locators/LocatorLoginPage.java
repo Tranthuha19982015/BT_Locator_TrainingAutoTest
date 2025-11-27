@@ -1,8 +1,10 @@
 package com.hatester.bt_locators;
 
+import org.openqa.selenium.By;
+
 public class LocatorLoginPage {
 
-    public static String url="https://crm.anhtester.com/admin/authentication";
+    public static String url = "https://crm.anhtester.com/admin/authentication";
     //Locator Login Page
     public static String headerLoginPage = "//h1[normalize-space()='Login']";
     public static String inputEmail = "//input[@id='email']";
@@ -15,5 +17,7 @@ public class LocatorLoginPage {
     public static String errorMessagePasswordIsNull = "//div[text()='The Password field is required.' and contains(@class,'alert-danger')]";
 
     //locator Menu Dashboard
-    public static String menuDashboard = "//ul[@id='side-menu']//span[normalize-space()='Dashboard' and @class='menu-text']";
+    public static By menuDashboard = By.xpath("//ul[@id='side-menu']//span[normalize-space()='Dashboard' and @class='menu-text']");
+
+
 }
