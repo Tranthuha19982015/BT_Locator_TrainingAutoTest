@@ -1,6 +1,7 @@
 package common;
 
 import com.hatester.bt_locators.LocatorLoginPage;
+import com.hatester.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,17 +18,6 @@ public class BaseTest {
     public WebDriver driver;
     public SoftAssert softAssert;
 
-    public boolean checkExistsElement(String xpathElement) {
-        List<WebElement> element = driver.findElements(By.xpath(xpathElement));
-        if (element.size() > 0) {
-            System.out.println("Phần tử tồn tại: true" + xpathElement);
-            return true;
-        } else {
-            System.out.println("Phần tử không tồn tại: false" + xpathElement);
-            return false;
-        }
-    }
-
     public void loginCRM() throws InterruptedException {
         driver.get(LocatorLoginPage.url);
         Thread.sleep(500);
@@ -41,7 +31,7 @@ public class BaseTest {
         driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
         Thread.sleep(1000);
 
-        Assert.assertTrue(checkExistsElement(LocatorLoginPage.menuDashboard),"Đăng nhập không thành công!");
+        Assert.assertTrue(WebUI.checkExistsElement(driver,LocatorLoginPage.menuDashboard),"Đăng nhập không thành công!");
     }
 
     @BeforeMethod

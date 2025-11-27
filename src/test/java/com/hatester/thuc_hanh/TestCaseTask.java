@@ -2,6 +2,7 @@ package com.hatester.thuc_hanh;
 
 import com.hatester.bt_locators.LocatorLeadPage;
 import com.hatester.bt_locators.LocatorTaskPage;
+import com.hatester.keywords.WebUI;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,14 +40,14 @@ public class TestCaseTask extends BaseTest {
         driver.findElement(By.xpath(LocatorTaskPage.menuTasks)).click();
         Thread.sleep(2000);
 
-        Assert.assertTrue(checkExistsElement(LocatorTaskPage.headerTasksSummary), "Không mở được Menu Task");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorTaskPage.headerTasksSummary), "Không mở được Menu Task");
     }
 
     public void clickButtonNewTask() throws InterruptedException {
         driver.findElement(By.xpath(LocatorTaskPage.buttonNewTask)).click();
         Thread.sleep(1000);
 
-        Assert.assertTrue(checkExistsElement(LocatorTaskPage.headerAddNewTask), "Không mở được pop-up Add Task");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorTaskPage.headerAddNewTask), "Không mở được pop-up Add Task");
     }
 
     public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
@@ -179,7 +180,7 @@ public class TestCaseTask extends BaseTest {
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
 
-        Assert.assertTrue(checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Không đúng giá trị vừa thêm mới");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Không đúng giá trị vừa thêm mới");
     }
 
     public void clickButtonEdit(String taskName) throws InterruptedException {
@@ -230,8 +231,8 @@ public class TestCaseTask extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
         boolean containsTypeRelatedTo = (driver.findElement(By.xpath(LocatorTaskPage.dropdownTypeRelatedTo)).getText()).contains(typeRelatedTo);
         Assert.assertTrue(containsTypeRelatedTo, "Không đúng giá trị đã thêm mới");
-        Assert.assertFalse(checkExistsElement(LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
-        Assert.assertFalse(checkExistsElement(LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
+        Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
+        Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(driver.findElement(By.xpath(LocatorTaskPage.inputTagsEdit)).getAttribute("value").trim().toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
         driver.switchTo().frame(driver.findElement(By.xpath(LocatorTaskPage.iframeDescription)));
@@ -369,7 +370,7 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(2000);
         driver.findElement(By.xpath(LocatorTaskPage.inputSearchTasks)).sendKeys(taskName);
         Thread.sleep(1000);
-        Assert.assertFalse(checkExistsElement(LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
+        Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
         Thread.sleep(1000);
     }
 

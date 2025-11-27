@@ -1,6 +1,7 @@
 package com.hatester.thuc_hanh;
 
 import com.hatester.bt_locators.LocatorLeadPage;
+import com.hatester.keywords.WebUI;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,24 +14,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TestCaseLead extends BaseTest {
-    String leadName = "";
-    String status = "";
-    String source = "";
-    String assigned = "";
-    String tag = "";
-    String position = "";
-    String city = "";
-    String emailAddress = "";
-    String state = "";
-    String website = "";
-    String country = "";
-    String phone = "";
-    String zipCode = "";
-    String leadValue = "";
-    String language = "";
-    String company = "";
-    String description = "";
-    String lastContacted = "";
+    String leadName;
+    String status;
+    String source;
+    String assigned;
+    String tag;
+    String position;
+    String city;
+    String emailAddress;
+    String state;
+    String website;
+    String country;
+    String phone;
+    String zipCode;
+    String leadValue;
+    String language;
+    String company;
+    String description;
+    String lastContacted;
     int flag;
     int flagEdit;
 
@@ -41,14 +42,14 @@ public class TestCaseLead extends BaseTest {
         driver.findElement(By.xpath(LocatorLeadPage.iconLeadsSummary)).click();
         Thread.sleep(2000);
 
-        Assert.assertTrue(checkExistsElement(LocatorLeadPage.headerLeadsSummary), "Chưa chuyển hướng tới menu Lead");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.headerLeadsSummary), "Chưa chuyển hướng tới menu Lead");
     }
 
     public void clickButtonNewLead() throws InterruptedException {
         driver.findElement(By.xpath(LocatorLeadPage.buttonNewLead)).click();
         Thread.sleep(1000);
 
-        Assert.assertTrue(checkExistsElement(LocatorLeadPage.headerAddNewLead), "Mở popup Add New Lead không thành công");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.headerAddNewLead), "Mở popup Add New Lead không thành công");
     }
 
     public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
@@ -190,7 +191,7 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
-        Assert.assertTrue(checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         Thread.sleep(2000);
     }
 
@@ -243,7 +244,7 @@ public class TestCaseLead extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
         boolean containsLastContact = driver.findElement(By.xpath(LocatorLeadPage.inputLastContact)).getAttribute("value").contains(dateContacted);
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
-        Assert.assertFalse(checkExistsElement(LocatorLeadPage.checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
+        Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorLeadPage.checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
         Assert.assertTrue(driver.findElement(By.xpath(LocatorLeadPage.checkboxPublic)).isSelected(), "Không tích chọn checkbox");
         Thread.sleep(1000);
     }
@@ -263,7 +264,7 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(2000);
         driver.findElement(By.xpath(LocatorLeadPage.inputSearchLeads)).sendKeys(name);
         Thread.sleep(1000);
-        Assert.assertFalse(checkExistsElement(LocatorLeadPage.getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
+        Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorLeadPage.getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
         Thread.sleep(1000);
     }
 
