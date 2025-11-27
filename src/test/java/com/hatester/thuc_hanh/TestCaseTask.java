@@ -63,11 +63,13 @@ public class TestCaseTask extends BaseTest {
         //input
         WebUI.setTextElement(driver, LocatorTaskPage.inputSubject, subject);
         WebUI.clearTextElement(driver, LocatorTaskPage.inputHourlyRate);
-        WebUI.setTextElement(driver, LocatorTaskPage.inputHourlyRate, subject);
+        WebUI.setTextElement(driver, LocatorTaskPage.inputHourlyRate, hourlyRate);
         WebUI.clearTextElement(driver, LocatorTaskPage.inputStartDate);
         WebUI.setTextElement(driver, LocatorTaskPage.inputStartDate, startDate);
+        WebUI.clickElement(driver, LocatorTaskPage.headerAddNewTask);
         WebUI.clearTextElement(driver, LocatorTaskPage.inputDueDate);
-        WebUI.setTextElement(driver, LocatorTaskPage.inputDueDate, startDate);
+        WebUI.setTextElement(driver, LocatorTaskPage.inputDueDate, dueDate);
+        WebUI.clickElement(driver, LocatorTaskPage.headerAddNewTask);
 
         //Priority
         WebUI.clickElement(driver, LocatorTaskPage.dropdownPriority);
@@ -91,16 +93,15 @@ public class TestCaseTask extends BaseTest {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
 
+        WebUI.scrollAtBottom(driver, LocatorTaskPage.buttonSave);
         //Related To
         WebUI.clickElement(driver, LocatorTaskPage.dropdownRelatedTo);
         WebUI.clickElement(driver, LocatorTaskPage.getValueRelatedTo(relatedTo));
         WebUI.clickElement(driver, LocatorTaskPage.dropdownTypeRelatedTo);
         WebUI.setTextElement(driver, LocatorTaskPage.inputSearchTypeRelatedTo, typeRelatedTo);
-        Thread.sleep(500);
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
         Thread.sleep(1000);
+        Actions actions = new Actions(driver);
+        actions.click(WebUI.getWebElement(driver, LocatorTaskPage.inputSearchTypeRelatedTo)).sendKeys(" ").build().perform();
         WebUI.clickElement(driver, LocatorTaskPage.getValueTypeRelatedTo(typeRelatedTo));
 
         //Assignees
@@ -197,7 +198,7 @@ public class TestCaseTask extends BaseTest {
         Assert.assertTrue(containsTypeRelatedTo, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.dropdownAssignees), "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.dropdownFollowers), "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorTaskPage.inputTagsEdit, "value").trim().toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getElementText(driver, LocatorTaskPage.inputTagsEdit).trim().toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
         WebUI.switchToFrame(driver, LocatorTaskPage.iframeDescription);
         Assert.assertEquals(WebUI.getElementText(driver, LocatorTaskPage.inputDescriptionFrame).trim().toLowerCase(), description,
@@ -283,6 +284,7 @@ public class TestCaseTask extends BaseTest {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
 
+        WebUI.scrollAtBottom(driver,LocatorTaskPage.buttonSave);
         //Related To
         actions.click(WebUI.getWebElement(driver, LocatorTaskPage.dropdownRelatedTo)).perform();
         Thread.sleep(1000);
@@ -291,7 +293,7 @@ public class TestCaseTask extends BaseTest {
         actions.click(WebUI.getWebElement(driver, LocatorTaskPage.dropdownTypeRelatedTo)).perform();
         Thread.sleep(500);
         actions.sendKeys(WebUI.getWebElement(driver, LocatorTaskPage.inputSearchTypeRelatedTo), typeRelatedTo).perform();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         actions.moveToElement(WebUI.getWebElement(driver, LocatorTaskPage.getValueTypeRelatedTo(typeRelatedTo))).click().build().perform();
         Thread.sleep(500);
 
@@ -305,7 +307,7 @@ public class TestCaseTask extends BaseTest {
 
         //iframe
         actions.click(WebUI.getWebElement(driver, LocatorTaskPage.inputDescription));
-        WebUI.switchToFrame(driver,LocatorTaskPage.iframeDescription);
+        WebUI.switchToFrame(driver, LocatorTaskPage.iframeDescription);
         Thread.sleep(500);
         actions.sendKeys(WebUI.getWebElement(driver, LocatorTaskPage.inputDescriptionFrame), description);
         Thread.sleep(500);
@@ -315,8 +317,8 @@ public class TestCaseTask extends BaseTest {
 
     public void clickButtonDelete(String taskName) {
         Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(driver,LocatorTaskPage.getFirstRowItemTaskName(taskName))).perform();
-        WebUI.clickElement(driver,LocatorTaskPage.buttonDelete(taskName));
+        action.moveToElement(WebUI.getWebElement(driver, LocatorTaskPage.getFirstRowItemTaskName(taskName))).perform();
+        WebUI.clickElement(driver, LocatorTaskPage.buttonDelete(taskName));
     }
 
     public void confirmAcceptAlertDelete() throws InterruptedException {
@@ -331,7 +333,7 @@ public class TestCaseTask extends BaseTest {
 
     public void verifyAfterDeleteLead(String taskName) throws InterruptedException {
         Thread.sleep(1000);
-        WebUI.setTextElement(driver,LocatorTaskPage.inputSearchTasks,taskName);
+        WebUI.setTextElement(driver, LocatorTaskPage.inputSearchTasks, taskName);
         Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorTaskPage.getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
         Thread.sleep(1000);
     }
@@ -340,7 +342,7 @@ public class TestCaseTask extends BaseTest {
     public void testAddNewTask() throws InterruptedException, AWTException {
         TestCaseTask taskAdd = new TestCaseTask();
         taskAdd.taskName = "A[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        taskAdd.hourlyRate = "8";
+        taskAdd.hourlyRate = "8.00";
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         // Ngày bắt đầu (hôm nay)

@@ -138,7 +138,7 @@ public class LocatorTaskPage {
     public static By inputSearchTypeRelatedTo = By.xpath("//button[@data-id='rel_id']/following-sibling::div/descendant::input[@type='search']");
 
     public static By getValueTypeRelatedTo(String valueTypeRelatedTo) {
-        By xpath = By.xpath("//button[@data-id='rel_id']/following-sibling::div/descendant::span[contains(normalize-space(),'" + valueTypeRelatedTo + "')]");
+        By xpath = By.xpath("//button[@data-id='rel_id']/following-sibling::div/descendant::a[contains(normalize-space(),'" + valueTypeRelatedTo + "')]");
         return xpath;
     }
 
@@ -163,7 +163,7 @@ public class LocatorTaskPage {
     //input
     public static By labelTags = By.xpath("//label[normalize-space()='Tags']");
     public static By inputTags = By.xpath("//div[@id='inputTagsWrapper']/descendant::input[@placeholder='Tag']");
-    public static By inputTagsEdit = By.xpath("//input[@id='tags']");
+    public static By inputTagsEdit = By.xpath("(//input[@id='tags']/following-sibling::ul)/descendant::span[@class='tagit-label']");
     public static By iconCloseTag = By.xpath("//input[@id='tags']/following-sibling::ul/descendant::span[normalize-space()='×']");
 
     public static By inputDescription = By.xpath("//textarea[@id='description']");
