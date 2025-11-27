@@ -112,7 +112,7 @@ public class LocatorLeadPage {
     //input
     public static By labelTags = By.xpath("//label[normalize-space()='Tags']");
     public static By inputTags = By.xpath("//label[@for='tags']/following-sibling::ul//input[@placeholder='Tag']");
-    public static By inputTagsEdit = By.xpath("//input[@id='tags']");
+    public static By inputTagsEdit = By.xpath("(//input[@id='tags']/following-sibling::ul)/descendant::span[@class='tagit-label']");
     public static By iconCloseTag = By.xpath("//a[@class='tagit-close' and normalize-space()='×']");
 
     public static By inputName = By.xpath("//div[@id='inputTagsWrapper']/following::div[@app-field-wrapper='name']/input[@id='name']");

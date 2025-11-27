@@ -177,7 +177,7 @@ public class TestCaseLead extends BaseTest {
                 "Không đúng giá trị đã thêm mới");
         boolean containsAssigned = WebUI.getElementText(driver,LocatorLeadPage.dropdownAssigned).contains(assigned);
         Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputTagsEdit,"value").toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getElementText(driver,LocatorLeadPage.inputTagsEdit).toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputName,"value"), name,
                 "Không đúng giá trị đã thêm mới");
