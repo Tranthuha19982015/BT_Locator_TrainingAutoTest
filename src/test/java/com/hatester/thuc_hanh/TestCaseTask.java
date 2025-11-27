@@ -166,7 +166,7 @@ public class TestCaseTask extends BaseTest {
 
     public void clickClosePopupTaskDetail(String taskName) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))));
+        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))));
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorTaskPage.iconClosePopupTaskDetail(taskName))).click();
         Thread.sleep(1000);

@@ -179,7 +179,7 @@ public class TestCaseLead extends BaseTest {
 
     public void clickIconClosePopupLeadDetail(String name) throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))));
+        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))));
         Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorLeadPage.iconClosePopupLeadDetail(name))).click();
         Thread.sleep(1000);
