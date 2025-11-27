@@ -34,10 +34,7 @@ public class TestCaseLead extends BaseTest {
     int flagEdit;
 
     public void clickMenuLead() throws InterruptedException {
-//        driver.findElement(By.xpath(LocatorLeadPage.menuLead)).click();
         WebUI.clickElement(driver, LocatorLeadPage.menuLead);
-        Thread.sleep(2000);
-
         WebUI.clickElement(driver, LocatorLeadPage.iconLeadsSummary);
         Thread.sleep(2000);
 
@@ -73,19 +70,19 @@ public class TestCaseLead extends BaseTest {
         //input
         if (flagEdit == 1) {
             WebUI.clickElement(driver, LocatorLeadPage.iconCloseTag);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputName);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputName);
 //            WebUI.clearElementText(driver,LocatorLeadPage.inputAddress);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputPosition);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputCity);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputEmailAddress);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputState);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputWebsite);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputPhone);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputZipcode);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputLeadValue);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputCompany);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputDescription);
-            WebUI.clearElementText(driver, LocatorLeadPage.inputLastContact);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputPosition);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputCity);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputEmailAddress);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputState);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputWebsite);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputPhone);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputZipcode);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputLeadValue);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputCompany);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputDescription);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputLastContact);
 
             WebUI.clickElement(driver, LocatorLeadPage.labelPhone);
             WebUI.clickElement(driver, LocatorLeadPage.labelPhone);
@@ -134,7 +131,7 @@ public class TestCaseLead extends BaseTest {
             WebUI.clickElement(driver, LocatorLeadPage.labelCheckboxContactedToday);
             WebUI.setTextElement(driver, LocatorLeadPage.inputDateContacted, dateContacted);
         } else {
-            WebUI.clearElementText(driver, LocatorLeadPage.inputLastContact);
+            WebUI.clearTextElement(driver, LocatorLeadPage.inputLastContact);
             WebUI.setTextElement(driver, LocatorLeadPage.inputLastContact, dateContacted);
         }
     }
@@ -162,7 +159,7 @@ public class TestCaseLead extends BaseTest {
 
     public void clickButtonEdit(String leadName) throws InterruptedException {
         Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(LocatorLeadPage.getFirstRowItemLeadName(leadName))).perform();
+        action.moveToElement(WebUI.getWebElement(driver, LocatorLeadPage.getFirstRowItemLeadName(leadName))).perform();
         WebUI.clickElement(driver, LocatorLeadPage.buttonEdit(leadName));
     }
 
@@ -173,51 +170,51 @@ public class TestCaseLead extends BaseTest {
         Thread.sleep(1000);
         boolean containsStatus = WebUI.getElementText(driver, LocatorLeadPage.dropdownStatus).contains(status);
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver,LocatorLeadPage.dropdownSource), source,
+        Assert.assertEquals(WebUI.getElementText(driver, LocatorLeadPage.dropdownSource), source,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsAssigned = WebUI.getElementText(driver,LocatorLeadPage.dropdownAssigned).contains(assigned);
+        boolean containsAssigned = WebUI.getElementText(driver, LocatorLeadPage.dropdownAssigned).contains(assigned);
         Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver,LocatorLeadPage.inputTagsEdit).toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getElementText(driver, LocatorLeadPage.inputTagsEdit).toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputName,"value"), name,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputName, "value"), name,
                 "Không đúng giá trị đã thêm mới");
 //        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputAddress,"value"), address,
 //        "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputPosition,"value"), position,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputPosition, "value"), position,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputCity,"value"), city,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputCity, "value"), city,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputEmailAddress,"value"), emailAddress,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputEmailAddress, "value"), emailAddress,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputState,"value"), state,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputState, "value"), state,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputWebsite,"value"), website,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputWebsite, "value"), website,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver,LocatorLeadPage.dropdownCountry), country,
+        Assert.assertEquals(WebUI.getElementText(driver, LocatorLeadPage.dropdownCountry), country,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputPhone,"value"), phone,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputPhone, "value"), phone,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputZipcode,"value"), zipCode,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputZipcode, "value"), zipCode,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputLeadValue,"value"), leadValue,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputLeadValue, "value"), leadValue,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver,LocatorLeadPage.dropdownDefaultLanguage), language,
+        Assert.assertEquals(WebUI.getElementText(driver, LocatorLeadPage.dropdownDefaultLanguage), language,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputCompany,"value"), company,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputCompany, "value"), company,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorLeadPage.inputDescription,"value"), description,
+        Assert.assertEquals(WebUI.getElementAttribute(driver, LocatorLeadPage.inputDescription, "value"), description,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsLastContact = WebUI.getElementAttribute(driver,LocatorLeadPage.inputLastContact,"value").contains(dateContacted);
+        boolean containsLastContact = WebUI.getElementAttribute(driver, LocatorLeadPage.inputLastContact, "value").contains(dateContacted);
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorLeadPage.checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
-        Assert.assertTrue(driver.findElement(LocatorLeadPage.checkboxPublic).isSelected(), "Không tích chọn checkbox");
+        Assert.assertTrue(WebUI.checkSeletedElement(driver, LocatorLeadPage.checkboxPublic), "Không tích chọn checkbox");
         Thread.sleep(1000);
     }
 
     public void clickButtonDelete(String leadName) {
         Actions action = new Actions(driver);
-        action.moveToElement(driver.findElement(LocatorLeadPage.getFirstRowItemLeadName(leadName))).perform();
-        WebUI.clickElement(driver,LocatorLeadPage.buttonDelete(leadName));
+        action.moveToElement(WebUI.getWebElement(driver, LocatorLeadPage.getFirstRowItemLeadName(leadName))).perform();
+        WebUI.clickElement(driver, LocatorLeadPage.buttonDelete(leadName));
     }
 
     public void confirmAlertDelete() throws InterruptedException {
@@ -227,7 +224,7 @@ public class TestCaseLead extends BaseTest {
 
     public void verifyAfterDeleteLead(String name) throws InterruptedException {
         Thread.sleep(1000);
-        WebUI.setTextElement(driver,LocatorLeadPage.inputSearchLeads,name);
+        WebUI.setTextElement(driver, LocatorLeadPage.inputSearchLeads, name);
         Assert.assertFalse(WebUI.checkExistsElement(driver, LocatorLeadPage.getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
         Thread.sleep(1000);
     }
