@@ -134,9 +134,13 @@ public class TestCaseLead extends BaseTest {
         if (flagEdit == 0) {
             WebUI.clickElement(driver, LocatorLeadPage.labelCheckboxContactedToday);
             WebUI.setTextElement(driver, LocatorLeadPage.inputDateContacted, dateContacted);
+            WebUI.clickElement(driver,LocatorLeadPage.labelPhone);
+            WebUI.clickElement(driver,LocatorLeadPage.labelPhone);
         } else {
             WebUI.clearTextElement(driver, LocatorLeadPage.inputLastContact);
             WebUI.setTextElement(driver, LocatorLeadPage.inputLastContact, dateContacted);
+            WebUI.clickElement(driver,LocatorLeadPage.labelPhone);
+            WebUI.clickElement(driver,LocatorLeadPage.labelPhone);
         }
     }
 
