@@ -31,6 +31,11 @@ public class WebUI {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
+    public static void waitForElementNotVisible(WebDriver driver, By by) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
+
     public static void waitForElementPresent(WebDriver driver, By by) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
         wait.until(ExpectedConditions.presenceOfElementLocated(by));
