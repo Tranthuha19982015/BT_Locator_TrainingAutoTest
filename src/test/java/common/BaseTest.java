@@ -20,18 +20,17 @@ public class BaseTest {
 
     public void loginCRM() throws InterruptedException {
         driver.get(LocatorLoginPage.url);
-        Thread.sleep(500);
 
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputEmail)).sendKeys("admin@example.com");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).clear();
-        driver.findElement(By.xpath(LocatorLoginPage.inputPassword)).sendKeys("123456");
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorLoginPage.buttonLogin)).click();
+        WebUI.clearTextElement(driver, LocatorLoginPage.inputEmail);
+        WebUI.setTextElement(driver, LocatorLoginPage.inputEmail, "admin@example.com");
+
+        WebUI.clearTextElement(driver, LocatorLoginPage.inputPassword);
+        WebUI.setTextElement(driver, LocatorLoginPage.inputPassword, "123456");
+
+        WebUI.clickElement(driver,LocatorLoginPage.buttonLogin);
         Thread.sleep(1000);
 
-        Assert.assertTrue(WebUI.checkExistsElement(driver,LocatorLoginPage.menuDashboard),"Đăng nhập không thành công!");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLoginPage.menuDashboard), "Login failed!");
     }
 
     @BeforeMethod
@@ -41,7 +40,7 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         softAssert = new SoftAssert();
-        loginCRM();
+//        loginCRM();
     }
 
     @AfterMethod
