@@ -35,17 +35,21 @@ public class TestCaseLead extends BaseTest {
 
     public void clickMenuLead() throws InterruptedException {
         WebUI.clickElement(driver, LocatorLeadPage.menuLead);
+        String actualCurrentUrl = WebUI.getCurrentURL(driver);
+        String expectedUrl = "https://crm.anhtester.com/admin/leads";
+
         WebUI.clickElement(driver, LocatorLeadPage.iconLeadsSummary);
         Thread.sleep(2000);
 
-        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.headerLeadsSummary), "Chưa chuyển hướng tới menu Lead");
+        Assert.assertTrue((WebUI.checkExistsElement(driver, LocatorLeadPage.headerLeadsSummary) && actualCurrentUrl.equals(expectedUrl)),
+                "Failed to navigate to the Lead menu");
     }
 
     public void clickButtonNewLead() throws InterruptedException {
         WebUI.clickElement(driver, LocatorLeadPage.buttonNewLead);
         Thread.sleep(1000);
 
-        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.headerAddNewLead), "Mở popup Add New Lead không thành công");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.headerAddNewLead), "Failed to open the “Add New Lead” popup");
     }
 
     public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
@@ -138,10 +142,27 @@ public class TestCaseLead extends BaseTest {
 
     public void clickButtonSave() throws InterruptedException {
         WebUI.clickElement(driver, LocatorLeadPage.buttonSave);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
+    }
+
+    public void verifyAddLeadSuccessMessage() throws InterruptedException {
+        Thread.sleep(500);
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.addLeadSuccessMessage),
+                "The success message for adding a lead is not displayed");
+    }
+
+    public void verifyUpdateLeadSuccessMessage() throws InterruptedException {
+        Thread.sleep(500);
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.updateLeadSuccessMessage),
+                "The success message for updating a lead is not displayed");
     }
 
     public void clickIconClosePopupLeadDetail(String name) throws InterruptedException {
+        if (flagEdit == 0) {
+            WebUI.waitForElementNotVisible(driver, LocatorLeadPage.addLeadSuccessMessage);
+        } else {
+            WebUI.waitForElementNotVisible(driver, LocatorLeadPage.updateLeadSuccessMessage);
+        }
         WebUI.scrollAtTop(driver, LocatorLeadPage.iconClosePopupLeadDetail(name));
 //        Thread.sleep(1000);
         WebUI.clickElement(driver, LocatorLeadPage.iconClosePopupLeadDetail(name));
@@ -152,7 +173,7 @@ public class TestCaseLead extends BaseTest {
         driver.navigate().refresh();
         Thread.sleep(1000);
         WebUI.setTextElement(driver, LocatorLeadPage.inputSearchLeads, name);
-
+        WebUI.waitForElementVisible(driver, LocatorLeadPage.getFirstRowItemLeadName(name));
         Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         Thread.sleep(1000);
     }
@@ -222,6 +243,12 @@ public class TestCaseLead extends BaseTest {
         driver.switchTo().alert().accept();
     }
 
+    public void verifyDeleteLeadSuccessMessage() throws InterruptedException {
+        Thread.sleep(500);
+        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLeadPage.deleteLeadSuccessMessage),
+                "The success message for deleting a lead is not displayed");
+    }
+
     public void verifyAfterDeleteLead(String name) throws InterruptedException {
         Thread.sleep(1000);
         WebUI.setTextElement(driver, LocatorLeadPage.inputSearchLeads, name);
@@ -260,6 +287,7 @@ public class TestCaseLead extends BaseTest {
                 leadAdd.state, leadAdd.website, leadAdd.country, leadAdd.phone, leadAdd.zipCode, leadAdd.leadValue, leadAdd.language, leadAdd.company,
                 leadAdd.description, leadAdd.lastContacted, leadAdd.flag, leadAdd.flagEdit);
         clickButtonSave();
+        verifyAddLeadSuccessMessage();
         clickIconClosePopupLeadDetail(leadAdd.leadName);
         searchAndCheckLeads(leadAdd.leadName);
         clickButtonEdit(leadAdd.leadName);
@@ -298,6 +326,7 @@ public class TestCaseLead extends BaseTest {
                 leadEdit.emailAddress, leadEdit.state, leadEdit.website, leadEdit.country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
                 leadEdit.language, leadEdit.company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         clickButtonSave();
+        verifyAddLeadSuccessMessage();
         clickIconClosePopupLeadDetail(leadEdit.leadName);
         searchAndCheckLeads(leadEdit.leadName);
         clickButtonEdit(leadEdit.leadName);
@@ -321,6 +350,7 @@ public class TestCaseLead extends BaseTest {
                 leadEdit.emailAddress, leadEdit.state, leadEdit.website, leadEdit.country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
                 leadEdit.language, leadEdit.company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         clickButtonSave();
+        verifyUpdateLeadSuccessMessage();
         clickIconClosePopupLeadDetail(leadEdit.leadName);
         searchAndCheckLeads(leadEdit.leadName);
     }
@@ -359,6 +389,7 @@ public class TestCaseLead extends BaseTest {
         searchAndCheckLeads(leadDelete.leadName);
         clickButtonDelete(leadDelete.leadName);
         confirmAlertDelete();
+        verifyDeleteLeadSuccessMessage();
         verifyAfterDeleteLead(leadDelete.leadName);
     }
 }
