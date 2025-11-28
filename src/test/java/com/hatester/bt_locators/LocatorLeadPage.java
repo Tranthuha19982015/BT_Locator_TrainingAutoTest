@@ -163,4 +163,9 @@ public class LocatorLeadPage {
     //button
     public static By buttonClose = By.xpath("//div[@class='lead-edit']/button[normalize-space()='Close']");
     public static By buttonSave = By.xpath("//button[normalize-space()='Save' and @id='lead-form-submit']");
+
+    //message
+    public static By addLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead added successfully.']/parent::div");
+    public static By updateLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead updated successfully.']/parent::div");
+    public static By deleteLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead deleted']/parent::div");
 }
