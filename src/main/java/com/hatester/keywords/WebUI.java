@@ -95,6 +95,12 @@ public class WebUI {
         System.out.println("Open URL: " + url);
     }
 
+    public static String getCurrentURL(WebDriver driver) {
+        String currentUrl = driver.getCurrentUrl();
+        System.out.println("Current URL: " + currentUrl);
+        return currentUrl;
+    }
+
     public static void clearTextElement(WebDriver driver, By by) {
         waitForElementVisible(driver, by);
         getWebElement(driver, by).clear();
