@@ -3,7 +3,7 @@
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
         <classes>
-            <class name="com.hatester.thuc_hanh.TestCaseTask">
+            <class name="com.hatester.testcases.TaskTest">
                 <methods>
                     <include name="testAddNewTaskAndVerify"/>
                 </methods>

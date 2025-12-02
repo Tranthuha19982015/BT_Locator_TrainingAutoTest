@@ -1,10 +1,8 @@
 package common;
 
-import com.hatester.bt_locators.LocatorLoginPage;
+import com.hatester.pages.LoginPage;
 import com.hatester.keywords.WebUI;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -12,26 +10,10 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
-import java.util.List;
 
 public class BaseTest {
     public WebDriver driver;
     public SoftAssert softAssert;
-
-    public void loginCRM() throws InterruptedException {
-        driver.get(LocatorLoginPage.url);
-
-        WebUI.clearTextElement(driver, LocatorLoginPage.inputEmail);
-        WebUI.setTextElement(driver, LocatorLoginPage.inputEmail, "admin@example.com");
-
-        WebUI.clearTextElement(driver, LocatorLoginPage.inputPassword);
-        WebUI.setTextElement(driver, LocatorLoginPage.inputPassword, "123456");
-
-        WebUI.clickElement(driver,LocatorLoginPage.buttonLogin);
-        Thread.sleep(1000);
-
-        Assert.assertTrue(WebUI.checkExistsElement(driver, LocatorLoginPage.menuDashboard), "Login failed!");
-    }
 
     @BeforeMethod
     public void createDriver() throws InterruptedException {
@@ -40,7 +22,6 @@ public class BaseTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         softAssert = new SoftAssert();
-        loginCRM();
     }
 
     @AfterMethod

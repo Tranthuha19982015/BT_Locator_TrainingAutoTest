@@ -3,10 +3,10 @@
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
 <!--        <packages>-->
-<!--            <package name="com.hatester.thuc_hanh"/>-->
+<!--            <package name="com.hatester.testcases"/>-->
 <!--        </packages>-->
         <classes>
-            <class name="com.hatester.thuc_hanh.TestCaseTask">
+            <class name="com.hatester.testcases.TaskTest">
                 <methods>
                     <include name="testAddNewTaskAndVerify"/>
                 </methods>

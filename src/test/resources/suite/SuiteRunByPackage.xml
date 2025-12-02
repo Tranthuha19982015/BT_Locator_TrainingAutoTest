@@ -3,7 +3,7 @@
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
         <packages>
-            <package name="com.hatester.thuc_hanh"/>
+            <package name="com.hatester.testcases"/>
         </packages>
     </test>
 </suite>
