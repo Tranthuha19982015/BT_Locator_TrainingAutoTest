@@ -194,12 +194,16 @@ public class TaskPage extends BasePage {
     }
 
     public void verifyMenuTaskDisplay() {
-        Assert.assertTrue(WebUI.checkExistsElement(driver, headerTasksSummary), "Không mở được Menu Task");
+        String actualCurrentUrl = WebUI.getCurrentURL(driver);
+        String expectUrl = "https://crm.anhtester.com/admin/tasks";
+
+        Assert.assertTrue((WebUI.checkExistsElement(driver, headerTasksSummary) && actualCurrentUrl.equals(expectUrl)),
+                "Failed to navigate to the Task menu.");
     }
 
     public void clickButtonNewTask() {
         WebUI.clickElement(driver, buttonNewTask);
-        Assert.assertTrue(WebUI.checkExistsElement(driver, headerAddNewTask), "Không mở được pop-up Add Task");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, headerAddNewTask), "Failed to open the Add Task popup");
     }
 
     public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
@@ -238,13 +242,14 @@ public class TaskPage extends BasePage {
             WebUI.clickElement(driver, dropdownRepeatEveryCustom);
             WebUI.clickElement(driver, getValueRepeatEveryCustom(typeRepeatEveryCustom));
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months")
+                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             WebUI.clickElement(driver, checkboxInfinity);
             WebUI.clearTextElement(driver, inputTotalCycles);
             WebUI.setTextElement(driver, inputTotalCycles, totalCycles);
         } else {
-            System.out.println("Không tồn tại Type Repeat Every đã nhập");
+            System.out.println("The Type Repeat Every is not exist.");
         }
 
         WebUI.scrollAtBottom(driver, buttonSave);
@@ -299,7 +304,8 @@ public class TaskPage extends BasePage {
         WebUI.setTextElement(driver, inputSearchTasks, taskName);
         Thread.sleep(1000);
 
-        Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)), "Không đúng giá trị vừa thêm mới");
+        Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)),
+                "Không đúng giá trị vừa thêm mới");
     }
 
     public void clickButtonEdit(String taskName) throws InterruptedException {
