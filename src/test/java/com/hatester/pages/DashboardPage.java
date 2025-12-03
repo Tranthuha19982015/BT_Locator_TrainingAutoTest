@@ -1,6 +1,8 @@
 package com.hatester.pages;
 
 import com.hatester.common.BasePage;
+import com.hatester.keywords.WebUI;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class DashboardPage extends BasePage {
@@ -9,5 +11,30 @@ public class DashboardPage extends BasePage {
     public DashboardPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+    }
+
+    private By labelTotalInvoicesAwaitingPayment = By.xpath("(//span[normalize-space()='Invoices Awaiting Payment']/parent::div)/following-sibling::span");
+    private By labelTotalConvertedLeads = By.xpath("(//span[normalize-space()='Converted Leads']/parent::div)/following-sibling::span");
+    private By labelTotalProjectsInProgress = By.xpath("(//span[normalize-space()='Projects In Progress']/parent::div)/following-sibling::span");
+    private By labelTotalTasksNotFinished = By.xpath("(//span[normalize-space()='Tasks Not Finished']/parent::div)/following-sibling::span");
+
+    public String getTotalInvoicesAwaitingPayment() {
+        String totalInvoicesAwaiting = WebUI.getElementText(driver, labelTotalInvoicesAwaitingPayment);
+        return totalInvoicesAwaiting;
+    }
+
+    public String getTotalConvertedLeads() {
+        String totalConvertedLeads = WebUI.getElementText(driver, labelTotalConvertedLeads);
+        return totalConvertedLeads;
+    }
+
+    public String getTotalProjectsInProgress() {
+        String totalProjectsInProgress = WebUI.getElementText(driver, labelTotalProjectsInProgress);
+        return totalProjectsInProgress;
+    }
+
+    public String getTotalTasksNotFinished() {
+        String totalTasksNotFinished = WebUI.getElementText(driver, labelTotalTasksNotFinished);
+        return totalTasksNotFinished;
     }
 }
