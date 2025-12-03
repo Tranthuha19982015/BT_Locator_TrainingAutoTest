@@ -1,4 +1,4 @@
-package common;
+package com.hatester.common;
 
 import com.hatester.pages.LoginPage;
 import com.hatester.keywords.WebUI;

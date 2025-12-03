@@ -1,6 +1,6 @@
 package com.hatester.pages;
 
-import common.BasePage;
+import com.hatester.common.BasePage;
 import org.openqa.selenium.WebDriver;
 
 public class DashboardPage extends BasePage {

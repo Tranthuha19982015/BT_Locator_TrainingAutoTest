@@ -1,7 +1,7 @@
 package com.hatester.pages;
 
 import com.hatester.keywords.WebUI;
-import common.BasePage;
+import com.hatester.common.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

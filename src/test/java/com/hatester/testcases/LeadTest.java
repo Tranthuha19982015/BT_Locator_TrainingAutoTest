@@ -2,12 +2,8 @@ package com.hatester.testcases;
 
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
-import com.hatester.keywords.WebUI;
 import com.hatester.pages.LoginPage;
-import common.BaseTest;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
-import org.testng.Assert;
+import com.hatester.common.BaseTest;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
