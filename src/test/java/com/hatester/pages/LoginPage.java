@@ -34,15 +34,15 @@ public class LoginPage extends BasePage {
         Assert.assertTrue(WebUI.checkExistsElement(driver, headerLoginPage), "The header Login is not display.");
     }
 
-    public void enterEmail(String email) {
+    private void enterEmail(String email) {
         WebUI.setTextElement(driver, inputEmail, email);
     }
 
-    public void enterPassword(String password) {
+    private void enterPassword(String password) {
         WebUI.setTextElement(driver, inputPassword, password);
     }
 
-    public void clickButtonLogin() {
+    private void clickButtonLogin() {
         WebUI.clickElement(driver, buttonLogin);
     }
 
