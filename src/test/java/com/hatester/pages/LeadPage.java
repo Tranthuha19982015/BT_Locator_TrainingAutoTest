@@ -16,7 +16,7 @@ public class LeadPage extends BasePage {
         super(driver);
         this.driver = driver;
     }
-    
+
     //Locator Lead Page
     private By buttonNewLead = By.xpath("//a[normalize-space()='New Lead']");
     private By iconLeadsSummary = By.xpath("//a[@data-title='Leads Summary']");
@@ -25,8 +25,8 @@ public class LeadPage extends BasePage {
 
     //label lead overview
     private By headerLeadsSummary = By.xpath("//h4[normalize-space()='Leads Summary']");
-    private By labelActive = By.xpath("//span[normalize-space()='Active']/preceding-sibling::span");
-    private By lableCustomer = By.xpath("//span[normalize-space()='Customer']/preceding-sibling::span");
+    private By labelTotalStatusActive = By.xpath("//span[normalize-space()='Active']/preceding-sibling::span");
+    private By lableTotalStatusCustomer = By.xpath("//span[normalize-space()='Customer']/preceding-sibling::span");
 
     //button
     private By dropdownDatatableLeadsLength = By.xpath("//div[@id='leads_length']//descendant::select");
@@ -191,6 +191,26 @@ public class LeadPage extends BasePage {
 
         Assert.assertTrue((WebUI.checkExistsElement(driver, headerLeadsSummary) && actualCurrentUrl.equals(expectedUrl)),
                 "Failed to navigate to the Lead menu");
+    }
+
+    public String getTotalStatusActive() {
+        WebUI.waitForElementVisible(driver, labelTotalStatusActive);
+        String totalStatusActive = WebUI.getElementText(driver, labelTotalStatusActive);
+        return totalStatusActive;
+    }
+
+    public String getTotalStatusCustomer() {
+        WebUI.waitForElementVisible(driver, lableTotalStatusCustomer);
+        String totalStatusCustomer = WebUI.getElementText(driver, lableTotalStatusCustomer);
+        return totalStatusCustomer;
+    }
+
+    public String getTotalStatusLead() {
+        String totalStatusCustomerLead = getTotalStatusCustomer();
+        String totalStatusActiveLead = getTotalStatusActive();
+
+        int totalStatusLead = Integer.parseInt(totalStatusActiveLead) + Integer.parseInt(totalStatusCustomerLead);
+        return Integer.toString(totalStatusLead);
     }
 
     public void clickButtonNewLead() throws InterruptedException {
