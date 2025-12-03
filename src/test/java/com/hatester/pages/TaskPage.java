@@ -193,6 +193,14 @@ public class TaskPage extends BasePage {
         return xpath;
     }
 
+    //messsage
+    private By addTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task added successfully.']");
+    private By iconCloseAddTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task added successfully.']/preceding-sibling::button[@class='close']");
+    private By updateTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task updated successfully.']");
+    private By iconCloseUpdateTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task updated successfully.']/preceding-sibling::button[@class='close']");
+    private By deleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']");
+    private By iconCloseDeleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']/preceding-sibling::button[@class='close']");
+
     public void verifyMenuTaskDisplay() {
         String actualCurrentUrl = WebUI.getCurrentURL(driver);
         String expectUrl = "https://crm.anhtester.com/admin/tasks";
@@ -291,7 +299,30 @@ public class TaskPage extends BasePage {
         Thread.sleep(1000);
     }
 
-    public void clickClosePopupTaskDetail(String taskName) throws InterruptedException {
+    public void verifyAddTaskSuccessMessage() {
+        Assert.assertTrue(WebUI.checkExistsElement(driver, addTaskSuccessMessage),
+                "The success message for adding a task is not displayed");
+    }
+
+    public void clickIconCloseAddTaskMessage() {
+        WebUI.clickElement(driver, iconCloseAddTaskSuccessMessage);
+    }
+
+    public void verifyUpdateTaskSuccessMessage() {
+        Assert.assertTrue(WebUI.checkExistsElement(driver, updateTaskSuccessMessage),
+                "The success message for updating a task is not displayed");
+    }
+
+    public void clickIconCloseUpdateTaskMessage() {
+        WebUI.clickElement(driver, iconCloseUpdateTaskSuccessMessage);
+    }
+
+    public void clickClosePopupTaskDetail(String taskName, int flagEdit) throws InterruptedException {
+        if (flagEdit == 0) {
+            WebUI.waitForElementNotVisible(driver, addTaskSuccessMessage);
+        } else {
+            WebUI.waitForElementNotVisible(driver, updateTaskSuccessMessage);
+        }
         WebUI.scrollAtTop(driver, iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(driver, iconClosePopupTaskDetail(taskName));
         Thread.sleep(1000);
@@ -481,20 +512,36 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(driver, buttonDelete(taskName));
     }
 
-    public void confirmAcceptAlertDelete() throws InterruptedException {
-        Thread.sleep(1000);
-        driver.switchTo().alert().accept();
+    public void confirmAlertDelete(int typeConfirm) throws InterruptedException {
+        Thread.sleep(500);
+        if (typeConfirm == 1) {
+            driver.switchTo().alert().accept();
+        } else {
+            driver.switchTo().alert().dismiss();
+        }
     }
 
-    public void confirmDismissAlertDelete() throws InterruptedException {
-        Thread.sleep(1000);
-        driver.switchTo().alert().dismiss();
+    public void verifyDeleteTaskSuccessMessage(int typeConfirm) {
+        if (typeConfirm == 1) {
+            Assert.assertTrue(WebUI.checkExistsElement(driver, deleteTaskSuccessMessage),
+                    "The success message for deleting a task is not displayed");
+        }
     }
 
-    public void verifyAfterDeleteLead(String taskName) throws InterruptedException {
-        Thread.sleep(1000);
+    public void clickIconCloseDeleteTaskMessage(int typeConfirm) throws InterruptedException {
+        if (typeConfirm == 1) {
+            Thread.sleep(1000);
+            WebUI.clickElement(driver, iconCloseDeleteTaskSuccessMessage);
+        }
+    }
+
+    public void verifyAfterDeleteTask(String taskName, int typeConfirm) throws InterruptedException {
+        Thread.sleep(500);
         WebUI.setTextElement(driver, inputSearchTasks, taskName);
-        Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
-        Thread.sleep(1000);
+        if (typeConfirm == 1) {
+            Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
+        } else {
+            Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)), "Huỷ xóa Task không thành công");
+        }
     }
 }
