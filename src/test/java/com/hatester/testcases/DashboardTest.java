@@ -19,18 +19,15 @@ public class DashboardTest extends BaseTest {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
+
+        String totalCustomerLeadOnDashboard = dashboardPage.getTotalConvertedLeads();
+
         leadPage = dashboardPage.clickMenuLead();
 
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
-        String totalStatusesCustomerLead = leadPage.getTotalStatusCustomer();
-        String totalLeadStatuses = leadPage.getTotalStatusLead();
 
-        dashboardPage = leadPage.clickMenuDashboard();
-        dashboardPage.verifyDashboardPageDisplayed();
-        String totalCustomerLeadOnDashboard = dashboardPage.getTotalConvertedLeads();
-
-        Assert.assertEquals(totalCustomerLeadOnDashboard, totalStatusesCustomerLead + " / " + totalLeadStatuses,
+        Assert.assertEquals(totalCustomerLeadOnDashboard, leadPage.getTotalStatusCustomer() + " / " + leadPage.getTotalStatusLead(),
                 "The number of “Customer” statuses on the Dashboard does not match the number in the Lead menu");
     }
 
@@ -39,17 +36,14 @@ public class DashboardTest extends BaseTest {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
+
+        String totalTasksNotFinishedOnDashboard = dashboardPage.getTotalTasksNotFinished();
+
         taskPage = dashboardPage.clickMenuTask();
 
         taskPage.verifyMenuTaskDisplay();
-        String totalStatusesNotComplete = taskPage.getTotalStatusesNotComplete();
-        String totalTaskStatuses = taskPage.getTotalTaskStatuses();
 
-        dashboardPage = taskPage.clickMenuDashboard();
-        dashboardPage.verifyDashboardPageDisplayed();
-        String totalTasksNotFinishedOnDashboard = dashboardPage.getTotalTasksNotFinished();
-
-        Assert.assertEquals(totalTasksNotFinishedOnDashboard, totalStatusesNotComplete + " / " + totalTaskStatuses,
+        Assert.assertEquals(totalTasksNotFinishedOnDashboard, taskPage.getTotalStatusesNotComplete() + " / " + taskPage.getTotalTaskStatuses(),
                 "The number of Not Finished statuses on the Dashboard does not match the number in the Task menu");
     }
 }
