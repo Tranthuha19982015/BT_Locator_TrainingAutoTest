@@ -15,7 +15,7 @@ public class DashboardTest extends BaseTest {
     private TaskPage taskPage;
 
     @Test
-    public void testTotalStatusCustomerLeadsOnDashboard() throws InterruptedException {
+    public void testCustomerLeadCountOnDashboard() throws InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
