@@ -15,7 +15,7 @@ public class DashboardTest extends BaseTest {
     private TaskPage taskPage;
 
     @Test
-    public void testCustomerLeadCountOnDashboard() throws InterruptedException {
+    public void testLabelConvertedLeadOnDashboard() throws InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
@@ -35,7 +35,7 @@ public class DashboardTest extends BaseTest {
     }
 
     @Test
-    public void testTasksNotFinishedCountOnDashboard() throws InterruptedException {
+    public void testLabelTasksNotFinishedOnDashboard() throws InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
