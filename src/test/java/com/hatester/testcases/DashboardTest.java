@@ -18,17 +18,38 @@ public class DashboardTest extends BaseTest {
     public void testTotalStatusCustomerLeadsOnDashboard() throws InterruptedException {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
+        dashboardPage.verifyDashboardPageDisplayed();
         leadPage = dashboardPage.clickMenuLead();
 
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
-        String totalStatusCustomerLead = leadPage.getTotalStatusCustomer();
-        String totalStatusLead = leadPage.getTotalStatusLead();
+        String totalStatusesCustomerLead = leadPage.getTotalStatusCustomer();
+        String totalLeadStatuses = leadPage.getTotalStatusLead();
 
         dashboardPage = leadPage.clickMenuDashboard();
-        String totalStatusCustomerOnDashboard = dashboardPage.getTotalConvertedLeads();
+        dashboardPage.verifyDashboardPageDisplayed();
+        String totalCustomerLeadOnDashboard = dashboardPage.getTotalConvertedLeads();
 
-        Assert.assertEquals(totalStatusCustomerOnDashboard, totalStatusCustomerLead + " / " + totalStatusLead,
-                "Không khớp số lượng status Customer trên Dashboard và số lượng trong menu Lead.");
+        Assert.assertEquals(totalCustomerLeadOnDashboard, totalStatusesCustomerLead + " / " + totalLeadStatuses,
+                "The number of “Customer” statuses on the Dashboard does not match the number in the Lead menu");
+    }
+
+    @Test
+    public void testTasksNotFinishedCountOnDashboard() throws InterruptedException {
+        loginPage = new LoginPage(driver);
+        dashboardPage = loginPage.loginCRM();
+        dashboardPage.verifyDashboardPageDisplayed();
+        taskPage = dashboardPage.clickMenuTask();
+
+        taskPage.verifyMenuTaskDisplay();
+        String totalStatusesNotComplete = taskPage.getTotalStatusesNotComplete();
+        String totalTaskStatuses = taskPage.getTotalTaskStatuses();
+
+        dashboardPage = taskPage.clickMenuDashboard();
+        dashboardPage.verifyDashboardPageDisplayed();
+        String totalTasksNotFinishedOnDashboard = dashboardPage.getTotalTasksNotFinished();
+
+        Assert.assertEquals(totalTasksNotFinishedOnDashboard, totalStatusesNotComplete + " / " + totalTaskStatuses,
+                "The number of Not Finished statuses on the Dashboard does not match the number in the Task menu");
     }
 }

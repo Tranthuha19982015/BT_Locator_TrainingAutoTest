@@ -209,6 +209,46 @@ public class TaskPage extends BasePage {
                 "Failed to navigate to the Task menu.");
     }
 
+    public String getTotalNotStartedTasks() {
+        String statusNotStarted = WebUI.getElementText(driver, labelNotStarted);
+        return statusNotStarted;
+    }
+
+    public String getTotalInProgressTasks() {
+        String statusInProgress = WebUI.getElementText(driver, labelInProgress);
+        return statusInProgress;
+    }
+
+    public String getTotalTestingTasks() {
+        String statusTesting = WebUI.getElementText(driver, labelTesting);
+        return statusTesting;
+    }
+
+    public String getTotalAwaitingFeedbackTasks() {
+        String statusAwaitingFeedback = WebUI.getElementText(driver, labelAwaitingFeedback);
+        return statusAwaitingFeedback;
+    }
+
+    public String getTotalCompleteTasks() {
+        String statusComplete = WebUI.getElementText(driver, labelComplete);
+        return statusComplete;
+    }
+
+    public String getTotalStatusesNotComplete() {
+        return Integer.toString(Integer.parseInt(getTotalNotStartedTasks())
+                + Integer.parseInt(getTotalInProgressTasks())
+                + Integer.parseInt(getTotalTestingTasks())
+                + Integer.parseInt(getTotalAwaitingFeedbackTasks()));
+    }
+
+    public String getTotalTaskStatuses() {
+        return Integer.toString(Integer.parseInt(getTotalNotStartedTasks())
+                + Integer.parseInt(getTotalInProgressTasks())
+                + Integer.parseInt(getTotalTestingTasks())
+                + Integer.parseInt(getTotalAwaitingFeedbackTasks())
+                + Integer.parseInt(getTotalCompleteTasks()));
+    }
+
     public void clickButtonNewTask() {
         WebUI.clickElement(driver, buttonNewTask);
         Assert.assertTrue(WebUI.checkExistsElement(driver, headerAddNewTask), "Failed to open the Add Task popup");
