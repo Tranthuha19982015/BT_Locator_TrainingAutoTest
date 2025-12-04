@@ -27,11 +27,11 @@ public class TaskPage extends BasePage {
     private By headerTasksSummary = By.xpath("//span[normalize-space()='Tasks Summary']");
 
     //label status of task
-    private By labelNotStarted = By.xpath("//span[normalize-space()='Not Started']/preceding-sibling::span");
-    private By labelInProgress = By.xpath("//span[normalize-space()='In Progress']/preceding-sibling::span");
-    private By labelTesting = By.xpath("//span[normalize-space()='Testing']/preceding-sibling::span");
-    private By labelAwaitingFeedback = By.xpath("//span[normalize-space()='Awaiting Feedback']/preceding-sibling::span");
-    private By labelComplete = By.xpath("//span[normalize-space()='Complete']/preceding-sibling::span");
+    private By labelTaskTotalNotStarted = By.xpath("//span[normalize-space()='Not Started']/preceding-sibling::span");
+    private By labelTaskTotalInProgress = By.xpath("//span[normalize-space()='In Progress']/preceding-sibling::span");
+    private By labelTaskTotalTesting = By.xpath("//span[normalize-space()='Testing']/preceding-sibling::span");
+    private By labelTaskTotalAwaitingFeedback = By.xpath("//span[normalize-space()='Awaiting Feedback']/preceding-sibling::span");
+    private By labelTaskTotalComplete = By.xpath("//span[normalize-space()='Complete']/preceding-sibling::span");
 
     //button
     private By dropdownDatatableTasksLength = By.xpath("//div[@id='tasks_length']/descendant::select");
@@ -210,27 +210,27 @@ public class TaskPage extends BasePage {
     }
 
     public String getTotalNotStartedTasks() {
-        String statusNotStarted = WebUI.getElementText(driver, labelNotStarted);
+        String statusNotStarted = WebUI.getElementText(driver, labelTaskTotalNotStarted);
         return statusNotStarted;
     }
 
     public String getTotalInProgressTasks() {
-        String statusInProgress = WebUI.getElementText(driver, labelInProgress);
+        String statusInProgress = WebUI.getElementText(driver, labelTaskTotalInProgress);
         return statusInProgress;
     }
 
     public String getTotalTestingTasks() {
-        String statusTesting = WebUI.getElementText(driver, labelTesting);
+        String statusTesting = WebUI.getElementText(driver, labelTaskTotalTesting);
         return statusTesting;
     }
 
     public String getTotalAwaitingFeedbackTasks() {
-        String statusAwaitingFeedback = WebUI.getElementText(driver, labelAwaitingFeedback);
+        String statusAwaitingFeedback = WebUI.getElementText(driver, labelTaskTotalAwaitingFeedback);
         return statusAwaitingFeedback;
     }
 
     public String getTotalCompleteTasks() {
-        String statusComplete = WebUI.getElementText(driver, labelComplete);
+        String statusComplete = WebUI.getElementText(driver, labelTaskTotalComplete);
         return statusComplete;
     }
 
