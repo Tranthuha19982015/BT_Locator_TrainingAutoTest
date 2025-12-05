@@ -257,7 +257,7 @@ public class TaskPage extends BasePage {
     public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                                 String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
                                 String typeRelatedTo, String assignee, String follower, String tag, String description, int flag)
-            throws InterruptedException, AWTException {
+            throws AWTException {
         //checkbox
         if (flag == 1) {
             WebUI.clickElement(driver, labelCheckboxPublic);
@@ -306,7 +306,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(driver, getValueRelatedTo(relatedTo));
         WebUI.clickElement(driver, dropdownTypeRelatedTo);
         WebUI.setTextElement(driver, inputSearchTypeRelatedTo, typeRelatedTo);
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         Actions actions = new Actions(driver);
         actions.click(WebUI.getWebElement(driver, inputSearchTypeRelatedTo)).sendKeys(" ").build().perform();
         WebUI.clickElement(driver, getValueTypeRelatedTo(typeRelatedTo));
@@ -334,9 +334,9 @@ public class TaskPage extends BasePage {
         WebUI.switchToParentFrame(driver);
     }
 
-    public void clickButtonSave() throws InterruptedException {
+    public void clickButtonSave() {
         WebUI.clickElement(driver, buttonSave);
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 
     public void verifyAddTaskSuccessMessage() {
@@ -357,7 +357,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(driver, iconCloseUpdateTaskSuccessMessage);
     }
 
-    public void clickClosePopupTaskDetail(String taskName, int flagEdit) throws InterruptedException {
+    public void clickClosePopupTaskDetail(String taskName, int flagEdit) {
         if (flagEdit == 0) {
             WebUI.waitForElementNotVisible(driver, addTaskSuccessMessage);
         } else {
@@ -365,32 +365,31 @@ public class TaskPage extends BasePage {
         }
         WebUI.scrollAtTop(driver, iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(driver, iconClosePopupTaskDetail(taskName));
-        Thread.sleep(1000);
     }
 
 
-    public void searchAndCheckTask(String taskName) throws InterruptedException {
+    public void searchAndCheckTask(String taskName) {
         driver.navigate().refresh();
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         WebUI.setTextElement(driver, inputSearchTasks, taskName);
-        Thread.sleep(1000);
+        WebUI.sleep(1);
 
         Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)),
                 "Không đúng giá trị vừa thêm mới");
     }
 
-    public void clickButtonEdit(String taskName) throws InterruptedException {
-        Thread.sleep(500);
+    public void clickButtonEdit(String taskName) {
+        WebUI.sleep(0.5);
         Actions actions = new Actions(driver);
         actions.moveToElement(driver.findElement(getFirstRowItemTaskName(taskName))).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         WebUI.clickElement(driver, buttonEdit(taskName));
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
     }
 
     public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag, String description, int flag) throws InterruptedException {
+                                        String relatedTo, String typeRelatedTo, String tag, String description, int flag) {
         if (flag == 1) {
             Assert.assertTrue(WebUI.checkSeletedElement(driver, checkboxPublic), "Checkbox không được chọn");
             Assert.assertTrue(WebUI.checkSeletedElement(driver, checkboxBillable), "Checkbox không được chọn");
@@ -439,19 +438,18 @@ public class TaskPage extends BasePage {
 
     public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                              String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                             String typeRelatedTo, String assignee, String follower, String tag, String description, int flag)
-            throws InterruptedException, AWTException {
+                             String typeRelatedTo, String assignee, String follower, String tag, String description, int flag) throws AWTException {
         Actions actions = new Actions(driver);
         Robot robot = new Robot();
-        Thread.sleep(1500);
+        WebUI.sleep(1);
         //checkbox
         if (flag == 1) {
             actions.click(WebUI.getWebElement(driver, checkboxPublic)).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
         }
         if (flag == 0) {
             actions.click(WebUI.getWebElement(driver, checkboxBillable)).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
         }
 
         //input
@@ -459,58 +457,58 @@ public class TaskPage extends BasePage {
         actions.click(elementSubject).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(elementSubject, subject).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         WebElement elementHourlyRate = WebUI.getWebElement(driver, inputHourlyRate);
         actions.click(elementHourlyRate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(elementHourlyRate, hourlyRate).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         WebElement elementStartDate = WebUI.getWebElement(driver, inputStartDate);
         actions.click(elementStartDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(elementStartDate, startDate).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         WebElement elementDueDate = WebUI.getWebElement(driver, inputDueDate);
         actions.click(elementDueDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(elementDueDate, dueDate).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         //Priority
         actions.click(WebUI.getWebElement(driver, dropdownPriority)).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         actions.click(WebUI.getWebElement(driver, getValuePriority(priority))).perform();
-        Thread.sleep(1000);
+        WebUI.sleep(0.5);
 
         //Repeat every
         actions.click(WebUI.getWebElement(driver, dropdownRepeatEvery)).perform();
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         actions.click(WebUI.getWebElement(driver, getValueRepeatEvery(repeatEvery))).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         if (repeatEvery.equals("Custom")) {
             WebElement elementRepeatEveryCustom = WebUI.getWebElement(driver, inputRepeatEveryCustom);
             actions.click(elementRepeatEveryCustom).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(elementRepeatEveryCustom, numberRepeatEveryCustom).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
             actions.click(WebUI.getWebElement(driver, dropdownRepeatEveryCustom)).perform();
-            Thread.sleep(1000);
+            WebUI.sleep(1);
             actions.click(WebUI.getWebElement(driver, getValueRepeatEveryCustom(typeRepeatEveryCustom))).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
                 || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             actions.click(WebUI.getWebElement(driver, checkboxInfinity)).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
 
             WebElement elementTotalCycles = WebUI.getWebElement(driver, inputTotalCycles);
             actions.click(elementTotalCycles).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(elementTotalCycles, totalCycles).perform();
-            Thread.sleep(500);
+            WebUI.sleep(0.5);
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
@@ -518,32 +516,32 @@ public class TaskPage extends BasePage {
         WebUI.scrollAtBottom(driver, buttonSave);
         //Related To
         actions.click(WebUI.getWebElement(driver, dropdownRelatedTo)).perform();
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         actions.click(WebUI.getWebElement(driver, getValueRelatedTo(relatedTo))).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         actions.click(WebUI.getWebElement(driver, dropdownTypeRelatedTo)).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         actions.sendKeys(WebUI.getWebElement(driver, inputSearchTypeRelatedTo), typeRelatedTo).perform();
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         actions.moveToElement(WebUI.getWebElement(driver, getValueTypeRelatedTo(typeRelatedTo))).click().build().perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         //input
         actions.moveToElement(WebUI.getWebElement(driver, iconCloseTag)).click().build().perform();
         actions.sendKeys(WebUI.getWebElement(driver, inputTags), tag).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         actions.click(WebUI.getWebElement(driver, labelTags)).perform();
         actions.click(WebUI.getWebElement(driver, labelTags)).perform();
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
 
         //iframe
         actions.click(WebUI.getWebElement(driver, inputDescription));
         WebUI.switchToFrame(driver, iframeDescription);
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         actions.sendKeys(WebUI.getWebElement(driver, inputDescriptionFrame), description);
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
         WebUI.switchToParentFrame(driver);
-        Thread.sleep(500);
+        WebUI.sleep(0.5);
     }
 
     public void clickButtonDelete(String taskName) {
@@ -552,8 +550,8 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(driver, buttonDelete(taskName));
     }
 
-    public void confirmAlertDelete(int typeConfirm) throws InterruptedException {
-        Thread.sleep(500);
+    public void confirmAlertDelete(int typeConfirm) {
+        WebUI.sleep(0.5);
         if (typeConfirm == 1) {
             driver.switchTo().alert().accept();
         } else {
@@ -568,15 +566,15 @@ public class TaskPage extends BasePage {
         }
     }
 
-    public void clickIconCloseDeleteTaskMessage(int typeConfirm) throws InterruptedException {
+    public void clickIconCloseDeleteTaskMessage(int typeConfirm) {
         if (typeConfirm == 1) {
-            Thread.sleep(1000);
+            WebUI.sleep(1);
             WebUI.clickElement(driver, iconCloseDeleteTaskSuccessMessage);
         }
     }
 
-    public void verifyAfterDeleteTask(String taskName, int typeConfirm) throws InterruptedException {
-        Thread.sleep(500);
+    public void verifyAfterDeleteTask(String taskName, int typeConfirm) {
+        WebUI.sleep(0.5);
         WebUI.setTextElement(driver, inputSearchTasks, taskName);
         if (typeConfirm == 1) {
             Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");

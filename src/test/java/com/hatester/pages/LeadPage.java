@@ -180,12 +180,12 @@ public class LeadPage extends BasePage {
     private By updateLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead updated successfully.']/parent::div");
     private By deleteLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead deleted']/parent::div");
 
-    public void clickIconLeadsSummary() throws InterruptedException {
+    public void clickIconLeadsSummary() {
         WebUI.clickElement(driver, iconLeadsSummary);
-        Thread.sleep(2000);
+        WebUI.sleep(2);
     }
 
-    public void verifyLeadSummaryDisplay() throws InterruptedException {
+    public void verifyLeadSummaryDisplay() {
         String actualCurrentUrl = WebUI.getCurrentURL(driver);
         String expectedUrl = "https://crm.anhtester.com/admin/leads";
 
@@ -213,9 +213,9 @@ public class LeadPage extends BasePage {
         return Integer.toString(totalStatusLead);
     }
 
-    public void clickButtonNewLead() throws InterruptedException {
+    public void clickButtonNewLead() {
         WebUI.clickElement(driver, buttonNewLead);
-        Thread.sleep(1000);
+        WebUI.sleep(1);
 
         Assert.assertTrue(WebUI.checkExistsElement(driver, headerAddNewLead), "Failed to open the “Add New Lead” popup");
     }
@@ -223,7 +223,7 @@ public class LeadPage extends BasePage {
     public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
                              String city, String emailAddress, String state, String website, String country, String phone,
                              String zipCode, String leadValue, String language, String company, String description,
-                             String dateContacted, int flag, int flagEdit) throws InterruptedException {
+                             String dateContacted, int flag, int flagEdit) {
         //status
         WebUI.clickElement(driver, dropdownStatus);
         WebUI.setTextElement(driver, inputSearchStatus, status);
@@ -312,45 +312,44 @@ public class LeadPage extends BasePage {
         }
     }
 
-    public void clickButtonSave() throws InterruptedException {
+    public void clickButtonSave() {
         WebUI.clickElement(driver, buttonSave);
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 
-    public void verifyAddLeadSuccessMessage() throws InterruptedException {
-        Thread.sleep(500);
+    public void verifyAddLeadSuccessMessage() {
+        WebUI.sleep(0.5);
         Assert.assertTrue(WebUI.checkExistsElement(driver, addLeadSuccessMessage),
                 "The success message for adding a lead is not displayed");
     }
 
-    public void verifyUpdateLeadSuccessMessage() throws InterruptedException {
-        Thread.sleep(500);
+    public void verifyUpdateLeadSuccessMessage() {
+        WebUI.sleep(0.5);
         Assert.assertTrue(WebUI.checkExistsElement(driver, updateLeadSuccessMessage),
                 "The success message for updating a lead is not displayed");
     }
 
-    public void clickIconClosePopupLeadDetail(String name, int flagEdit) throws InterruptedException {
+    public void clickIconClosePopupLeadDetail(String name, int flagEdit) {
         if (flagEdit == 0) {
             WebUI.waitForElementNotVisible(driver, addLeadSuccessMessage);
         } else {
             WebUI.waitForElementNotVisible(driver, updateLeadSuccessMessage);
         }
         WebUI.scrollAtTop(driver, iconClosePopupLeadDetail(name));
-//        Thread.sleep(1000);
         WebUI.clickElement(driver, iconClosePopupLeadDetail(name));
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 
-    public void searchAndCheckLeads(String name) throws InterruptedException {
+    public void searchAndCheckLeads(String name) {
         driver.navigate().refresh();
-        Thread.sleep(1000);
+        WebUI.sleep(1);
         WebUI.setTextElement(driver, inputSearchLeads, name);
         WebUI.waitForElementVisible(driver, getFirstRowItemLeadName(name));
         Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 
-    public void clickButtonEdit(String leadName) throws InterruptedException {
+    public void clickButtonEdit(String leadName) {
         Actions action = new Actions(driver);
         action.moveToElement(WebUI.getWebElement(driver, getFirstRowItemLeadName(leadName))).perform();
         WebUI.clickElement(driver, buttonEdit(leadName));
@@ -359,8 +358,7 @@ public class LeadPage extends BasePage {
     public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name,
                                          String position, String city, String emailAddress, String state, String website, String country,
                                          String phone, String zipCode, String leadValue, String language, String company, String description,
-                                         String dateContacted) throws InterruptedException {
-        Thread.sleep(1000);
+                                         String dateContacted) {
         boolean containsStatus = WebUI.getElementText(driver, dropdownStatus).contains(status);
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getElementText(driver, dropdownSource), source,
@@ -401,7 +399,7 @@ public class LeadPage extends BasePage {
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkExistsElement(driver, checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
         Assert.assertTrue(WebUI.checkSeletedElement(driver, checkboxPublic), "Không tích chọn checkbox");
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 
     public void clickButtonDelete(String leadName) {
@@ -410,21 +408,21 @@ public class LeadPage extends BasePage {
         WebUI.clickElement(driver, buttonDelete(leadName));
     }
 
-    public void confirmAlertDelete() throws InterruptedException {
-        Thread.sleep(1000);
+    public void confirmAlertDelete() {
+        WebUI.sleep(1);
         driver.switchTo().alert().accept();
     }
 
-    public void verifyDeleteLeadSuccessMessage() throws InterruptedException {
-        Thread.sleep(500);
+    public void verifyDeleteLeadSuccessMessage() {
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
                 "The success message for deleting a lead is not displayed");
     }
 
-    public void verifyAfterDeleteLead(String name) throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyAfterDeleteLead(String name) {
+        WebUI.sleep(1);
         WebUI.setTextElement(driver, inputSearchLeads, name);
         Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
-        Thread.sleep(1000);
+        WebUI.sleep(1);
     }
 }

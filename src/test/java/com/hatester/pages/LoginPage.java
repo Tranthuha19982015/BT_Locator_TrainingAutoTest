@@ -46,13 +46,13 @@ public class LoginPage extends BasePage {
         WebUI.clickElement(driver, buttonLogin);
     }
 
-    public void loginCRM(String email, String password) throws InterruptedException {
+    public void loginCRM(String email, String password) {
         enterEmail(email);
         enterPassword(password);
         clickButtonLogin();
     }
 
-    public DashboardPage loginCRM() throws InterruptedException {
+    public DashboardPage loginCRM() {
         navigateToCRM();
         verifyHeaderLogin();
         enterEmail("admin@example.com");
@@ -62,8 +62,8 @@ public class LoginPage extends BasePage {
         return new DashboardPage(driver);
     }
 
-    public void verifyLoginSuccess() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyLoginSuccess() {
+        WebUI.sleep(1);
         String actualCurrentURL = WebUI.getCurrentURL(driver);
         String expectedURL = "https://crm.anhtester.com/admin/";
 
@@ -71,26 +71,26 @@ public class LoginPage extends BasePage {
                 "Login failed!");
     }
 
-    public void verifyLoginFailedWithEmailRequired() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyLoginFailedWithEmailRequired() {
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkExistsElement(driver, errorMessageEmailRequired),
                 "The email required error message is not displayed");
     }
 
-    public void verifyLoginFailedWithPasswordRequired() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyLoginFailedWithPasswordRequired() {
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkExistsElement(driver, errorMessagePasswordRequired),
                 "The password required error message is not displayed.");
     }
 
-    public void verifyLoginFailedWithEmailInvalid() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyLoginFailedWithEmailInvalid() {
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkExistsElement(driver, errorMessageInvalidEmailOrPassword),
                 "The invalid email error message is not displayed.");
     }
 
-    public void verifyLoginFailedWithPasswordInvalid() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyLoginFailedWithPasswordInvalid() {
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkExistsElement(driver, errorMessageInvalidEmailOrPassword),
                 "The invalid password error message is not displayed.");
     }

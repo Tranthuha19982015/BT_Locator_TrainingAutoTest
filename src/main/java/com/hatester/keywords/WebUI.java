@@ -11,6 +11,14 @@ public class WebUI {
 
     private static int WAIT_TIMEOUT = 10;
 
+    public static void sleep(double second) {
+        try {
+            Thread.sleep((long) second * 1000);
+        } catch (InterruptedException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
+
     public static void highlightElement(WebDriver driver, WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].style.border='3px solid red';", element);
