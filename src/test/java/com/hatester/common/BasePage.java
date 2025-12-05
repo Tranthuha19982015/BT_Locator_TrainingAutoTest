@@ -1,10 +1,7 @@
 package com.hatester.common;
 
 import com.hatester.keywords.WebUI;
-import com.hatester.pages.DashboardPage;
-import com.hatester.pages.LeadPage;
-import com.hatester.pages.LoginPage;
-import com.hatester.pages.TaskPage;
+import com.hatester.pages.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -32,6 +29,11 @@ public class BasePage {
     public DashboardPage clickMenuDashboard() {
         WebUI.clickElement(driver, menuDashboard);
         return new DashboardPage(driver);
+    }
+
+    public CustomerPage clickMenuCustomer() {
+        WebUI.clickElement(driver, menuCustomers);
+        return new CustomerPage(driver);
     }
 
     public LeadPage clickMenuLead() {
