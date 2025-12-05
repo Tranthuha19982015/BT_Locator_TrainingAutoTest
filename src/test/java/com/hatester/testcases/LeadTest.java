@@ -11,9 +11,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LeadTest extends BaseTest {
-    String leadName, status, source, assigned, tag, position, city, emailAddress, state, website,
-            country, phone, zipCode, leadValue, language, company, description, lastContacted;
-    int flag, flagEdit;
+    String leadName = "[htest]lead add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
+            status = "Customer",
+            source = "Facebook",
+            assigned = "Anh Tester",
+            tag = "htest",
+            position = "Tester",
+            city = "Việt Nam",
+            emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com",
+            state = "htest state",
+            website = "htester.com.vn",
+            country = "Vietnam",
+            phone = "0965898989",
+            zipCode = "0001",
+            leadValue = "12345",
+            language = "Vietnamese",
+            company = "NDJSC",
+            description = "htest add new lead",
+            lastContacted = "10-11-2025";
+    int flag = 1, flagEdit = 0;
 
     private LoginPage loginPage;
     private DashboardPage dashboardPage;
@@ -24,27 +40,6 @@ public class LeadTest extends BaseTest {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
-
-        leadName = "[htest]lead add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        status = "Customer";
-        source = "Facebook";
-        assigned = "Anh Tester";
-        tag = "htest";
-        position = "Tester";
-        city = "Việt Nam";
-        emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com";
-        state = "htest state";
-        website = "htester.com.vn";
-        country = "Vietnam";
-        phone = "0965898989";
-        zipCode = "0001";
-        leadValue = "12345";
-        language = "Vietnamese";
-        company = "NDJSC";
-        description = "htest add new lead";
-        lastContacted = "10-11-2025";
-        flag = 1;
-        flagEdit = 0;
 
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
