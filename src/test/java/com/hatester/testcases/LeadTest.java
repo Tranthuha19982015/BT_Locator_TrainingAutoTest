@@ -83,25 +83,26 @@ public class LeadTest extends BaseTest {
                 position, city, emailAddress, state, website, country, phone,
                 zipCode, leadValue + ".00", language, company, description, lastContacted);
 
-        leadName = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        source = "Google";
-        assigned = "Example";
-        tag += "edit" + new SimpleDateFormat("HHmmss").format(new Date());
-        phone = "0965898980";
-        zipCode += "1";
-        leadValue += "6";
-        description = "htest edit new lead";
-        lastContacted = "24-11-2025";
-        flag = 0;
-        flagEdit = 1;
+        LeadTest leadEdit = new LeadTest();
+        leadEdit.leadName = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadEdit.source = "Google";
+        leadEdit.assigned = "Example";
+        leadEdit.tag += "edit" + new SimpleDateFormat("HHmmss").format(new Date());
+        leadEdit.phone = "0965898980";
+        leadEdit.zipCode += "1";
+        leadEdit.leadValue += "6";
+        leadEdit.description = "htest edit new lead";
+        leadEdit.lastContacted = "24-11-2025";
+        leadEdit.flag = 0;
+        leadEdit.flagEdit = 1;
 
-        leadPage.fillDataLead(status, source, assigned, tag, leadName, position, city,
-                emailAddress, state, website, country, phone, zipCode, leadValue,
-                language, company, description, lastContacted, flag, flagEdit);
+        leadPage.fillDataLead(status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName, position, city,
+                emailAddress, state, website, country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
+                language, company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadName, 1);
-        leadPage.searchAndCheckLeads(leadName);
+        leadPage.clickIconClosePopupLeadDetail(leadEdit.leadName, 1);
+        leadPage.searchAndCheckLeads(leadEdit.leadName);
     }
 
     @Test
