@@ -181,8 +181,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickIconClosePopupLeadDetail(leadDelete.leadName, 0);
         leadPage.searchAndCheckLeads(leadDelete.leadName);
         leadPage.clickButtonDelete(leadDelete.leadName);
-        leadPage.confirmAlertDelete();
-        leadPage.verifyDeleteLeadSuccessMessage();
-        leadPage.verifyAfterDeleteLead(leadDelete.leadName);
+        leadPage.confirmAlertDelete(1);
+        leadPage.verifyDeleteLeadSuccessMessage(1);
+        leadPage.verifyAfterDeleteLead(leadDelete.leadName, 1);
     }
 }

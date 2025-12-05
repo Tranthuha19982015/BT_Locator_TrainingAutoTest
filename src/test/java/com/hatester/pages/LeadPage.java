@@ -408,21 +408,34 @@ public class LeadPage extends BasePage {
         WebUI.clickElement(driver, buttonDelete(leadName));
     }
 
-    public void confirmAlertDelete() {
+    public void confirmAlertDelete(int typeConfirm) {
         WebUI.sleep(1);
-        driver.switchTo().alert().accept();
+        if (typeConfirm == 1) {
+            driver.switchTo().alert().accept();
+        } else {
+            driver.switchTo().alert().dismiss();
+        }
     }
 
-    public void verifyDeleteLeadSuccessMessage() {
+    public void verifyDeleteLeadSuccessMessage(int typeConfirm) {
         WebUI.sleep(1);
-        Assert.assertTrue(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
-                "The success message for deleting a lead is not displayed");
+        if (typeConfirm == 1) {
+            Assert.assertTrue(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
+                    "The success message for deleting a lead is not displayed");
+        } else {
+            Assert.assertFalse(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
+                    "The success message for deleting a lead is displayed");
+        }
     }
 
-    public void verifyAfterDeleteLead(String name) {
+    public void verifyAfterDeleteLead(String name, int typeConfirm) {
         WebUI.sleep(1);
         WebUI.setTextElement(driver, inputSearchLeads, name);
-        Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
+        if (typeConfirm == 1) {
+            Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
+        } else {
+            Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Hủy xóa Lead không thành công");
+        }
         WebUI.sleep(1);
     }
 }
