@@ -41,7 +41,7 @@ public class DashboardTest extends BaseTest {
 
         taskPage = dashboardPage.clickMenuTask();
 
-        taskPage.verifyMenuTaskDisplay();
+        taskPage.verifyTaskPageDisplayed();
 
         Assert.assertEquals(totalTasksNotFinishedOnDashboard, taskPage.getTotalStatusesNotComplete() + " / " + taskPage.getTotalTaskStatuses(),
                 "The number of Not Finished statuses on the Dashboard does not match the number in the Task menu");
