@@ -28,33 +28,33 @@ public class BasePage {
     public By alertMessage = By.xpath("//div[@id='alert_float_1']/descendant::span[@class='alert-title']");
 
     public DashboardPage clickMenuDashboard() {
-        WebUI.clickElement(driver, menuDashboard);
+        WebUI.clickElement(menuDashboard);
         return new DashboardPage(driver);
     }
 
     public CustomerPage clickMenuCustomer() {
-        WebUI.clickElement(driver, menuCustomers);
+        WebUI.clickElement(menuCustomers);
         return new CustomerPage(driver);
     }
 
     public LeadPage clickMenuLead() {
-        WebUI.clickElement(driver, menuLead);
+        WebUI.clickElement(menuLead);
         return new LeadPage(driver);
     }
 
     public TaskPage clickMenuTask() {
-        WebUI.clickElement(driver, menuTasks);
+        WebUI.clickElement(menuTasks);
         return new TaskPage(driver);
     }
 
     public LoginPage clickLogout() {
-        WebUI.clickElement(driver, iconProfile);
-        WebUI.clickElement(driver, linkLogout);
+        WebUI.clickElement(iconProfile);
+        WebUI.clickElement(linkLogout);
         return new LoginPage(driver);
     }
 
     public void verifyAlertMessageSuccessDisplayed(String expectedMessage) {
-        String actualMessage = WebUI.getElementText(driver, alertMessage);
+        String actualMessage = WebUI.getElementText(alertMessage);
         Assert.assertEquals(actualMessage, expectedMessage, "Alert message does not match!");
     }
 }

@@ -12,6 +12,7 @@ public class DashboardPage extends BasePage {
     public DashboardPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+        new WebUI(driver);
     }
 
     private By buttonDashboardOptions = By.xpath("//div[normalize-space()='Dashboard Options']");
@@ -21,26 +22,26 @@ public class DashboardPage extends BasePage {
     private By labelTotalTasksNotFinished = By.xpath("(//span[normalize-space()='Tasks Not Finished']/parent::div)/following-sibling::span");
 
     public void verifyDashboardPageDisplayed() {
-        Assert.assertTrue(WebUI.checkExistsElement(driver, buttonDashboardOptions), "Dashboard page is not displayed.");
+        Assert.assertTrue(WebUI.checkElementExist(buttonDashboardOptions), "Dashboard page is not displayed.");
     }
 
     public String getTotalInvoicesAwaitingPayment() {
-        String totalInvoicesAwaiting = WebUI.getElementText(driver, labelTotalInvoicesAwaitingPayment);
+        String totalInvoicesAwaiting = WebUI.getElementText(labelTotalInvoicesAwaitingPayment);
         return totalInvoicesAwaiting;
     }
 
     public String getTotalConvertedLeads() {
-        String totalConvertedLeads = WebUI.getElementText(driver, labelTotalConvertedLeads);
+        String totalConvertedLeads = WebUI.getElementText(labelTotalConvertedLeads);
         return totalConvertedLeads;
     }
 
     public String getTotalProjectsInProgress() {
-        String totalProjectsInProgress = WebUI.getElementText(driver, labelTotalProjectsInProgress);
+        String totalProjectsInProgress = WebUI.getElementText(labelTotalProjectsInProgress);
         return totalProjectsInProgress;
     }
 
     public String getTotalTasksNotFinished() {
-        String totalTasksNotFinished = WebUI.getElementText(driver, labelTotalTasksNotFinished);
+        String totalTasksNotFinished = WebUI.getElementText(labelTotalTasksNotFinished);
         return totalTasksNotFinished;
     }
 }

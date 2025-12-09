@@ -4,11 +4,8 @@ import com.hatester.common.BasePage;
 import com.hatester.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-
-import java.util.List;
 
 public class CustomerPage extends BasePage {
     private WebDriver driver;
@@ -16,6 +13,7 @@ public class CustomerPage extends BasePage {
     public CustomerPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+        new WebUI(driver);
     }
 
     //button
@@ -121,87 +119,87 @@ public class CustomerPage extends BasePage {
 
     //functions
     public void verifyHeaderCustomersSummaryDisplayed() {
-        Assert.assertTrue(WebUI.checkExistsElement(driver, headerCustomersSummary));
+        Assert.assertTrue(WebUI.checkElementExist(headerCustomersSummary));
     }
 
     public void clickButtonAddCustomer() {
-        WebUI.clickElement(driver, buttonNewCustomer);
+        WebUI.clickElement(buttonNewCustomer);
     }
 
     public void verifyHeaderCustomerDetailsTabDisplayed() {
-        Assert.assertTrue(WebUI.checkExistsElement(driver, headerCustomerDetailsTab));
+        Assert.assertTrue(WebUI.checkElementExist(headerCustomerDetailsTab));
     }
 
     public void fillDataCustomer(String company, String vatNumber, String phone, String website, String group, String currency,
                                  String defaultLanguage, String address, String city, String state, String zipCode, String country, int flagEdit) {
 
         if (flagEdit == 1) {
-            WebUI.clearTextElement(driver, inputCompany);
-            WebUI.clearTextElement(driver, inputVatNumber);
-            WebUI.clearTextElement(driver, inputPhone);
-            WebUI.clearTextElement(driver, inputWebsite);
-            WebUI.clearTextElement(driver, inputAddress);
-            WebUI.clearTextElement(driver, inputCity);
-            WebUI.clearTextElement(driver, inputState);
-            WebUI.clearTextElement(driver, inputZipCode);
+            WebUI.clearTextElement(inputCompany);
+            WebUI.clearTextElement(inputVatNumber);
+            WebUI.clearTextElement(inputPhone);
+            WebUI.clearTextElement(inputWebsite);
+            WebUI.clearTextElement(inputAddress);
+            WebUI.clearTextElement(inputCity);
+            WebUI.clearTextElement(inputState);
+            WebUI.clearTextElement(inputZipCode);
         }
 
-        WebUI.setTextElement(driver, inputCompany, company);
-        WebUI.setTextElement(driver, inputVatNumber, vatNumber);
-        WebUI.setTextElement(driver, inputPhone, phone);
-        WebUI.setTextElement(driver, inputWebsite, website);
+        WebUI.setTextElement(inputCompany, company);
+        WebUI.setTextElement(inputVatNumber, vatNumber);
+        WebUI.setTextElement(inputPhone, phone);
+        WebUI.setTextElement(inputWebsite, website);
 
-        WebUI.clickElement(driver, dropdownGroups);
-        WebUI.setTextElement(driver, inputSearchGroup, group);
-        WebUI.clickElement(driver, getValueGroup(group));
+        WebUI.clickElement(dropdownGroups);
+        WebUI.setTextElement(inputSearchGroup, group);
+        WebUI.clickElement(getValueGroup(group));
 
-        WebUI.clickElement(driver, dropdownCurrency);
-        WebUI.setTextElement(driver, inputSearchCurrency, currency);
-        WebUI.clickElement(driver, getValueCurrency(currency));
+        WebUI.clickElement(dropdownCurrency);
+        WebUI.setTextElement(inputSearchCurrency, currency);
+        WebUI.clickElement(getValueCurrency(currency));
 
-        WebUI.clickElement(driver, dropdownDefaultLanguage);
-        WebUI.clickElement(driver, getValueDefaultLanguage(defaultLanguage));
+        WebUI.clickElement(dropdownDefaultLanguage);
+        WebUI.clickElement(getValueDefaultLanguage(defaultLanguage));
 
-        WebUI.setTextElement(driver, inputAddress, address);
-        WebUI.setTextElement(driver, inputCity, city);
-        WebUI.setTextElement(driver, inputState, state);
-        WebUI.setTextElement(driver, inputZipCode, zipCode);
+        WebUI.setTextElement(inputAddress, address);
+        WebUI.setTextElement(inputCity, city);
+        WebUI.setTextElement(inputState, state);
+        WebUI.setTextElement(inputZipCode, zipCode);
 
-        WebUI.clickElement(driver, dropdownCountry);
-        WebUI.setTextElement(driver, inputSearchCountry, country);
-        WebUI.clickElement(driver, getValueCountry(country));
+        WebUI.clickElement(dropdownCountry);
+        WebUI.setTextElement(inputSearchCountry, country);
+        WebUI.clickElement(getValueCountry(country));
     }
 
     public void clickButtonSaveAndCreateContact() {
-        WebUI.clickElement(driver, buttonSaveAndCreateContact);
+        WebUI.clickElement(buttonSaveAndCreateContact);
     }
 
     public void clickButtonSave() {
-        WebUI.clickElement(driver, buttonSave);
+        WebUI.clickElement(buttonSave);
     }
 
     public void searchAndCheckCustomer(String customerName) {
-        WebUI.setTextElement(driver, inputSearchCustomers, customerName);
-        WebUI.waitForElementVisible(driver, getFirstRowCustomersName(customerName));
-        Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowCustomersName(customerName)),
+        WebUI.setTextElement(inputSearchCustomers, customerName);
+        WebUI.waitForElementVisible(getFirstRowCustomersName(customerName));
+        Assert.assertTrue(WebUI.checkElementExist(getFirstRowCustomersName(customerName)),
                 "Không đúng giá trị Customer vừa thêm mới");
     }
 
     public void searchCustomers(String customerName) {
         WebUI.sleep(0.5);
-        WebUI.setTextElement(driver, inputSearchCustomers, customerName);
+        WebUI.setTextElement(inputSearchCustomers, customerName);
     }
 
     public void moveToCustomerName(String customerName) {
-        WebUI.waitForElementVisible(driver, getFirstRowCustomersName(customerName));
+        WebUI.waitForElementVisible(getFirstRowCustomersName(customerName));
         WebUI.sleep(0.5);
         Actions actions = new Actions(driver);
-        actions.moveToElement(WebUI.getWebElement(driver, getFirstRowCustomersName(customerName))).perform();
+        actions.moveToElement(WebUI.getWebElement(getFirstRowCustomersName(customerName))).perform();
         WebUI.sleep(0.5);
     }
 
     public void clickButtonDelete(String customerName) {
-        WebUI.clickElement(driver, buttonDelete(customerName));
+        WebUI.clickElement(buttonDelete(customerName));
         WebUI.sleep(0.5);
     }
 
@@ -211,6 +209,6 @@ public class CustomerPage extends BasePage {
         } else {
             driver.switchTo().alert().dismiss();
         }
-        WebUI.waitForElementNotVisible(driver, deleteCustomerMessage);
+        WebUI.waitForElementNotVisible(deleteCustomerMessage);
     }
 }

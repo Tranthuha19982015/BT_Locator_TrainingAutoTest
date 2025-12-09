@@ -15,6 +15,7 @@ public class LeadPage extends BasePage {
     public LeadPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+        new WebUI(driver);
     }
 
     //Locator Lead Page
@@ -181,7 +182,7 @@ public class LeadPage extends BasePage {
     private By deleteLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead deleted']/parent::div");
 
     public void clickIconLeadsSummary() {
-        WebUI.clickElement(driver, iconLeadsSummary);
+        WebUI.clickElement(iconLeadsSummary);
         WebUI.sleep(2);
     }
 
@@ -189,19 +190,19 @@ public class LeadPage extends BasePage {
         String actualCurrentUrl = WebUI.getCurrentURL(driver);
         String expectedUrl = "https://crm.anhtester.com/admin/leads";
 
-        Assert.assertTrue((WebUI.checkExistsElement(driver, headerLeadsSummary) && actualCurrentUrl.equals(expectedUrl)),
+        Assert.assertTrue((WebUI.checkElementExist(headerLeadsSummary) && actualCurrentUrl.equals(expectedUrl)),
                 "Failed to navigate to the Lead menu");
     }
 
     public String getTotalStatusActive() {
-        WebUI.waitForElementVisible(driver, labelTotalStatusActive);
-        String totalStatusActive = WebUI.getElementText(driver, labelTotalStatusActive);
+        WebUI.waitForElementVisible(labelTotalStatusActive);
+        String totalStatusActive = WebUI.getElementText(labelTotalStatusActive);
         return totalStatusActive;
     }
 
     public String getTotalStatusCustomer() {
-        WebUI.waitForElementVisible(driver, lableTotalStatusCustomer);
-        String totalStatusCustomer = WebUI.getElementText(driver, lableTotalStatusCustomer);
+        WebUI.waitForElementVisible(lableTotalStatusCustomer);
+        String totalStatusCustomer = WebUI.getElementText(lableTotalStatusCustomer);
         return totalStatusCustomer;
     }
 
@@ -214,10 +215,10 @@ public class LeadPage extends BasePage {
     }
 
     public void clickButtonNewLead() {
-        WebUI.clickElement(driver, buttonNewLead);
+        WebUI.clickElement(buttonNewLead);
         WebUI.sleep(1);
 
-        Assert.assertTrue(WebUI.checkExistsElement(driver, headerAddNewLead), "Failed to open the “Add New Lead” popup");
+        Assert.assertTrue(WebUI.checkElementExist(headerAddNewLead), "Failed to open the “Add New Lead” popup");
     }
 
     public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
@@ -225,187 +226,187 @@ public class LeadPage extends BasePage {
                              String zipCode, String leadValue, String language, String company, String description,
                              String dateContacted, int flag, int flagEdit) {
         //status
-        WebUI.clickElement(driver, dropdownStatus);
-        WebUI.setTextElement(driver, inputSearchStatus, status);
-        WebUI.clickElement(driver, getValueStatus(status));
+        WebUI.clickElement(dropdownStatus);
+        WebUI.setTextElement(inputSearchStatus, status);
+        WebUI.clickElement(getValueStatus(status));
 
         //source
-        WebUI.clickElement(driver, dropdownSource);
-        WebUI.setTextElement(driver, inputSearchSource, source);
-        WebUI.clickElement(driver, getValueSource(source));
+        WebUI.clickElement(dropdownSource);
+        WebUI.setTextElement(inputSearchSource, source);
+        WebUI.clickElement(getValueSource(source));
 
         //assigned
-        WebUI.clickElement(driver, dropdownAssigned);
-        WebUI.setTextElement(driver, inputSearchAssigned, assigned);
-        WebUI.clickElement(driver, getValueAssigned(assigned));
+        WebUI.clickElement(dropdownAssigned);
+        WebUI.setTextElement(inputSearchAssigned, assigned);
+        WebUI.clickElement(getValueAssigned(assigned));
 
         //input
         if (flagEdit == 1) {
-            WebUI.clickElement(driver, iconCloseTag);
-            WebUI.clearTextElement(driver, inputName);
+            WebUI.clickElement(iconCloseTag);
+            WebUI.clearTextElement(inputName);
 //            WebUI.clearElementText(driver,LocatorinputAddress);
-            WebUI.clearTextElement(driver, inputPosition);
-            WebUI.clearTextElement(driver, inputCity);
-            WebUI.clearTextElement(driver, inputEmailAddress);
-            WebUI.clearTextElement(driver, inputState);
-            WebUI.clearTextElement(driver, inputWebsite);
-            WebUI.clearTextElement(driver, inputPhone);
-            WebUI.clearTextElement(driver, inputZipcode);
-            WebUI.clearTextElement(driver, inputLeadValue);
-            WebUI.clearTextElement(driver, inputCompany);
-            WebUI.clearTextElement(driver, inputDescription);
-            WebUI.clearTextElement(driver, inputLastContact);
+            WebUI.clearTextElement(inputPosition);
+            WebUI.clearTextElement(inputCity);
+            WebUI.clearTextElement(inputEmailAddress);
+            WebUI.clearTextElement(inputState);
+            WebUI.clearTextElement(inputWebsite);
+            WebUI.clearTextElement(inputPhone);
+            WebUI.clearTextElement(inputZipcode);
+            WebUI.clearTextElement(inputLeadValue);
+            WebUI.clearTextElement(inputCompany);
+            WebUI.clearTextElement(inputDescription);
+            WebUI.clearTextElement(inputLastContact);
 
-            WebUI.clickElement(driver, labelPhone);
-            WebUI.clickElement(driver, labelPhone);
+            WebUI.clickElement(labelPhone);
+            WebUI.clickElement(labelPhone);
 
-            WebUI.scrollAtBottom(driver, dropdownStatus);
+            WebUI.scrollAtBottom(dropdownStatus);
 
-            WebUI.clickElement(driver, inputTags);
+            WebUI.clickElement(inputTags);
         }
 
-        WebUI.setTextAndKeyElement(driver, inputTags, tag, Keys.ENTER);
-        WebUI.clickElement(driver, labelTags);
-        WebUI.clickElement(driver, labelTags);
+        WebUI.setTextAndKeyElement(inputTags, tag, Keys.ENTER);
+        WebUI.clickElement(labelTags);
+        WebUI.clickElement(labelTags);
 
-        WebUI.setTextElement(driver, inputName, name);
-//        WebUI.setTextElement(driver, LocatorinputAddress, "");
+        WebUI.setTextElement(inputName, name);
+//        WebUI.setTextElement(LocatorinputAddress, "");
 
-        WebUI.setTextElement(driver, inputPosition, position);
-        WebUI.setTextElement(driver, inputCity, city);
-        WebUI.setTextElement(driver, inputEmailAddress, emailAddress);
-        WebUI.setTextElement(driver, inputState, state);
-        WebUI.setTextElement(driver, inputWebsite, website);
+        WebUI.setTextElement(inputPosition, position);
+        WebUI.setTextElement(inputCity, city);
+        WebUI.setTextElement(inputEmailAddress, emailAddress);
+        WebUI.setTextElement(inputState, state);
+        WebUI.setTextElement(inputWebsite, website);
 
         //country
-        WebUI.clickElement(driver, dropdownCountry);
-        WebUI.setTextElement(driver, inputSearchCountry, country);
-        WebUI.clickElement(driver, getValueCountry(country));
+        WebUI.clickElement(dropdownCountry);
+        WebUI.setTextElement(inputSearchCountry, country);
+        WebUI.clickElement(getValueCountry(country));
 
         //input
-        WebUI.setTextElement(driver, inputPhone, phone);
-        WebUI.setTextElement(driver, inputZipcode, zipCode);
-        WebUI.setTextElement(driver, inputLeadValue, leadValue);
+        WebUI.setTextElement(inputPhone, phone);
+        WebUI.setTextElement(inputZipcode, zipCode);
+        WebUI.setTextElement(inputLeadValue, leadValue);
 
         //Default Language
-        WebUI.clickElement(driver, dropdownDefaultLanguage);
-        WebUI.setTextElement(driver, inputSearchDefaultLanguage, language);
-        WebUI.clickElement(driver, getValueDefaultLanguage(language));
+        WebUI.clickElement(dropdownDefaultLanguage);
+        WebUI.setTextElement(inputSearchDefaultLanguage, language);
+        WebUI.clickElement(getValueDefaultLanguage(language));
 
         //input
-        WebUI.setTextElement(driver, inputCompany, company);
-        WebUI.setTextElement(driver, inputDescription, description);
+        WebUI.setTextElement(inputCompany, company);
+        WebUI.setTextElement(inputDescription, description);
 
         //checkbox
-        WebUI.clickElement(driver, labelCheckboxPublic);
+        WebUI.clickElement(labelCheckboxPublic);
 
         if (flagEdit == 0) {
-            WebUI.clickElement(driver, labelCheckboxContactedToday);
-            WebUI.setTextElement(driver, inputDateContacted, dateContacted);
-            WebUI.clickElement(driver, labelPhone);
-            WebUI.clickElement(driver, labelPhone);
+            WebUI.clickElement(labelCheckboxContactedToday);
+            WebUI.setTextElement(inputDateContacted, dateContacted);
+            WebUI.clickElement(labelPhone);
+            WebUI.clickElement(labelPhone);
         } else {
-            WebUI.clearTextElement(driver, inputLastContact);
-            WebUI.setTextElement(driver, inputLastContact, dateContacted);
-            WebUI.clickElement(driver, labelPhone);
-            WebUI.clickElement(driver, labelPhone);
+            WebUI.clearTextElement(inputLastContact);
+            WebUI.setTextElement(inputLastContact, dateContacted);
+            WebUI.clickElement(labelPhone);
+            WebUI.clickElement(labelPhone);
         }
     }
 
     public void clickButtonSave() {
-        WebUI.clickElement(driver, buttonSave);
+        WebUI.clickElement(buttonSave);
         WebUI.sleep(1);
     }
 
     public void verifyAddLeadSuccessMessage() {
         WebUI.sleep(0.5);
-        Assert.assertTrue(WebUI.checkExistsElement(driver, addLeadSuccessMessage),
+        Assert.assertTrue(WebUI.checkElementExist(addLeadSuccessMessage),
                 "The success message for adding a lead is not displayed");
     }
 
     public void verifyUpdateLeadSuccessMessage() {
         WebUI.sleep(0.5);
-        Assert.assertTrue(WebUI.checkExistsElement(driver, updateLeadSuccessMessage),
+        Assert.assertTrue(WebUI.checkElementExist(updateLeadSuccessMessage),
                 "The success message for updating a lead is not displayed");
     }
 
     public void clickIconClosePopupLeadDetail(String name, int flagEdit) {
         if (flagEdit == 0) {
-            WebUI.waitForElementNotVisible(driver, addLeadSuccessMessage);
+            WebUI.waitForElementNotVisible(addLeadSuccessMessage);
         } else {
-            WebUI.waitForElementNotVisible(driver, updateLeadSuccessMessage);
+            WebUI.waitForElementNotVisible(updateLeadSuccessMessage);
         }
-        WebUI.scrollAtTop(driver, iconClosePopupLeadDetail(name));
-        WebUI.clickElement(driver, iconClosePopupLeadDetail(name));
+        WebUI.scrollAtTop(iconClosePopupLeadDetail(name));
+        WebUI.clickElement(iconClosePopupLeadDetail(name));
         WebUI.sleep(1);
     }
 
     public void searchAndCheckLeads(String name) {
         driver.navigate().refresh();
         WebUI.sleep(1);
-        WebUI.setTextElement(driver, inputSearchLeads, name);
-        WebUI.waitForElementVisible(driver, getFirstRowItemLeadName(name));
-        Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
+        WebUI.setTextElement(inputSearchLeads, name);
+        WebUI.waitForElementVisible(getFirstRowItemLeadName(name));
+        Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         WebUI.sleep(1);
     }
 
     public void clickButtonEdit(String leadName) {
         Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(driver, getFirstRowItemLeadName(leadName))).perform();
-        WebUI.clickElement(driver, buttonEdit(leadName));
+        action.moveToElement(WebUI.getWebElement(getFirstRowItemLeadName(leadName))).perform();
+        WebUI.clickElement(buttonEdit(leadName));
     }
 
     public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name,
                                          String position, String city, String emailAddress, String state, String website, String country,
                                          String phone, String zipCode, String leadValue, String language, String company, String description,
                                          String dateContacted) {
-        boolean containsStatus = WebUI.getElementText(driver, dropdownStatus).contains(status);
+        boolean containsStatus = WebUI.getElementText(dropdownStatus).contains(status);
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver, dropdownSource), source,
+        Assert.assertEquals(WebUI.getElementText(dropdownSource), source,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsAssigned = WebUI.getElementText(driver, dropdownAssigned).contains(assigned);
+        boolean containsAssigned = WebUI.getElementText(dropdownAssigned).contains(assigned);
         Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver, inputTagsEdit).toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getElementText(inputTagsEdit).toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputName, "value"), name,
+        Assert.assertEquals(WebUI.getElementAttribute(inputName, "value"), name,
                 "Không đúng giá trị đã thêm mới");
 //        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorinputAddress,"value"), address,
 //        "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputPosition, "value"), position,
+        Assert.assertEquals(WebUI.getElementAttribute(inputPosition, "value"), position,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputCity, "value"), city,
+        Assert.assertEquals(WebUI.getElementAttribute(inputCity, "value"), city,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputEmailAddress, "value"), emailAddress,
+        Assert.assertEquals(WebUI.getElementAttribute(inputEmailAddress, "value"), emailAddress,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputState, "value"), state,
+        Assert.assertEquals(WebUI.getElementAttribute(inputState, "value"), state,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputWebsite, "value"), website,
+        Assert.assertEquals(WebUI.getElementAttribute(inputWebsite, "value"), website,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver, dropdownCountry), country,
+        Assert.assertEquals(WebUI.getElementText(dropdownCountry), country,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputPhone, "value"), phone,
+        Assert.assertEquals(WebUI.getElementAttribute(inputPhone, "value"), phone,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputZipcode, "value"), zipCode,
+        Assert.assertEquals(WebUI.getElementAttribute(inputZipcode, "value"), zipCode,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputLeadValue, "value"), leadValue,
+        Assert.assertEquals(WebUI.getElementAttribute(inputLeadValue, "value"), leadValue,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(driver, dropdownDefaultLanguage), language,
+        Assert.assertEquals(WebUI.getElementText(dropdownDefaultLanguage), language,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputCompany, "value"), company,
+        Assert.assertEquals(WebUI.getElementAttribute(inputCompany, "value"), company,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(driver, inputDescription, "value"), description,
+        Assert.assertEquals(WebUI.getElementAttribute(inputDescription, "value"), description,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsLastContact = WebUI.getElementAttribute(driver, inputLastContact, "value").contains(dateContacted);
+        boolean containsLastContact = WebUI.getElementAttribute(inputLastContact, "value").contains(dateContacted);
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
-        Assert.assertFalse(WebUI.checkExistsElement(driver, checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
-        Assert.assertTrue(WebUI.checkSeletedElement(driver, checkboxPublic), "Không tích chọn checkbox");
+        Assert.assertFalse(WebUI.checkElementExist(checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
+        Assert.assertTrue(WebUI.checkSeletedElement(checkboxPublic), "Không tích chọn checkbox");
         WebUI.sleep(1);
     }
 
     public void clickButtonDelete(String leadName) {
         Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(driver, getFirstRowItemLeadName(leadName))).perform();
-        WebUI.clickElement(driver, buttonDelete(leadName));
+        action.moveToElement(WebUI.getWebElement(getFirstRowItemLeadName(leadName))).perform();
+        WebUI.clickElement(buttonDelete(leadName));
     }
 
     public void confirmAlertDelete(int typeConfirm) {
@@ -420,21 +421,21 @@ public class LeadPage extends BasePage {
     public void verifyDeleteLeadSuccessMessage(int typeConfirm) {
         WebUI.sleep(1);
         if (typeConfirm == 1) {
-            Assert.assertTrue(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
+            Assert.assertTrue(WebUI.checkElementExist(deleteLeadSuccessMessage),
                     "The success message for deleting a lead is not displayed");
         } else {
-            Assert.assertFalse(WebUI.checkExistsElement(driver, deleteLeadSuccessMessage),
+            Assert.assertFalse(WebUI.checkElementExist(deleteLeadSuccessMessage),
                     "The success message for deleting a lead is displayed");
         }
     }
 
     public void verifyAfterDeleteLead(String name, int typeConfirm) {
         WebUI.sleep(1);
-        WebUI.setTextElement(driver, inputSearchLeads, name);
+        WebUI.setTextElement(inputSearchLeads, name);
         if (typeConfirm == 1) {
-            Assert.assertFalse(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
+            Assert.assertFalse(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
         } else {
-            Assert.assertTrue(WebUI.checkExistsElement(driver, getFirstRowItemLeadName(name)), "Hủy xóa Lead không thành công");
+            Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Hủy xóa Lead không thành công");
         }
         WebUI.sleep(1);
     }
