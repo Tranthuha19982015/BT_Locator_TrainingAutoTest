@@ -23,7 +23,7 @@ public class CustomerTest extends BaseTest {
         dashboardPage.verifyDashboardPageDisplayed();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        company = "x";
+        company = "Đồ Án Tốt Nghiệp";
 
         for (int i = 0; i < 100; i++) {
             customerPage.searchCustomers(company);
