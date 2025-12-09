@@ -4,8 +4,6 @@ import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LoginPage;
 import com.hatester.pages.TaskPage;
 import com.hatester.common.BaseTest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import java.awt.*;
@@ -51,7 +49,7 @@ public class TaskTest extends BaseTest {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
-        taskPage.verifyMenuTaskDisplay();
+        taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
         taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
@@ -73,7 +71,7 @@ public class TaskTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
 
-        taskPage.verifyMenuTaskDisplay();
+        taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
         taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
@@ -134,7 +132,7 @@ public class TaskTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
 
-        taskPage.verifyMenuTaskDisplay();
+        taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
         taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,

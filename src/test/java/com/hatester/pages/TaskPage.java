@@ -201,7 +201,7 @@ public class TaskPage extends BasePage {
     private By deleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']");
     private By iconCloseDeleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']/preceding-sibling::button[@class='close']");
 
-    public void verifyMenuTaskDisplay() {
+    public void verifyTaskPageDisplayed() {
         String actualCurrentUrl = WebUI.getCurrentURL(driver);
         String expectUrl = "https://crm.anhtester.com/admin/tasks";
 
