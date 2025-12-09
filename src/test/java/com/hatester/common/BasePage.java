@@ -25,6 +25,7 @@ public class BasePage {
     public By linkMyProfile = By.xpath("//div[@id='header']/descendant::a[text()='My Profile']");
     public By linkEditProfile = By.xpath("//div[@id='header']/descendant::a[text()='Edit Profile']");
     public By linkLogout = By.xpath("//div[@id='header']/descendant::a[text()='Logout']");
+    public By alertMessage = By.xpath("//div[@id='alert_float_1']/descendant::span[@class='alert-title']");
 
     public DashboardPage clickMenuDashboard() {
         WebUI.clickElement(driver, menuDashboard);
@@ -50,5 +51,10 @@ public class BasePage {
         WebUI.clickElement(driver, iconProfile);
         WebUI.clickElement(driver, linkLogout);
         return new LoginPage(driver);
+    }
+
+    public void verifyAlertMessageSuccessDisplayed(String expectedMessage) {
+        String actualMessage = WebUI.getElementText(driver, alertMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Alert message does not match!");
     }
 }
