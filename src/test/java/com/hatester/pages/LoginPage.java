@@ -62,7 +62,7 @@ public class LoginPage extends BasePage {
 
     public void verifyLoginSuccess() {
         WebUI.sleep(1);
-        String actualCurrentURL = WebUI.getCurrentURL(driver);
+        String actualCurrentURL = WebUI.getCurrentURL();
         String expectedURL = "https://crm.anhtester.com/admin/";
 
         Assert.assertTrue((WebUI.checkElementExist(menuDashboard) && actualCurrentURL.equals(expectedURL)),

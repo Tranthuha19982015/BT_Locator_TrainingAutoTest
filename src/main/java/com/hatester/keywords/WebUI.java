@@ -165,11 +165,11 @@ public class WebUI {
         }
     }
 
-    public static void switchToParentFrame(WebDriver driver) {
+    public static void switchToParentFrame() {
         driver.switchTo().parentFrame();
     }
 
-    public static void switchToDefaultContentFrame(WebDriver driver) {
+    public static void switchToDefaultContentFrame() {
         driver.switchTo().defaultContent();
     }
 
@@ -216,7 +216,6 @@ public class WebUI {
         }
     }
 
-
     public static boolean checkSeletedElement(By by) {
         WebElement element = waitForElementPresent(by);
         if (element.isSelected()) {
@@ -234,7 +233,7 @@ public class WebUI {
         System.out.println("Open URL: " + url);
     }
 
-    public static String getCurrentURL(WebDriver driver) {
+    public static String getCurrentURL() {
         sleep(STEP_TIME);
         String currentUrl = driver.getCurrentUrl();
         System.out.println("Current URL: " + currentUrl);

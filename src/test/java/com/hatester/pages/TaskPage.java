@@ -206,7 +206,7 @@ public class TaskPage extends BasePage {
     private By iconCloseDeleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']/preceding-sibling::button[@class='close']");
 
     public void verifyTaskPageDisplayed() {
-        String actualCurrentUrl = WebUI.getCurrentURL(driver);
+        String actualCurrentUrl = WebUI.getCurrentURL();
         String expectUrl = "https://crm.anhtester.com/admin/tasks";
 
         Assert.assertTrue((WebUI.checkElementExist(headerTasksSummary) && actualCurrentUrl.equals(expectUrl)),
@@ -336,7 +336,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(inputDescription);
         WebUI.switchToFrame(iframeDescription);
         WebUI.setTextElement(inputDescriptionFrame, description);
-        WebUI.switchToParentFrame(driver);
+        WebUI.switchToParentFrame();
     }
 
     public void clickButtonSave() {
@@ -538,7 +538,7 @@ public class TaskPage extends BasePage {
         WebUI.sleep(0.5);
         actions.sendKeys(WebUI.getWebElement(inputDescriptionFrame), description);
         WebUI.sleep(0.5);
-        WebUI.switchToParentFrame(driver);
+        WebUI.switchToParentFrame();
         WebUI.sleep(0.5);
     }
 

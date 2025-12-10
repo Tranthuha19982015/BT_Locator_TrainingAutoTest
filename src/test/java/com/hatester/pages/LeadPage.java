@@ -188,7 +188,7 @@ public class LeadPage extends BasePage {
     }
 
     public void verifyLeadSummaryDisplay() {
-        String actualCurrentUrl = WebUI.getCurrentURL(driver);
+        String actualCurrentUrl = WebUI.getCurrentURL();
         String expectedUrl = "https://crm.anhtester.com/admin/leads";
 
         Assert.assertTrue((WebUI.checkElementExist(headerLeadsSummary) && actualCurrentUrl.equals(expectedUrl)),
