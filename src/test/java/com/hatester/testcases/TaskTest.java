@@ -10,9 +10,10 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class TaskTest extends BaseTest {
-    String taskName = "A[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
+    String taskName = "[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
             hourlyRate = "8.00",
             startDate = "08-12-2025",
             dueDate = "12-12-2025",
@@ -22,7 +23,7 @@ public class TaskTest extends BaseTest {
             typeRepeatEveryCutom = "Week(s)",
             totalCycles = "6",
             relateTo = "Lead",
-            typeRelateTo = "Giang Chan",
+            typeRelateTo = "[htest]lead",
             assignee = "Admin Anh Tester",
             follower = "Admin Example",
             tag = "htest",
@@ -46,21 +47,24 @@ public class TaskTest extends BaseTest {
         startDate = sdf.format(start);
         dueDate = sdf.format(cal.getTime());
 
+        TaskTest taskTest = new TaskTest();
+        taskTest.taskName = taskName + new Random().nextInt(1000);
+
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
+        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
                 assignee, follower, tag, description, flag);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskName, 0);
-        taskPage.searchAndCheckTask(taskName);
-        taskPage.clickButtonEdit(taskName);
-        taskPage.verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority,
+        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
+        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.clickButtonEdit(taskTest.taskName);
+        taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
                 repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
                 typeRelateTo, tag, description, flag);
     }
@@ -71,18 +75,20 @@ public class TaskTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
 
+        TaskTest taskTest = new TaskTest();
+        taskTest.taskName = taskName + new Random().nextInt(1000);
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
+        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
                 assignee, follower, tag, description, flag);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskName, 0);
-        taskPage.searchAndCheckTask(taskName);
-        taskPage.clickButtonEdit(taskName);
-        taskPage.verifyNewTaskInTaskEdit(taskName, taskName, hourlyRate, startDate, dueDate, priority,
+        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
+        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.clickButtonEdit(taskTest.taskName);
+        taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
                 repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
                 typeRelateTo, tag, description, flag);
 
@@ -117,7 +123,8 @@ public class TaskTest extends BaseTest {
 
     @Test
     public void testDeleteTask() throws InterruptedException, AWTException {
-        TaskTest taskDelete = new TaskTest();
+        TaskTest taskTest = new TaskTest();
+        taskTest.taskName = taskName + new Random().nextInt(1000);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         // Ngày bắt đầu (hôm nay)
         Date start = new Date();
@@ -134,18 +141,18 @@ public class TaskTest extends BaseTest {
 
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
+        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
                 numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
                 assignee, follower, tag, description, flag);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskName, 0);
-        taskPage.searchAndCheckTask(taskName);
-        taskPage.clickButtonDelete(taskName);
+        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
+        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.clickButtonDelete(taskTest.taskName);
         taskPage.confirmAlertDelete(1);
         taskPage.verifyDeleteTaskSuccessMessage(1);
         taskPage.clickIconCloseDeleteTaskMessage(1);
-        taskPage.verifyAfterDeleteTask(taskName, 1);
+        taskPage.verifyAfterDeleteTask(taskTest.taskName, 1);
     }
 }

@@ -197,7 +197,8 @@ public class TaskPage extends BasePage {
     private String deleteTaskSuccessMessage = "Task deleted";
 
     private By getDeleteTaskSuccessMessage() {
-        return By.xpath(deleteTaskSuccessMessage);
+        String xpathDeleteTaskMessage = "//div[@id='alert_float_1']/descendant::span[@class='alert-title' and normalize-space()='" + deleteTaskSuccessMessage + "']";
+        return By.xpath(xpathDeleteTaskMessage);
     }
 
     private By iconCloseAddTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task added successfully.']/preceding-sibling::button[@class='close']");
@@ -254,6 +255,7 @@ public class TaskPage extends BasePage {
 
     public void clickButtonNewTask() {
         WebUI.clickElement(buttonNewTask);
+        WebUI.sleep(1);
         Assert.assertTrue(WebUI.checkElementExist(headerAddNewTask), "Failed to open the Add Task popup");
     }
 
@@ -359,7 +361,6 @@ public class TaskPage extends BasePage {
     }
 
     public void clickClosePopupTaskDetail(String taskName, int flagEdit) {
-        WebUI.waitForElementNotVisible(alertMessage);
         WebUI.scrollAtTop(iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }
@@ -384,7 +385,7 @@ public class TaskPage extends BasePage {
         WebUI.sleep(0.5);
     }
 
-    public void verifyNewTaskInTaskEdit(String taskName, String subject, String hourlyRate, String startDate, String dueDate, String priority,
+    public void verifyNewTaskInTaskEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority,
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
                                         String relatedTo, String typeRelatedTo, String tag, String description, int flag) {
         if (flag == 1) {
