@@ -182,7 +182,7 @@ public class WebUI {
     }
 
     public static boolean checkElementExist(By by) {
-        List<WebElement> element = waitForAllElementsVisible(by);
+        List<WebElement> element = getWebElements(by);
         if (element.size() > 0) {
             System.out.println("Phần tử tồn tại: true " + by);
             return true;
