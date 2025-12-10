@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class BasePage {
-    private WebDriver driver;
+    protected WebDriver driver;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -54,7 +54,9 @@ public class BasePage {
     }
 
     public void verifyAlertMessageSuccessDisplayed(String expectedMessage) {
+        WebUI.sleep(0.5);
         String actualMessage = WebUI.getElementText(alertMessage);
+        Assert.assertTrue(WebUI.checkElementExist(alertMessage),"The alert message is not displayed");
         Assert.assertEquals(actualMessage, expectedMessage, "Alert message does not match!");
     }
 }

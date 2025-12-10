@@ -7,11 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginPage extends BasePage {
-    private WebDriver driver;
-
     public LoginPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
         new WebUI(driver);
     }
 

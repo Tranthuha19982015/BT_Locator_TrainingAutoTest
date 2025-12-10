@@ -8,11 +8,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 public class CustomerPage extends BasePage {
-    private WebDriver driver;
-
     public CustomerPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
         new WebUI(driver);
     }
 

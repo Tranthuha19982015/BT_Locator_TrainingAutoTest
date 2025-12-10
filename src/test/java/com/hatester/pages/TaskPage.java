@@ -12,11 +12,8 @@ import org.testng.Assert;
 import java.awt.*;
 
 public class TaskPage extends BasePage {
-    private WebDriver driver;
-
     public TaskPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
         new WebUI(driver);
     }
 
@@ -195,11 +192,16 @@ public class TaskPage extends BasePage {
     }
 
     //messsage
-    private By addTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task added successfully.']");
+    private String addTaskSuccessMessage = "Task added successfully.";
+    private String updateTaskSuccessMessage = "Task updated successfully.";
+    private String deleteTaskSuccessMessage = "Task deleted";
+
+    private By getDeleteTaskSuccessMessage() {
+        return By.xpath(deleteTaskSuccessMessage);
+    }
+
     private By iconCloseAddTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task added successfully.']/preceding-sibling::button[@class='close']");
-    private By updateTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task updated successfully.']");
     private By iconCloseUpdateTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task updated successfully.']/preceding-sibling::button[@class='close']");
-    private By deleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']");
     private By iconCloseDeleteTaskSuccessMessage = By.xpath("//span[@class='alert-title' and text()='Task deleted']/preceding-sibling::button[@class='close']");
 
     public void verifyTaskPageDisplayed() {
@@ -341,8 +343,7 @@ public class TaskPage extends BasePage {
     }
 
     public void verifyAddTaskSuccessMessage() {
-        Assert.assertTrue(WebUI.checkElementExist(addTaskSuccessMessage),
-                "The success message for adding a task is not displayed");
+        verifyAlertMessageSuccessDisplayed(addTaskSuccessMessage);
     }
 
     public void clickIconCloseAddTaskMessage() {
@@ -350,8 +351,7 @@ public class TaskPage extends BasePage {
     }
 
     public void verifyUpdateTaskSuccessMessage() {
-        Assert.assertTrue(WebUI.checkElementExist(updateTaskSuccessMessage),
-                "The success message for updating a task is not displayed");
+        verifyAlertMessageSuccessDisplayed(updateTaskSuccessMessage);
     }
 
     public void clickIconCloseUpdateTaskMessage() {
@@ -359,11 +359,7 @@ public class TaskPage extends BasePage {
     }
 
     public void clickClosePopupTaskDetail(String taskName, int flagEdit) {
-        if (flagEdit == 0) {
-            WebUI.waitForElementNotVisible(addTaskSuccessMessage);
-        } else {
-            WebUI.waitForElementNotVisible(updateTaskSuccessMessage);
-        }
+        WebUI.waitForElementNotVisible(alertMessage);
         WebUI.scrollAtTop(iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }
@@ -562,7 +558,10 @@ public class TaskPage extends BasePage {
 
     public void verifyDeleteTaskSuccessMessage(int typeConfirm) {
         if (typeConfirm == 1) {
-            Assert.assertTrue(WebUI.checkElementExist(deleteTaskSuccessMessage),
+            Assert.assertTrue(WebUI.checkElementExist(getDeleteTaskSuccessMessage()),
+                    "The success message for deleting a task is not displayed");
+        } else {
+            Assert.assertFalse(WebUI.checkElementExist(getDeleteTaskSuccessMessage()),
                     "The success message for deleting a task is not displayed");
         }
     }

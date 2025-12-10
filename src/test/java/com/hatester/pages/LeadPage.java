@@ -9,12 +9,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 public class LeadPage extends BasePage {
-
-    private WebDriver driver;
-
     public LeadPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
         new WebUI(driver);
     }
 
@@ -177,9 +173,14 @@ public class LeadPage extends BasePage {
     private By buttonSave = By.xpath("//button[normalize-space()='Save' and @id='lead-form-submit']");
 
     //message
-    private By addLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead added successfully.']/parent::div");
-    private By updateLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead updated successfully.']/parent::div");
-    private By deleteLeadSuccessMessage = By.xpath("//span[@class='alert-title' and normalize-space()='Lead deleted']/parent::div");
+    private String addLeadSuccessMessage = "Lead added successfully.";
+    private String updateLeadSuccessMessage = "Lead updated successfully.";
+    private String deleteLeadSuccessMessage = "Lead deleted";
+
+    private By getDeleteLeadSuccessMessage() {
+        String xpathDeleteLeadMessage = "//div[@id='alert_float_1']/descendant::span[@class='alert-title' and normalize-space()='" + deleteLeadSuccessMessage + "']";
+        return By.xpath(xpathDeleteLeadMessage);
+    }
 
     public void clickIconLeadsSummary() {
         WebUI.clickElement(iconLeadsSummary);
@@ -319,23 +320,14 @@ public class LeadPage extends BasePage {
     }
 
     public void verifyAddLeadSuccessMessage() {
-        WebUI.sleep(0.5);
-        Assert.assertTrue(WebUI.checkElementExist(addLeadSuccessMessage),
-                "The success message for adding a lead is not displayed");
+        verifyAlertMessageSuccessDisplayed(addLeadSuccessMessage);
     }
 
     public void verifyUpdateLeadSuccessMessage() {
-        WebUI.sleep(0.5);
-        Assert.assertTrue(WebUI.checkElementExist(updateLeadSuccessMessage),
-                "The success message for updating a lead is not displayed");
+        verifyAlertMessageSuccessDisplayed(updateLeadSuccessMessage);
     }
 
     public void clickIconClosePopupLeadDetail(String name, int flagEdit) {
-        if (flagEdit == 0) {
-            WebUI.waitForElementNotVisible(addLeadSuccessMessage);
-        } else {
-            WebUI.waitForElementNotVisible(updateLeadSuccessMessage);
-        }
         WebUI.scrollAtTop(iconClosePopupLeadDetail(name));
         WebUI.clickElement(iconClosePopupLeadDetail(name));
         WebUI.sleep(1);
@@ -345,7 +337,6 @@ public class LeadPage extends BasePage {
         driver.navigate().refresh();
         WebUI.sleep(1);
         WebUI.setTextElement(inputSearchLeads, name);
-        WebUI.waitForElementVisible(getFirstRowItemLeadName(name));
         Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
         WebUI.sleep(1);
     }
@@ -419,12 +410,11 @@ public class LeadPage extends BasePage {
     }
 
     public void verifyDeleteLeadSuccessMessage(int typeConfirm) {
-        WebUI.sleep(1);
         if (typeConfirm == 1) {
-            Assert.assertTrue(WebUI.checkElementExist(deleteLeadSuccessMessage),
+            Assert.assertTrue(WebUI.checkElementExist(getDeleteLeadSuccessMessage()),
                     "The success message for deleting a lead is not displayed");
         } else {
-            Assert.assertFalse(WebUI.checkElementExist(deleteLeadSuccessMessage),
+            Assert.assertFalse(WebUI.checkElementExist(getDeleteLeadSuccessMessage()),
                     "The success message for deleting a lead is displayed");
         }
     }
