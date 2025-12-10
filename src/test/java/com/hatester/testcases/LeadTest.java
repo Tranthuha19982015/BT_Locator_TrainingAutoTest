@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class LeadTest extends BaseTest {
     String leadName = "[htest]lead add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
@@ -18,7 +19,7 @@ public class LeadTest extends BaseTest {
             tag = "htest",
             position = "Tester",
             city = "Việt Nam",
-            emailAddress = "htest" + new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date()) + "@gmail.com",
+            emailAddress = "htest" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
             state = "htest state",
             website = "htester.com.vn",
             country = "Vietnam",
@@ -41,19 +42,22 @@ public class LeadTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
+        LeadTest leadTest = new LeadTest();
+        leadTest.leadName = leadName + new Random().nextInt(1000);
+        leadTest.emailAddress = emailAddress + new Random().nextInt(1000) + "@gmail.com";
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress,
+        leadPage.fillDataLead(status, source, assigned, tag, leadTest.leadName, position, city, leadTest.emailAddress,
                 state, website, country, phone, zipCode, leadValue, language, company,
                 description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadName, 0);
-        leadPage.searchAndCheckLeads(leadName);
-        leadPage.clickButtonEdit(leadName);
-        leadPage.verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName, position,
-                city, emailAddress, state, website, country, phone, zipCode,
+        leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
+        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.clickButtonEdit(leadTest.leadName);
+        leadPage.verifyNewLeadInEditPopup(leadTest.leadName, status, source, assigned, tag, leadTest.leadName, position,
+                city, leadTest.emailAddress, state, website, country, phone, zipCode,
                 leadValue + ".00", language, company, description, lastContacted);
     }
 
@@ -63,19 +67,22 @@ public class LeadTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
+        LeadTest leadTest = new LeadTest();
+        leadTest.leadName = leadName + new Random().nextInt(1000);
+        leadTest.emailAddress = emailAddress + new Random().nextInt(1000) + "@gmail.com";
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(status, source, assigned, tag, leadName, position, city,
-                emailAddress, state, website, country, phone, zipCode, leadValue,
-                language, company, description, lastContacted, flag, flagEdit);
+        leadPage.fillDataLead(status, source, assigned, tag, leadTest.leadName, position, city, leadTest.emailAddress,
+                state, website, country, phone, zipCode, leadValue, language, company,
+                description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadName, 0);
-        leadPage.searchAndCheckLeads(leadName);
-        leadPage.clickButtonEdit(leadName);
-        leadPage.verifyNewLeadInEditPopup(leadName, status, source, assigned, tag, leadName,
-                position, city, emailAddress, state, website, country, phone,
+        leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
+        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.clickButtonEdit(leadTest.leadName);
+        leadPage.verifyNewLeadInEditPopup(leadTest.leadName, status, source, assigned, tag, leadTest.leadName,
+                position, city, leadTest.emailAddress, state, website, country, phone,
                 zipCode, leadValue + ".00", language, company, description, lastContacted);
 
         LeadTest leadEdit = new LeadTest();
@@ -92,7 +99,7 @@ public class LeadTest extends BaseTest {
         leadEdit.flagEdit = 1;
 
         leadPage.fillDataLead(status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName, position, city,
-                emailAddress, state, website, country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
+                leadTest.emailAddress, state, website, country, leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue,
                 language, company, leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
@@ -106,19 +113,22 @@ public class LeadTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
+        LeadTest leadTest = new LeadTest();
+        leadTest.leadName = leadName + new Random().nextInt(1000);
+        leadTest.emailAddress = emailAddress + new Random().nextInt(1000) + "@gmail.com";
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(status, source, assigned, tag, leadName, position, city,
-                emailAddress, state, website, country, phone, zipCode, leadValue,
+        leadPage.fillDataLead(status, source, assigned, tag, leadTest.leadName, position, city,
+                leadTest.emailAddress, state, website, country, phone, zipCode, leadValue,
                 language, company, description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
-        leadPage.clickIconClosePopupLeadDetail(leadName, 0);
-        leadPage.searchAndCheckLeads(leadName);
-        leadPage.clickButtonDelete(leadName);
+        leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
+        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.clickButtonDelete(leadTest.leadName);
         leadPage.confirmAlertDelete(1);
         leadPage.verifyDeleteLeadSuccessMessage(1);
-        leadPage.verifyAfterDeleteLead(leadName, 1);
+        leadPage.verifyAfterDeleteLead(leadTest.leadName, 1);
     }
 
     @Test
@@ -134,14 +144,17 @@ public class LeadTest extends BaseTest {
         int totalActiveBeforeAdd = Integer.parseInt(leadPage.getTotalStatusActive());
         int totalCustomerBeforeAdd = Integer.parseInt(leadPage.getTotalStatusCustomer());
 
+        LeadTest leadTest = new LeadTest();
+        leadTest.leadName = leadName + new Random().nextInt(1000);
+        leadTest.emailAddress = emailAddress + new Random().nextInt(1000) + "@gmail.com";
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(status, source, assigned, tag, leadName, position, city, emailAddress,
+        leadPage.fillDataLead(status, source, assigned, tag, leadTest.leadName, position, city, leadTest.emailAddress,
                 state, website, country, phone, zipCode, leadValue, language, company,
                 description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadName, 0);
-        leadPage.searchAndCheckLeads(leadName);
+        leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
+        leadPage.searchAndCheckLeads(leadTest.leadName);
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
 
