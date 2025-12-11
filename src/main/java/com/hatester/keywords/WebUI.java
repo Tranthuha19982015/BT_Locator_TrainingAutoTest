@@ -1,6 +1,7 @@
 package com.hatester.keywords;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -9,13 +10,13 @@ import java.time.Duration;
 import java.util.List;
 
 public class WebUI {
-    private static WebDriver driver;
+    private static WebDriver driver;  //driver = null
     private static int WAIT_TIMEOUT = 10;
     private static double STEP_TIME = 0.5;
     private static int PAGE_LOAD_TIMEOUT = 20;
 
     public WebUI(WebDriver driver) {
-        WebUI.driver = driver;
+        WebUI.driver = driver;  //biến driver static nên để Tên class.Tên biến
     }
 
     public static void sleep(double second) {
@@ -104,7 +105,18 @@ public class WebUI {
 
     public static void waitForElementNotVisible(By by) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+            highlightElement(by);
+        } catch (Throwable error) {
+            System.out.println("Timeout waiting for the element Not Visible. " + by.toString());
+            Assert.fail("Timeout waiting for the element Not Visible. " + by.toString());
+        }
+    }
+
+    public static void waitForElementNotVisible(By by, int seconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
             wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
             highlightElement(by);
         } catch (Throwable error) {
@@ -121,8 +133,22 @@ public class WebUI {
             highlightElement(element);
             return element;
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for the element Not Visible. " + by.toString());
-            Assert.fail("Timeout waiting for the element Not Visible. " + by.toString());
+            System.out.println("Element not exist. " + by.toString());
+            Assert.fail("Element not exist. " + by.toString());
+        }
+        return element;
+    }
+
+    public static WebElement waitForElementPresent(By by, int seconds) {
+        WebElement element = null;
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
+            element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
+            highlightElement(element);
+            return element;
+        } catch (Throwable error) {
+            System.out.println("Element not exist. " + by.toString());
+            Assert.fail("Element not exist. " + by.toString());
         }
         return element;
     }
@@ -155,9 +181,48 @@ public class WebUI {
         return element;
     }
 
+    //Chờ đợi trang load xong mới thao tác
+    public static void waitForPageLoaded() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        //Wait for Javascript to load
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return js.executeScript("return document.readyState").toString().equals("complete");
+            }
+        };
+
+        //Check JS is Ready
+        boolean jsReady = js.executeScript("return document.readyState").toString().equals("complete");
+
+        //Wait Javascript until it is Ready!
+        if (!jsReady) {
+            //System.out.println("Javascript is NOT Ready.");
+            //Wait for Javascript to load
+            try {
+                wait.until(jsLoad);
+            } catch (Throwable error) {
+                error.printStackTrace();
+                Assert.fail("FAILED. Timeout waiting for page load.");
+            }
+        }
+    }
+
     public static void switchToFrame(By by) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
+        } catch (Throwable error) {
+            System.out.println("Timeout waiting for Switch To Frame. " + by.toString());
+            Assert.fail("Timeout waiting for Switch To Frame. " + by.toString());
+        }
+    }
+
+    public static void switchToFrame(By by, int seconds) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
         } catch (Throwable error) {
             System.out.println("Timeout waiting for Switch To Frame. " + by.toString());
@@ -190,6 +255,33 @@ public class WebUI {
             System.out.println("Phần tử không tồn tại: false " + by);
             return false;
         }
+    }
+
+    // Hàm kiểm tra sự tồn tại của phần tử với lặp lại nhiều lần
+    public static boolean checkElementExist(By by, int maxRetries, int waitTimeMillis) {
+        int retryCount = 0;
+
+        while (retryCount < maxRetries) {
+            try {
+                WebElement element = getWebElement(by);
+                if (element != null) {
+                    System.out.println("Tìm thấy phần tử ở lần thử thứ " + (retryCount + 1));
+                    return true; // Phần tử được tìm thấy
+                }
+            } catch (NoSuchElementException e) {
+                System.out.println("Không tìm thấy phần tử. Thử lại lần " + (retryCount + 1));
+                retryCount++;
+                try {
+                    Thread.sleep(waitTimeMillis); // Chờ trước khi thử lại
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+        }
+
+        // Trả về false nếu không tìm thấy phần tử sau maxRetries lần
+        System.out.println("Không tìm thấy phần tử sau " + maxRetries + " lần thử.");
+        return false;
     }
 
     public static boolean checkElementExist(By by, int seconds) {
@@ -252,7 +344,7 @@ public class WebUI {
         System.out.println("Set text " + text + " on element: " + by.toString());
     }
 
-    public static void setTextAndKeyElement(By by, String text, Keys key) {
+    public static void setTextAndKey(By by, String text, Keys key) {
         sleep(STEP_TIME);
         waitForElementVisible(by).sendKeys(text, key);
         System.out.println("Set text and key " + text + " on element: " + by.toString());
@@ -264,7 +356,7 @@ public class WebUI {
         System.out.println("Click to element: " + by);
     }
 
-    public static String getElementText(By by) {
+    public static String getTextElement(By by) {
         sleep(STEP_TIME);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get text on element: " + by.toString());
@@ -273,13 +365,21 @@ public class WebUI {
         return text;
     }
 
-    public static String getElementAttribute(By by, String attribute) {
+    public static String getAttributeElement(By by, String attribute) {
         sleep(STEP_TIME);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get attribute on element: " + by);
         String textAttribute = element.getAttribute(attribute);
         System.out.println("==> Attribute: " + textAttribute);
         return textAttribute;
+    }
+
+    public static String getCssValueElement(By by, String cssPropertyName) {
+        WebElement element = waitForElementVisible(by);
+        System.out.println("Get CSS value " + cssPropertyName + " of element " + by);
+        String value = element.getCssValue(cssPropertyName);
+        System.out.println("==> CSS value: " + value);
+        return value;
     }
 
     public static void scrollAtTop(By by) {

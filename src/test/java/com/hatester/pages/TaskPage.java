@@ -214,27 +214,27 @@ public class TaskPage extends BasePage {
     }
 
     public String getTotalNotStartedTasks() {
-        String statusNotStarted = WebUI.getElementText(labelTaskTotalNotStarted);
+        String statusNotStarted = WebUI.getTextElement(labelTaskTotalNotStarted);
         return statusNotStarted;
     }
 
     public String getTotalInProgressTasks() {
-        String statusInProgress = WebUI.getElementText(labelTaskTotalInProgress);
+        String statusInProgress = WebUI.getTextElement(labelTaskTotalInProgress);
         return statusInProgress;
     }
 
     public String getTotalTestingTasks() {
-        String statusTesting = WebUI.getElementText(labelTaskTotalTesting);
+        String statusTesting = WebUI.getTextElement(labelTaskTotalTesting);
         return statusTesting;
     }
 
     public String getTotalAwaitingFeedbackTasks() {
-        String statusAwaitingFeedback = WebUI.getElementText(labelTaskTotalAwaitingFeedback);
+        String statusAwaitingFeedback = WebUI.getTextElement(labelTaskTotalAwaitingFeedback);
         return statusAwaitingFeedback;
     }
 
     public String getTotalCompleteTasks() {
-        String statusComplete = WebUI.getElementText(labelTaskTotalComplete);
+        String statusComplete = WebUI.getTextElement(labelTaskTotalComplete);
         return statusComplete;
     }
 
@@ -328,7 +328,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(dropdownFollowers);
 
         //input
-        WebUI.setTextAndKeyElement(inputTags, tag, Keys.ENTER);
+        WebUI.setTextAndKey(inputTags, tag, Keys.ENTER);
         WebUI.clickElement(labelTags);
         WebUI.clickElement(labelTags);
 
@@ -396,40 +396,40 @@ public class TaskPage extends BasePage {
             Assert.assertFalse(WebUI.checkSeletedElement(checkboxPublic), "Checkbox được tích chọn");
             Assert.assertFalse(WebUI.checkSeletedElement(checkboxBillable), "Checkbox được tích chọn");
         }
-        Assert.assertEquals(WebUI.getElementAttribute(inputSubject, "value").trim(),
+        Assert.assertEquals(WebUI.getAttributeElement(inputSubject, "value").trim(),
                 subject, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputStartDate, "value").trim(),
+        Assert.assertEquals(WebUI.getAttributeElement(inputStartDate, "value").trim(),
                 startDate, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputDueDate, "value").trim(),
+        Assert.assertEquals(WebUI.getAttributeElement(inputDueDate, "value").trim(),
                 dueDate, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(dropdownPriority).trim(),
+        Assert.assertEquals(WebUI.getTextElement(dropdownPriority).trim(),
                 priority, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(dropdownRepeatEvery).trim(),
+        Assert.assertEquals(WebUI.getTextElement(dropdownRepeatEvery).trim(),
                 repeatEvery, "Không đúng giá trị đã thêm mới");
         if (repeatEvery.equals("Custom")) {
-            Assert.assertEquals(WebUI.getElementAttribute(inputRepeatEveryCustom, "value").trim(),
+            Assert.assertEquals(WebUI.getAttributeElement(inputRepeatEveryCustom, "value").trim(),
                     numberRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
-            Assert.assertEquals(WebUI.getElementText(dropdownRepeatEveryCustom).trim(),
+            Assert.assertEquals(WebUI.getTextElement(dropdownRepeatEveryCustom).trim(),
                     typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
                 || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             Assert.assertFalse(WebUI.checkSeletedElement(checkboxInfinity), "Checkbox không được chọn");
-            Assert.assertEquals(WebUI.getElementAttribute(inputTotalCycles, "value").trim(),
+            Assert.assertEquals(WebUI.getAttributeElement(inputTotalCycles, "value").trim(),
                     totalCycles, "Không đúng giá trị đã thêm mới");
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
-        Assert.assertEquals(WebUI.getElementText(dropdownRelatedTo).trim(), relatedTo,
+        Assert.assertEquals(WebUI.getTextElement(dropdownRelatedTo).trim(), relatedTo,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsTypeRelatedTo = WebUI.getElementText(dropdownTypeRelatedTo).contains(typeRelatedTo);
+        boolean containsTypeRelatedTo = WebUI.getTextElement(dropdownTypeRelatedTo).contains(typeRelatedTo);
         Assert.assertTrue(containsTypeRelatedTo, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(dropdownAssignees), "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(dropdownFollowers), "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(inputTagsEdit).trim().toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).trim().toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
         WebUI.switchToFrame(iframeDescription);
-        Assert.assertEquals(WebUI.getElementText(inputDescriptionFrame).trim().toLowerCase(), description,
+        Assert.assertEquals(WebUI.getTextElement(inputDescriptionFrame).trim().toLowerCase(), description,
                 "Không đúng giá trị đã thêm mới");
         driver.switchTo().parentFrame();
     }

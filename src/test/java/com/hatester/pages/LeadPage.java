@@ -197,13 +197,13 @@ public class LeadPage extends BasePage {
 
     public String getTotalStatusActive() {
         WebUI.waitForElementVisible(labelTotalStatusActive);
-        String totalStatusActive = WebUI.getElementText(labelTotalStatusActive);
+        String totalStatusActive = WebUI.getTextElement(labelTotalStatusActive);
         return totalStatusActive;
     }
 
     public String getTotalStatusCustomer() {
         WebUI.waitForElementVisible(lableTotalStatusCustomer);
-        String totalStatusCustomer = WebUI.getElementText(lableTotalStatusCustomer);
+        String totalStatusCustomer = WebUI.getTextElement(lableTotalStatusCustomer);
         return totalStatusCustomer;
     }
 
@@ -266,7 +266,7 @@ public class LeadPage extends BasePage {
             WebUI.clickElement(inputTags);
         }
 
-        WebUI.setTextAndKeyElement(inputTags, tag, Keys.ENTER);
+        WebUI.setTextAndKey(inputTags, tag, Keys.ENTER);
         WebUI.clickElement(labelTags);
         WebUI.clickElement(labelTags);
 
@@ -351,43 +351,43 @@ public class LeadPage extends BasePage {
                                          String position, String city, String emailAddress, String state, String website, String country,
                                          String phone, String zipCode, String leadValue, String language, String company, String description,
                                          String dateContacted) {
-        boolean containsStatus = WebUI.getElementText(dropdownStatus).contains(status);
+        boolean containsStatus = WebUI.getTextElement(dropdownStatus).contains(status);
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(dropdownSource), source,
+        Assert.assertEquals(WebUI.getTextElement(dropdownSource), source,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsAssigned = WebUI.getElementText(dropdownAssigned).contains(assigned);
+        boolean containsAssigned = WebUI.getTextElement(dropdownAssigned).contains(assigned);
         Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(inputTagsEdit).toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).toLowerCase(), tag,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputName, "value"), name,
+        Assert.assertEquals(WebUI.getAttributeElement(inputName, "value"), name,
                 "Không đúng giá trị đã thêm mới");
 //        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorinputAddress,"value"), address,
 //        "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputPosition, "value"), position,
+        Assert.assertEquals(WebUI.getAttributeElement(inputPosition, "value"), position,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputCity, "value"), city,
+        Assert.assertEquals(WebUI.getAttributeElement(inputCity, "value"), city,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputEmailAddress, "value"), emailAddress,
+        Assert.assertEquals(WebUI.getAttributeElement(inputEmailAddress, "value"), emailAddress,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputState, "value"), state,
+        Assert.assertEquals(WebUI.getAttributeElement(inputState, "value"), state,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputWebsite, "value"), website,
+        Assert.assertEquals(WebUI.getAttributeElement(inputWebsite, "value"), website,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(dropdownCountry), country,
+        Assert.assertEquals(WebUI.getTextElement(dropdownCountry), country,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputPhone, "value"), phone,
+        Assert.assertEquals(WebUI.getAttributeElement(inputPhone, "value"), phone,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputZipcode, "value"), zipCode,
+        Assert.assertEquals(WebUI.getAttributeElement(inputZipcode, "value"), zipCode,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputLeadValue, "value"), leadValue,
+        Assert.assertEquals(WebUI.getAttributeElement(inputLeadValue, "value"), leadValue,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementText(dropdownDefaultLanguage), language,
+        Assert.assertEquals(WebUI.getTextElement(dropdownDefaultLanguage), language,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputCompany, "value"), company,
+        Assert.assertEquals(WebUI.getAttributeElement(inputCompany, "value"), company,
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getElementAttribute(inputDescription, "value"), description,
+        Assert.assertEquals(WebUI.getAttributeElement(inputDescription, "value"), description,
                 "Không đúng giá trị đã thêm mới");
-        boolean containsLastContact = WebUI.getElementAttribute(inputLastContact, "value").contains(dateContacted);
+        boolean containsLastContact = WebUI.getAttributeElement(inputLastContact, "value").contains(dateContacted);
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
         Assert.assertTrue(WebUI.checkSeletedElement(checkboxPublic), "Không tích chọn checkbox");

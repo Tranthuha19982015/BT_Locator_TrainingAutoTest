@@ -23,22 +23,22 @@ public class DashboardPage extends BasePage {
     }
 
     public String getTotalInvoicesAwaitingPayment() {
-        String totalInvoicesAwaiting = WebUI.getElementText(labelTotalInvoicesAwaitingPayment);
+        String totalInvoicesAwaiting = WebUI.getTextElement(labelTotalInvoicesAwaitingPayment);
         return totalInvoicesAwaiting;
     }
 
     public String getTotalConvertedLeads() {
-        String totalConvertedLeads = WebUI.getElementText(labelTotalConvertedLeads);
+        String totalConvertedLeads = WebUI.getTextElement(labelTotalConvertedLeads);
         return totalConvertedLeads;
     }
 
     public String getTotalProjectsInProgress() {
-        String totalProjectsInProgress = WebUI.getElementText(labelTotalProjectsInProgress);
+        String totalProjectsInProgress = WebUI.getTextElement(labelTotalProjectsInProgress);
         return totalProjectsInProgress;
     }
 
     public String getTotalTasksNotFinished() {
-        String totalTasksNotFinished = WebUI.getElementText(labelTotalTasksNotFinished);
+        String totalTasksNotFinished = WebUI.getTextElement(labelTotalTasksNotFinished);
         return totalTasksNotFinished;
     }
 }
