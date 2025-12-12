@@ -158,7 +158,7 @@ public class TaskTest extends BaseTest {
     }
 
     @Test
-    public void testFullBusiness() throws AWTException {
+    public void testLeadAndTaskManagementFlow() throws AWTException {
         loginPage = new LoginPage(driver);
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
