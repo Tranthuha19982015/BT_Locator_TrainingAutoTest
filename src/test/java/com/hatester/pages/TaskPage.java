@@ -313,7 +313,7 @@ public class TaskPage extends BasePage {
         WebUI.setTextElement(inputSearchTypeRelatedTo, typeRelatedTo);
         WebUI.sleep(1);
         Actions actions = new Actions(driver);
-        actions.click(WebUI.getWebElement(inputSearchTypeRelatedTo)).sendKeys(" ").build().perform();
+        actions.click(WebUI.getWebElement(inputSearchTypeRelatedTo)).sendKeys(Keys.END).sendKeys(" ").build().perform();
         WebUI.clickElement(getValueTypeRelatedTo(typeRelatedTo));
 
         //Assignees
