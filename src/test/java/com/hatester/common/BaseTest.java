@@ -19,7 +19,6 @@ public class BaseTest {
     public void createDriver() throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         softAssert = new SoftAssert();
     }
 
