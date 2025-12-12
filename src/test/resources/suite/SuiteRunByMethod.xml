@@ -2,11 +2,9 @@
 
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
+        <parameter name="browser" value="firefox"/>
         <classes>
-            <class name="com.hatester.testcases.TaskTest">
-                <methods>
-                    <include name="testAddNewTaskAndVerify"/>
-                </methods>
+            <class name="com.hatester.testcases.LoginTest">
             </class>
         </classes>
     </test>
