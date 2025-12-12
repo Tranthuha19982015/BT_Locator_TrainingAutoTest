@@ -72,8 +72,8 @@ public class WebUI {
             highlightElement(element);
             return element;
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for the element Visible. " + by.toString());
-            Assert.fail("Timeout waiting for the element Visible. " + by.toString());
+            System.out.println("Timeout waiting for the element Visible with " + seconds + "s : " + by.toString());
+            Assert.fail("Timeout waiting for the element Visible with " + seconds + "s : " + by.toString());
         }
         return element;
     }
@@ -100,8 +100,8 @@ public class WebUI {
             highlightElement(by);
             return element;
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for all elements to be visible. " + by.toString());
-            Assert.fail("Timeout waiting for all elements to be visible. " + by.toString());
+            System.out.println("Timeout waiting for all elements Visible with " + seconds + "s : " + by.toString());
+            Assert.fail("Timeout waiting for all elements Visible with " + seconds + "s : " + by.toString());
         }
         return element;
     }
@@ -123,8 +123,8 @@ public class WebUI {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
             highlightElement(by);
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for the element Not Visible. " + by.toString());
-            Assert.fail("Timeout waiting for the element Not Visible. " + by.toString());
+            System.out.println("Timeout waiting for the element not Visible with " + seconds + "s : " + by.toString());
+            Assert.fail("Timeout waiting for the element not Visible with " + seconds + "s : " + by.toString());
         }
     }
 
@@ -150,8 +150,8 @@ public class WebUI {
             highlightElement(element);
             return element;
         } catch (Throwable error) {
-            System.out.println("Element not exist. " + by.toString());
-            Assert.fail("Element not exist. " + by.toString());
+            System.out.println("Element not exist with " + seconds + "s : " + by.toString());
+            Assert.fail("Element not exist with " + seconds + "s : " + by.toString());
         }
         return element;
     }
@@ -178,8 +178,8 @@ public class WebUI {
             highlightElement(element);
             return element;
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for the element To Be Clickable. " + by.toString());
-            Assert.fail("Timeout waiting for the element To Be Clickable. " + by.toString());
+            System.out.println("Timeout waiting for the element To Be Clickable with " + seconds + "s : " + by.toString());
+            Assert.fail("Timeout waiting for the element To Be Clickable with " + seconds + "s : " + by.toString());
         }
         return element;
     }
@@ -228,8 +228,8 @@ public class WebUI {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
         } catch (Throwable error) {
-            System.out.println("Timeout waiting for Switch To Frame. " + by.toString());
-            Assert.fail("Timeout waiting for Switch To Frame. " + by.toString());
+            System.out.println("Timeout waiting for switch to Frame with " + seconds + "s : " + by.toString());
+            Assert.fail("Timeout waiting for switch to Frame with " + seconds + "s : " + by.toString());
         }
     }
 
@@ -239,6 +239,14 @@ public class WebUI {
 
     public static void switchToDefaultContentFrame() {
         driver.switchTo().defaultContent();
+    }
+
+    public static void acceptAlert() {
+        driver.switchTo().alert().accept();
+    }
+
+    public static void dismissAlert() {
+        driver.switchTo().alert().dismiss();
     }
 
     public static WebElement getWebElement(By by) {
@@ -394,10 +402,12 @@ public class WebUI {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(false);", getWebElement(by));
     }
+
     public static void scrollToPosition(int X, int Y) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(" + X + "," + Y + ");");
     }
+
     public static boolean moveToElement(By by) {
         try {
             Actions action = new Actions(driver);
