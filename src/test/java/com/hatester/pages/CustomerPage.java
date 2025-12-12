@@ -190,8 +190,7 @@ public class CustomerPage extends BasePage {
     public void moveToCustomerName(String customerName) {
         WebUI.waitForElementVisible(getFirstRowCustomersName(customerName));
         WebUI.sleep(0.5);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(WebUI.getWebElement(getFirstRowCustomersName(customerName))).perform();
+        WebUI.moveToElement(getFirstRowCustomersName(customerName));
         WebUI.sleep(0.5);
     }
 

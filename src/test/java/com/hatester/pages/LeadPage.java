@@ -261,7 +261,7 @@ public class LeadPage extends BasePage {
             WebUI.clickElement(labelPhone);
             WebUI.clickElement(labelPhone);
 
-            WebUI.scrollAtBottom(dropdownStatus);
+            WebUI.scrollToElementAtBottom(dropdownStatus);
 
             WebUI.clickElement(inputTags);
         }
@@ -328,7 +328,7 @@ public class LeadPage extends BasePage {
     }
 
     public void clickIconClosePopupLeadDetail(String name, int flagEdit) {
-        WebUI.scrollAtTop(iconClosePopupLeadDetail(name));
+        WebUI.scrollToElementAtTop(iconClosePopupLeadDetail(name));
         WebUI.clickElement(iconClosePopupLeadDetail(name));
         WebUI.sleep(1);
     }
@@ -342,8 +342,7 @@ public class LeadPage extends BasePage {
     }
 
     public void clickButtonEdit(String leadName) {
-        Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(getFirstRowItemLeadName(leadName))).perform();
+        WebUI.moveToElement(getFirstRowItemLeadName(leadName));
         WebUI.clickElement(buttonEdit(leadName));
     }
 
@@ -395,8 +394,7 @@ public class LeadPage extends BasePage {
     }
 
     public void clickButtonDelete(String leadName) {
-        Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(getFirstRowItemLeadName(leadName))).perform();
+        WebUI.moveToElement(getFirstRowItemLeadName(leadName));
         WebUI.clickElement(buttonDelete(leadName));
     }
 

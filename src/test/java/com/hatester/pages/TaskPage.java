@@ -305,7 +305,7 @@ public class TaskPage extends BasePage {
             System.out.println("The Type Repeat Every is not exist.");
         }
 
-        WebUI.scrollAtBottom(buttonSave);
+        WebUI.scrollToElementAtBottom(buttonSave);
         //Related To
         WebUI.clickElement(dropdownRelatedTo);
         WebUI.clickElement(getValueRelatedTo(relatedTo));
@@ -361,7 +361,7 @@ public class TaskPage extends BasePage {
     }
 
     public void clickClosePopupTaskDetail(String taskName, int flagEdit) {
-        WebUI.scrollAtTop(iconClosePopupTaskDetail(taskName));
+        WebUI.scrollToElementAtTop(iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }
 
@@ -378,8 +378,7 @@ public class TaskPage extends BasePage {
 
     public void clickButtonEdit(String taskName) {
         WebUI.sleep(0.5);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(getFirstRowItemTaskName(taskName))).perform();
+        WebUI.moveToElement(getFirstRowItemTaskName(taskName));
         WebUI.sleep(0.5);
         WebUI.clickElement(buttonEdit(taskName));
         WebUI.sleep(0.5);
@@ -511,7 +510,7 @@ public class TaskPage extends BasePage {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
 
-        WebUI.scrollAtBottom(buttonSave);
+        WebUI.scrollToElementAtBottom(buttonSave);
         //Related To
         actions.click(WebUI.getWebElement(dropdownRelatedTo)).perform();
         WebUI.sleep(1);
@@ -521,11 +520,13 @@ public class TaskPage extends BasePage {
         WebUI.sleep(0.5);
         actions.sendKeys(WebUI.getWebElement(inputSearchTypeRelatedTo), typeRelatedTo).perform();
         WebUI.sleep(1);
-        actions.moveToElement(WebUI.getWebElement(getValueTypeRelatedTo(typeRelatedTo))).click().build().perform();
+        WebUI.moveToElement(getValueTypeRelatedTo(typeRelatedTo));
+        actions.click(WebUI.getWebElement(getValueTypeRelatedTo(typeRelatedTo))).perform();
         WebUI.sleep(0.5);
 
         //input
-        actions.moveToElement(WebUI.getWebElement(iconCloseTag)).click().build().perform();
+        WebUI.moveToElement(iconCloseTag);
+        actions.click(WebUI.getWebElement(iconCloseTag)).perform();
         actions.sendKeys(WebUI.getWebElement(inputTags), tag).perform();
         WebUI.sleep(0.5);
         actions.click(WebUI.getWebElement(labelTags)).perform();
@@ -543,8 +544,7 @@ public class TaskPage extends BasePage {
     }
 
     public void clickButtonDelete(String taskName) {
-        Actions action = new Actions(driver);
-        action.moveToElement(WebUI.getWebElement(getFirstRowItemTaskName(taskName))).perform();
+        WebUI.moveToElement(getFirstRowItemTaskName(taskName));
         WebUI.clickElement(buttonDelete(taskName));
     }
 
