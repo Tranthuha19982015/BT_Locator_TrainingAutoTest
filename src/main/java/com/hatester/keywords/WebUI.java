@@ -489,6 +489,33 @@ public class WebUI {
         }
     }
 
+    public static Actions actionClickBase(By by, Keys key, String text) {
+        WebElement element = waitForElementVisible(by);
+        Actions action = new Actions(driver).moveToElement(element).click();
+
+        if (key != null) {
+            action.sendKeys(key);
+        }
+
+        if (text != null && !text.isEmpty()) {
+            action.sendKeys(text);
+        }
+
+        return action;
+    }
+
+    public static Actions actionClick(By by) {
+        return actionClickBase(by, null, null);
+    }
+
+    public static Actions actionClickAndSetText(By by, String text) {
+        return actionClickBase(by, null, text);
+    }
+
+    public static Actions actionClickAndSetKeys(By by, Keys key) {
+        return actionClickBase(by, key, null);
+    }
+
     public static boolean pressENTER() {
         try {
             Robot robot = new Robot();

@@ -261,8 +261,7 @@ public class TaskPage extends BasePage {
 
     public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                                 String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                                String typeRelatedTo, String assignee, String follower, String tag, String description, int flag)
-            throws AWTException {
+                                String typeRelatedTo, String assignee, String follower, String tag, String description, int flag) {
         //checkbox
         if (flag == 1) {
             WebUI.clickElement(labelCheckboxPublic);
@@ -312,8 +311,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(dropdownTypeRelatedTo);
         WebUI.setTextElement(inputSearchTypeRelatedTo, typeRelatedTo);
         WebUI.sleep(1);
-        Actions actions = new Actions(driver);
-        actions.click(WebUI.getWebElement(inputSearchTypeRelatedTo)).sendKeys(Keys.END).sendKeys(" ").build().perform();
+        WebUI.actionClickBase(inputSearchTypeRelatedTo,Keys.END," ").build().perform();
         WebUI.clickElement(getValueTypeRelatedTo(typeRelatedTo));
 
         //Assignees
@@ -436,75 +434,63 @@ public class TaskPage extends BasePage {
     public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
                              String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
                              String typeRelatedTo, String assignee, String follower, String tag, String description, int flag) throws AWTException {
-        Actions actions = new Actions(driver);
         Robot robot = new Robot();
         WebUI.sleep(1);
         //checkbox
         if (flag == 1) {
-            actions.click(WebUI.getWebElement(checkboxPublic)).perform();
+            WebUI.actionClick(labelCheckboxPublic).perform();
             WebUI.sleep(0.5);
         }
         if (flag == 0) {
-            actions.click(WebUI.getWebElement(checkboxBillable)).perform();
+            WebUI.actionClick(labelCheckboxBillable).perform();
             WebUI.sleep(0.5);
         }
 
         //input
-        WebElement elementSubject = WebUI.getWebElement(inputSubject);
-        actions.click(elementSubject).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(elementSubject, subject).perform();
+        WebUI.actionClick(inputSubject).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndSetText(inputSubject, subject).perform();
         WebUI.sleep(0.5);
 
-        WebElement elementHourlyRate = WebUI.getWebElement(inputHourlyRate);
-        actions.click(elementHourlyRate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(elementHourlyRate, hourlyRate).perform();
+        WebUI.actionClick(inputHourlyRate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndSetText(inputHourlyRate, hourlyRate).perform();
         WebUI.sleep(0.5);
 
-        WebElement elementStartDate = WebUI.getWebElement(inputStartDate);
-        actions.click(elementStartDate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(elementStartDate, startDate).perform();
+        WebUI.actionClick(inputStartDate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndSetText(inputStartDate, startDate).perform();
         WebUI.sleep(0.5);
 
-        WebElement elementDueDate = WebUI.getWebElement(inputDueDate);
-        actions.click(elementDueDate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(elementDueDate, dueDate).perform();
+        WebUI.actionClick(inputDueDate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndSetText(inputDueDate, dueDate).perform();
         WebUI.sleep(0.5);
 
         //Priority
-        actions.click(WebUI.getWebElement(dropdownPriority)).perform();
+        WebUI.actionClick(dropdownPriority).perform();
         WebUI.sleep(0.5);
-        actions.click(WebUI.getWebElement(getValuePriority(priority))).perform();
+        WebUI.actionClick(getValuePriority(priority)).perform();
         WebUI.sleep(0.5);
 
         //Repeat every
-        actions.click(WebUI.getWebElement(dropdownRepeatEvery)).perform();
+        WebUI.actionClick(dropdownRepeatEvery).perform();
         WebUI.sleep(1);
-        actions.click(WebUI.getWebElement(getValueRepeatEvery(repeatEvery))).perform();
+        WebUI.actionClick(getValueRepeatEvery(repeatEvery)).perform();
         WebUI.sleep(0.5);
         if (repeatEvery.equals("Custom")) {
-            WebElement elementRepeatEveryCustom = WebUI.getWebElement(inputRepeatEveryCustom);
-            actions.click(elementRepeatEveryCustom).perform();
-            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(elementRepeatEveryCustom, numberRepeatEveryCustom).perform();
+            WebUI.actionClick(inputRepeatEveryCustom).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            WebUI.actionClickAndSetText(inputRepeatEveryCustom, numberRepeatEveryCustom).perform();
             WebUI.sleep(0.5);
-            actions.click(WebUI.getWebElement(dropdownRepeatEveryCustom)).perform();
+
+            WebUI.actionClick(dropdownRepeatEveryCustom).perform();
             WebUI.sleep(1);
-            actions.click(WebUI.getWebElement(getValueRepeatEveryCustom(typeRepeatEveryCustom))).perform();
+            WebUI.actionClick(getValueRepeatEveryCustom(typeRepeatEveryCustom)).perform();
             WebUI.sleep(0.5);
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
                 || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
-            actions.click(WebUI.getWebElement(checkboxInfinity)).perform();
+            WebUI.actionClick(checkboxInfinity).perform();
             WebUI.sleep(0.5);
 
-            WebElement elementTotalCycles = WebUI.getWebElement(inputTotalCycles);
-            actions.click(elementTotalCycles).perform();
-            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(elementTotalCycles, totalCycles).perform();
+            WebUI.actionClick(inputTotalCycles).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            WebUI.actionClickAndSetText(inputTotalCycles, totalCycles).perform();
             WebUI.sleep(0.5);
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
@@ -512,32 +498,31 @@ public class TaskPage extends BasePage {
 
         WebUI.scrollToElementAtBottom(buttonSave);
         //Related To
-        actions.click(WebUI.getWebElement(dropdownRelatedTo)).perform();
+        WebUI.actionClick(dropdownRelatedTo).perform();
         WebUI.sleep(1);
-        actions.click(WebUI.getWebElement(getValueRelatedTo(relatedTo))).perform();
+        WebUI.actionClick(getValueRelatedTo(relatedTo)).perform();
         WebUI.sleep(0.5);
-        actions.click(WebUI.getWebElement(dropdownTypeRelatedTo)).perform();
+        WebUI.actionClick(dropdownTypeRelatedTo).perform();
         WebUI.sleep(0.5);
-        actions.sendKeys(WebUI.getWebElement(inputSearchTypeRelatedTo), typeRelatedTo).perform();
+        WebUI.actionClickAndSetText(inputSearchTypeRelatedTo, typeRelatedTo).perform();
         WebUI.sleep(1);
         WebUI.moveToElement(getValueTypeRelatedTo(typeRelatedTo));
-        actions.click(WebUI.getWebElement(getValueTypeRelatedTo(typeRelatedTo))).perform();
+        WebUI.actionClick(getValueTypeRelatedTo(typeRelatedTo)).perform();
         WebUI.sleep(0.5);
 
         //input
         WebUI.moveToElement(iconCloseTag);
-        actions.click(WebUI.getWebElement(iconCloseTag)).perform();
-        actions.sendKeys(WebUI.getWebElement(inputTags), tag).perform();
+        WebUI.actionClick(iconCloseTag).perform();
+        WebUI.actionClickAndSetText(inputTags, tag).perform();
         WebUI.sleep(0.5);
-        actions.click(WebUI.getWebElement(labelTags)).perform();
-        actions.click(WebUI.getWebElement(labelTags)).perform();
+        WebUI.actionClick(labelTags).perform();
+        WebUI.actionClick(labelTags).perform();
         WebUI.sleep(0.5);
 
         //iframe
-        actions.click(WebUI.getWebElement(inputDescription));
         WebUI.switchToFrame(iframeDescription);
         WebUI.sleep(0.5);
-        actions.sendKeys(WebUI.getWebElement(inputDescriptionFrame), description);
+        WebUI.actionClickAndSetText(inputDescriptionFrame, description);
         WebUI.sleep(0.5);
         WebUI.switchToParentFrame();
         WebUI.sleep(0.5);

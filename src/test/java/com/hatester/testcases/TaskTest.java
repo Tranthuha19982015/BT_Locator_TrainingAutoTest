@@ -94,7 +94,7 @@ public class TaskTest extends BaseTest {
                 typeRelateTo, tag, description, flag);
 
         TaskTest taskEdit = new TaskTest();
-        taskEdit.taskName = "A[htest]task edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskEdit.taskName = "[htest]task edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         // Ngày bắt đầu (hôm nay)
