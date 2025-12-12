@@ -330,6 +330,10 @@ public class WebUI {
         }
     }
 
+    public static void refreshPage() {
+        driver.navigate().refresh();
+    }
+
     public static void openURL(String url) {
         sleep(STEP_TIME);
         driver.get(url);

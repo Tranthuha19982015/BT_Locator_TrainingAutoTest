@@ -367,7 +367,7 @@ public class TaskPage extends BasePage {
 
 
     public void searchAndCheckTask(String taskName) {
-        driver.navigate().refresh();
+        WebUI.refreshPage();
         WebUI.sleep(1);
         WebUI.setTextElement(inputSearchTasks, taskName);
         WebUI.sleep(1);

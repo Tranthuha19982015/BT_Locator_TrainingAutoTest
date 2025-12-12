@@ -334,7 +334,7 @@ public class LeadPage extends BasePage {
     }
 
     public void searchAndCheckLeads(String name) {
-        driver.navigate().refresh();
+        WebUI.refreshPage();
         WebUI.sleep(1);
         WebUI.setTextElement(inputSearchLeads, name);
         Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
