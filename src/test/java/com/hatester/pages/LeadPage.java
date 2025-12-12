@@ -401,9 +401,9 @@ public class LeadPage extends BasePage {
     public void confirmAlertDelete(int typeConfirm) {
         WebUI.sleep(1);
         if (typeConfirm == 1) {
-            driver.switchTo().alert().accept();
+            WebUI.acceptAlert();
         } else {
-            driver.switchTo().alert().dismiss();
+            WebUI.dismissAlert();
         }
     }
 

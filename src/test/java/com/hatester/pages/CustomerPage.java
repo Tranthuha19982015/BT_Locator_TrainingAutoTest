@@ -201,9 +201,9 @@ public class CustomerPage extends BasePage {
 
     public void confirmDeleteAlert(String customerName, int typeConfirm) {
         if (typeConfirm == 1) {
-            driver.switchTo().alert().accept();
+            WebUI.acceptAlert();
         } else {
-            driver.switchTo().alert().dismiss();
+            WebUI.dismissAlert();
         }
         WebUI.waitForElementNotVisible(deleteCustomerMessage);
     }
