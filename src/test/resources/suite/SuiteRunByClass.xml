@@ -3,6 +3,9 @@
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest">
         <classes>
+            <class name="com.hatester.testcases.LoginTest"/>
+            <class name="com.hatester.testcases.DashboardTest"/>
+            <class name="com.hatester.testcases.LeadTest"/>
             <class name="com.hatester.testcases.TaskTest"/>
         </classes>
     </test>
