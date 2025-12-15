@@ -311,7 +311,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(dropdownTypeRelatedTo);
         WebUI.setTextElement(inputSearchTypeRelatedTo, typeRelatedTo);
         WebUI.sleep(1);
-        WebUI.actionClickBase(inputSearchTypeRelatedTo,Keys.END," ").build().perform();
+        WebUI.actionClickBase(inputSearchTypeRelatedTo, Keys.END, " ").build().perform();
         WebUI.clickElement(getValueTypeRelatedTo(typeRelatedTo));
 
         //Assignees
@@ -409,7 +409,8 @@ public class TaskPage extends BasePage {
             Assert.assertEquals(WebUI.getTextElement(dropdownRepeatEveryCustom).trim(),
                     typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months")
+                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             Assert.assertFalse(WebUI.checkSeletedElement(checkboxInfinity), "Checkbox không được chọn");
             Assert.assertEquals(WebUI.getAttributeElement(inputTotalCycles, "value").trim(),
@@ -447,19 +448,19 @@ public class TaskPage extends BasePage {
         }
 
         //input
-        WebUI.actionClick(inputSubject).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndClear(inputSubject).perform();
         WebUI.actionClickAndSetText(inputSubject, subject).perform();
         WebUI.sleep(0.5);
 
-        WebUI.actionClick(inputHourlyRate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndClear(inputHourlyRate).perform();
         WebUI.actionClickAndSetText(inputHourlyRate, hourlyRate).perform();
         WebUI.sleep(0.5);
 
-        WebUI.actionClick(inputStartDate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndClear(inputStartDate).perform();
         WebUI.actionClickAndSetText(inputStartDate, startDate).perform();
         WebUI.sleep(0.5);
 
-        WebUI.actionClick(inputDueDate).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        WebUI.actionClickAndClear(inputDueDate).perform();
         WebUI.actionClickAndSetText(inputDueDate, dueDate).perform();
         WebUI.sleep(0.5);
 
@@ -475,7 +476,7 @@ public class TaskPage extends BasePage {
         WebUI.actionClick(getValueRepeatEvery(repeatEvery)).perform();
         WebUI.sleep(0.5);
         if (repeatEvery.equals("Custom")) {
-            WebUI.actionClick(inputRepeatEveryCustom).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            WebUI.actionClickAndClear(inputRepeatEveryCustom).perform();
             WebUI.actionClickAndSetText(inputRepeatEveryCustom, numberRepeatEveryCustom).perform();
             WebUI.sleep(0.5);
 
@@ -484,12 +485,13 @@ public class TaskPage extends BasePage {
             WebUI.actionClick(getValueRepeatEveryCustom(typeRepeatEveryCustom)).perform();
             WebUI.sleep(0.5);
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
+                || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months")
+                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
             WebUI.actionClick(checkboxInfinity).perform();
             WebUI.sleep(0.5);
 
-            WebUI.actionClick(inputTotalCycles).keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+            WebUI.actionClickAndClear(inputTotalCycles).perform();
             WebUI.actionClickAndSetText(inputTotalCycles, totalCycles).perform();
             WebUI.sleep(0.5);
         } else {

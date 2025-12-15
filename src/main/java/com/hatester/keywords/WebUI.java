@@ -516,6 +516,12 @@ public class WebUI {
         return actionClickBase(by, key, null);
     }
 
+    public static Actions actionClickAndClear(By by){
+        return actionClickBase(by, null, null)
+                .keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL)
+                .keyDown(Keys.DELETE).keyUp(Keys.DELETE);
+    }
+
     public static boolean pressENTER() {
         try {
             Robot robot = new Robot();
