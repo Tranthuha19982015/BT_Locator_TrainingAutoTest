@@ -353,10 +353,22 @@ public class WebUI {
         System.out.println("Clear text on element:" + by.toString());
     }
 
+    public static void clearTextElement(By by, int seconds) {
+        sleep(STEP_TIME);
+        waitForElementVisible(by, seconds).clear();
+        System.out.println("Clear text on element:" + by.toString() + " within " + seconds + " seconds.");
+    }
+
     public static void setTextElement(By by, String text) {
         sleep(STEP_TIME);
         waitForElementVisible(by).sendKeys(text);
         System.out.println("Set text " + text + " on element: " + by.toString());
+    }
+
+    public static void setTextElement(By by, String text, int seconds) {
+        sleep(STEP_TIME);
+        waitForElementVisible(by, seconds).sendKeys(text);
+        System.out.println("Set text " + text + " on element: " + by.toString() + " within " + seconds + " seconds.");
     }
 
     public static void setTextAndKey(By by, String text, Keys key) {
@@ -365,11 +377,24 @@ public class WebUI {
         System.out.println("Set text and key " + text + " on element: " + by.toString());
     }
 
+    public static void setTextAndKey(By by, String text, Keys key, int seconds) {
+        sleep(STEP_TIME);
+        waitForElementVisible(by, seconds).sendKeys(text, key);
+        System.out.println("Set text and key " + text + " on element: " + by.toString() + " within " + seconds + " seconds.");
+    }
+
     public static void clickElement(By by) {
         sleep(STEP_TIME);
         waitForElementToBeClickable(by).click();
-        System.out.println("Click to element: " + by);
+        System.out.println("Click to element: " + by.toString());
     }
+
+    public static void clickElement(By by, int seconds) {
+        sleep(STEP_TIME);
+        waitForElementToBeClickable(by, seconds).click();
+        System.out.println("Click to element: " + by.toString() + " within " + seconds + " seconds.");
+    }
+
 
     public static String getTextElement(By by) {
         sleep(STEP_TIME);
@@ -380,18 +405,46 @@ public class WebUI {
         return text;
     }
 
+    public static String getTextElement(By by, int seconds) {
+        sleep(STEP_TIME);
+        WebElement element = waitForElementVisible(by, seconds);
+        System.out.println("Get text on element: " + by.toString() + " within " + seconds + " seconds.");
+        String text = element.getText();
+        System.out.println("==> TEXT: " + text);
+        return text;
+    }
+
     public static String getAttributeElement(By by, String attribute) {
         sleep(STEP_TIME);
         WebElement element = waitForElementVisible(by);
-        System.out.println("Get attribute on element: " + by);
+        System.out.println("Get attribute on element: " + by.toString());
+        String textAttribute = element.getAttribute(attribute);
+        System.out.println("==> Attribute: " + textAttribute);
+        return textAttribute;
+    }
+
+    public static String getAttributeElement(By by, String attribute, int seconds) {
+        sleep(STEP_TIME);
+        WebElement element = waitForElementVisible(by);
+        System.out.println("Get attribute on element: " + by.toString() + " within " + seconds + " seconds.");
         String textAttribute = element.getAttribute(attribute);
         System.out.println("==> Attribute: " + textAttribute);
         return textAttribute;
     }
 
     public static String getCssValueElement(By by, String cssPropertyName) {
+        sleep(STEP_TIME);
         WebElement element = waitForElementVisible(by);
-        System.out.println("Get CSS value " + cssPropertyName + " of element " + by);
+        System.out.println("Get CSS value " + cssPropertyName + " of element " + by.toString());
+        String value = element.getCssValue(cssPropertyName);
+        System.out.println("==> CSS value: " + value);
+        return value;
+    }
+
+    public static String getCssValueElement(By by, String cssPropertyName, int seconds) {
+        sleep(STEP_TIME);
+        WebElement element = waitForElementVisible(by);
+        System.out.println("Get CSS value " + cssPropertyName + " of element " + by.toString() + " within " + seconds + " seconds.");
         String value = element.getCssValue(cssPropertyName);
         System.out.println("==> CSS value: " + value);
         return value;
@@ -516,7 +569,7 @@ public class WebUI {
         return actionClickBase(by, key, null);
     }
 
-    public static Actions actionClickAndClear(By by){
+    public static Actions actionClickAndClear(By by) {
         return actionClickBase(by, null, null)
                 .keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL)
                 .keyDown(Keys.DELETE).keyUp(Keys.DELETE);
