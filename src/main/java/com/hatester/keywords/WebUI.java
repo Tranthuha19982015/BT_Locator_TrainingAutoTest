@@ -30,26 +30,6 @@ public class WebUI {
         }
     }
 
-    public static void highlightElement(By by) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].style.border='3px solid red';", getWebElement(by));
-    }
-
-    public static void highlightElement(By by, String color) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].style.border='3px solid " + color + "';", getWebElement(by));
-    }
-
-    public static void highlightElement(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].style.border='3px solid red';", element);
-    }
-
-    public static void highlightElement(WebElement element, String color) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].style.border='3px solid " + color + "';", element);
-    }
-
     public static WebElement waitForElementVisible(By by) {
         WebElement element = null;
         try {
@@ -591,6 +571,26 @@ public class WebUI {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static void highlightElement(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid red';", getWebElement(by));
+    }
+
+    public static void highlightElement(By by, String color) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid " + color + "';", getWebElement(by));
+    }
+
+    public static void highlightElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid red';", element);
+    }
+
+    public static void highlightElement(WebElement element, String color) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid " + color + "';", element);
     }
 
     public static void scrollToElementAtTop(By by) {
