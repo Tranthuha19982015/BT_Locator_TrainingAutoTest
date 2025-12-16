@@ -125,6 +125,7 @@ public class LeadTest extends BaseTest {
                 leadTest.emailAddress, state, website, country, phone, zipCode, leadValue,
                 language, company, description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
+        leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
         leadPage.searchLead(leadTest.leadName);
         leadPage.checkLeadsExists(leadTest.leadName);

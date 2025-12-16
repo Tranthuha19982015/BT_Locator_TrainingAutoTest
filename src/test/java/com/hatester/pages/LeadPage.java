@@ -336,6 +336,7 @@ public class LeadPage extends BasePage {
         WebUI.refreshPage();
         WebUI.waitForPageLoaded();
         WebUI.setTextElement(inputSearchLeads, name);
+        WebUI.sleep(1);
     }
 
     public void checkLeadsExists(String name) {
