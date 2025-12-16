@@ -361,13 +361,14 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }
 
-
-    public void searchAndCheckTask(String taskName) {
+    public void searchTask(String taskName){
         WebUI.refreshPage();
-        WebUI.sleep(1);
+        WebUI.waitForPageLoaded();
         WebUI.setTextElement(inputSearchTasks, taskName);
         WebUI.sleep(1);
+    }
 
+    public void verifyTaskExists(String taskName) {
         Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemTaskName(taskName)),
                 "Không đúng giá trị vừa thêm mới");
     }
@@ -560,8 +561,6 @@ public class TaskPage extends BasePage {
     }
 
     public void verifyAfterDeleteTask(String taskName, int typeConfirm) {
-        WebUI.sleep(0.5);
-        WebUI.setTextElement(inputSearchTasks, taskName);
         if (typeConfirm == 1) {
             Assert.assertFalse(WebUI.checkElementExist(getFirstRowItemTaskName(taskName)), "Xóa Task không thành công");
         } else {

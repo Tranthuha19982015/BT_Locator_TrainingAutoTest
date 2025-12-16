@@ -63,7 +63,8 @@ public class TaskTest extends BaseTest {
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.searchTask(taskTest.taskName);
+        taskPage.verifyTaskExists(taskTest.taskName);
         taskPage.clickButtonEdit(taskTest.taskName);
         taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
                 repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
@@ -87,7 +88,8 @@ public class TaskTest extends BaseTest {
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.searchTask(taskTest.taskName);
+        taskPage.verifyTaskExists(taskTest.taskName);
         taskPage.clickButtonEdit(taskTest.taskName);
         taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
                 repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
@@ -119,7 +121,8 @@ public class TaskTest extends BaseTest {
         taskPage.verifyUpdateTaskSuccessMessage();
         taskPage.clickIconCloseUpdateTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskEdit.taskName, 1);
-        taskPage.searchAndCheckTask(taskEdit.taskName);
+        taskPage.searchTask(taskEdit.taskName);
+        taskPage.verifyTaskExists(taskEdit.taskName);
     }
 
     @Test
@@ -149,11 +152,13 @@ public class TaskTest extends BaseTest {
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.searchTask(taskTest.taskName);
+        taskPage.verifyTaskExists(taskTest.taskName);
         taskPage.clickButtonDelete(taskTest.taskName);
         taskPage.confirmAlertDelete(1);
         taskPage.verifyDeleteTaskSuccessMessage(1);
         taskPage.clickIconCloseDeleteTaskMessage(1);
+        taskPage.searchTask(taskTest.taskName);
         taskPage.verifyAfterDeleteTask(taskTest.taskName, 1);
     }
 
@@ -218,7 +223,8 @@ public class TaskTest extends BaseTest {
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchAndCheckTask(taskTest.taskName);
+        taskPage.searchTask(taskTest.taskName);
+        taskPage.verifyTaskExists(taskTest.taskName);
         taskPage.clickButtonEdit(taskTest.taskName);
         taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
                 repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
@@ -249,6 +255,7 @@ public class TaskTest extends BaseTest {
         taskPage.verifyUpdateTaskSuccessMessage();
         taskPage.clickIconCloseUpdateTaskMessage();
         taskPage.clickClosePopupTaskDetail(taskEdit.taskName, 1);
-        taskPage.searchAndCheckTask(taskEdit.taskName);
+        taskPage.searchTask(taskEdit.taskName);
+        taskPage.verifyTaskExists(taskEdit.taskName);
     }
 }
