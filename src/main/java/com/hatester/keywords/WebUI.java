@@ -450,21 +450,6 @@ public class WebUI {
         return value;
     }
 
-    public static void scrollToElementAtTop(By by) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", getWebElement(by));
-    }
-
-    public static void scrollToElementAtBottom(By by) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", getWebElement(by));
-    }
-
-    public static void scrollToPosition(int X, int Y) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(" + X + "," + Y + ");");
-    }
-
     public static boolean moveToElement(By by) {
         try {
             Actions action = new Actions(driver);
@@ -606,5 +591,47 @@ public class WebUI {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static void scrollToElementAtTop(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", getWebElement(by));
+    }
+
+    public static void scrollToElementAtBottom(By by) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(false);", getWebElement(by));
+    }
+
+    public static void scrollToPosition(int X, int Y) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(" + X + "," + Y + ");");
+    }
+
+    public static boolean verifyEquals(Object actual, Object expected) {
+        waitForPageLoaded();
+        System.out.println("Verify equals: " + actual + " and " + expected);
+        boolean check = actual.equals(expected);
+        return check;
+    }
+
+    public static void assertEquals(Object actual, Object expected, String message) {
+        waitForPageLoaded();
+        System.out.println("Assert equals: " + actual + " and " + expected);
+        Assert.assertEquals(actual, expected, message);
+    }
+
+    public static boolean verifyContains(String actual, String expected) {
+        waitForPageLoaded();
+        System.out.println("Verify contains: " + actual + " and " + expected);
+        boolean check = actual.contains(expected);
+        return check;
+    }
+
+    public static void assertContains(String actual, String expected, String message) {
+        waitForPageLoaded();
+        System.out.println("Assert contains: " + actual + " and " + expected);
+        boolean check = actual.contains(expected);
+        Assert.assertTrue(check, message);
     }
 }
