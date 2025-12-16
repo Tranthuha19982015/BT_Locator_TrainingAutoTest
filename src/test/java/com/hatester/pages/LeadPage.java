@@ -341,6 +341,21 @@ public class LeadPage extends BasePage {
         WebUI.sleep(1);
     }
 
+    public void verifyQuantityStatusAfterAdd(String status, int quantityActiveAfter, int quantityActiveBefore,
+                                             int quantityCustomerAfter, int quantityCustomerBefore) {
+        if (status.equals("Active")) {
+            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore + 1,
+                    "Số lượng status Active không khớp");
+            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore,
+                    "Số lượng status Customer không khớp");
+        } else {
+            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore,
+                    "Số lượng status Active không khớp");
+            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore + 1,
+                    "Số lượng status Customer không khớp");
+        }
+    }
+
     public void clickButtonEdit(String leadName) {
         WebUI.moveToElement(getFirstRowItemLeadName(leadName));
         WebUI.clickElement(buttonEdit(leadName));

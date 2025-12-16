@@ -161,16 +161,7 @@ public class LeadTest extends BaseTest {
         int totalActiveAfterAdd = Integer.parseInt(leadPage.getTotalStatusActive());
         int totalCustomerAfterAdd = Integer.parseInt(leadPage.getTotalStatusCustomer());
 
-        if (status.equals("Active")) {
-            Assert.assertEquals(totalActiveAfterAdd, totalActiveBeforeAdd + 1,
-                    "Số lượng status Active không khớp");
-            Assert.assertEquals(totalCustomerAfterAdd, totalCustomerBeforeAdd,
-                    "Số lượng status Customer không khớp");
-        } else {
-            Assert.assertEquals(totalActiveAfterAdd, totalActiveBeforeAdd,
-                    "Số lượng status Active không khớp");
-            Assert.assertEquals(totalCustomerAfterAdd, totalCustomerBeforeAdd + 1,
-                    "Số lượng status Customer không khớp");
-        }
+        leadPage.verifyQuantityStatusAfterAdd(status, totalActiveAfterAdd, totalActiveBeforeAdd,
+                totalCustomerAfterAdd, totalCustomerBeforeAdd);
     }
 }
