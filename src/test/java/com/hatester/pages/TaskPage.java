@@ -5,8 +5,6 @@ import com.hatester.common.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import java.awt.*;
@@ -386,12 +384,12 @@ public class TaskPage extends BasePage {
                                         String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
                                         String relatedTo, String typeRelatedTo, String tag, String description, int flag) {
         if (flag == 1) {
-            Assert.assertTrue(WebUI.checkSeletedElement(checkboxPublic), "Checkbox không được chọn");
-            Assert.assertTrue(WebUI.checkSeletedElement(checkboxBillable), "Checkbox không được chọn");
+            Assert.assertTrue(WebUI.checkElementSeleted(checkboxPublic), "Checkbox không được chọn");
+            Assert.assertTrue(WebUI.checkElementSeleted(checkboxBillable), "Checkbox không được chọn");
         }
         if (flag == 0) {
-            Assert.assertFalse(WebUI.checkSeletedElement(checkboxPublic), "Checkbox được tích chọn");
-            Assert.assertFalse(WebUI.checkSeletedElement(checkboxBillable), "Checkbox được tích chọn");
+            Assert.assertFalse(WebUI.checkElementSeleted(checkboxPublic), "Checkbox được tích chọn");
+            Assert.assertFalse(WebUI.checkElementSeleted(checkboxBillable), "Checkbox được tích chọn");
         }
         Assert.assertEquals(WebUI.getAttributeElement(inputSubject, "value").trim(),
                 subject, "Không đúng giá trị đã thêm mới");
@@ -412,7 +410,7 @@ public class TaskPage extends BasePage {
                 || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months")
                 || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
                 || repeatEvery.equals("1 Year")) {
-            Assert.assertFalse(WebUI.checkSeletedElement(checkboxInfinity), "Checkbox không được chọn");
+            Assert.assertFalse(WebUI.checkElementSeleted(checkboxInfinity), "Checkbox không được chọn");
             Assert.assertEquals(WebUI.getAttributeElement(inputTotalCycles, "value").trim(),
                     totalCycles, "Không đúng giá trị đã thêm mới");
         } else {

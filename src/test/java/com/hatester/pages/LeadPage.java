@@ -5,7 +5,6 @@ import com.hatester.common.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 public class LeadPage extends BasePage {
@@ -344,15 +343,11 @@ public class LeadPage extends BasePage {
     public void verifyQuantityStatusAfterAdd(String status, int quantityActiveAfter, int quantityActiveBefore,
                                              int quantityCustomerAfter, int quantityCustomerBefore) {
         if (status.equals("Active")) {
-            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore + 1,
-                    "Số lượng status Active không khớp");
-            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore,
-                    "Số lượng status Customer không khớp");
+            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore + 1, "Số lượng status Active không khớp");
+            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore, "Số lượng status Customer không khớp");
         } else {
-            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore,
-                    "Số lượng status Active không khớp");
-            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore + 1,
-                    "Số lượng status Customer không khớp");
+            Assert.assertEquals(quantityActiveAfter, quantityActiveBefore, "Số lượng status Active không khớp");
+            Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore + 1, "Số lượng status Customer không khớp");
         }
     }
 
@@ -404,7 +399,7 @@ public class LeadPage extends BasePage {
         boolean containsLastContact = WebUI.getAttributeElement(inputLastContact, "value").contains(dateContacted);
         Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
-        Assert.assertTrue(WebUI.checkSeletedElement(checkboxPublic), "Không tích chọn checkbox");
+        Assert.assertTrue(WebUI.checkElementSeleted(checkboxPublic), "Không tích chọn checkbox");
         WebUI.sleep(1);
     }
 

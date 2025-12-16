@@ -11,6 +11,7 @@ public class BasePage {
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
+        new WebUI(driver);
     }
 
     //menu
@@ -56,7 +57,7 @@ public class BasePage {
     public void verifyAlertMessageSuccessDisplayed(String expectedMessage) {
         WebUI.sleep(0.5);
         String actualMessage = WebUI.getTextElement(alertMessage);
-        Assert.assertTrue(WebUI.checkElementExist(alertMessage),"The alert message is not displayed");
+        Assert.assertTrue(WebUI.checkElementExist(alertMessage), "The alert message is not displayed");
         Assert.assertEquals(actualMessage, expectedMessage, "Alert message does not match!");
     }
 }

@@ -287,19 +287,19 @@ public class WebUI {
     }
 
     //Hàm kiểm tra hiển  với WebDriverWait - tương ứng driver.findElement(By).isDisplayed()
-    public static boolean checkElementDisplay(By by, int timeoutSeconds) {
+    public static boolean checkElementDisplay(By by, int seconds) {
         try {
-            WebElement element = waitForElementVisible(by, timeoutSeconds);
+            WebElement element = waitForElementVisible(by, seconds);
             highlightElement(element);
-            System.out.println("Element found: " + by.toString() + " within " + timeoutSeconds + " seconds.");
+            System.out.println("Element found: " + by.toString() + " within " + seconds + " seconds.");
             return true;
         } catch (TimeoutException e) {
-            System.out.println("Element not found: " + by.toString() + " within " + timeoutSeconds + " seconds.");
+            System.out.println("Element not found: " + by.toString() + " within " + seconds + " seconds.");
             return false;
         }
     }
 
-    public static boolean checkSeletedElement(By by) {
+    public static boolean checkElementSeleted(By by) {
         WebElement element = waitForElementPresent(by);
         if (element.isSelected()) {
             System.out.println("Phần tử đã tích chọn: true " + by);
