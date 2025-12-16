@@ -332,16 +332,19 @@ public class LeadPage extends BasePage {
         WebUI.sleep(1);
     }
 
-    public void searchAndCheckLeads(String name) {
+    public void searchLead(String name) {
         WebUI.refreshPage();
-        WebUI.sleep(1);
+        WebUI.waitForPageLoaded();
         WebUI.setTextElement(inputSearchLeads, name);
+    }
+
+    public void checkLeadsExists(String name) {
         Assert.assertTrue(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Không đúng giá trị Lead vừa thêm mới");
-        WebUI.sleep(1);
     }
 
     public void verifyQuantityStatusAfterAdd(String status, int quantityActiveAfter, int quantityActiveBefore,
                                              int quantityCustomerAfter, int quantityCustomerBefore) {
+        WebUI.waitForPageLoaded();
         if (status.equals("Active")) {
             Assert.assertEquals(quantityActiveAfter, quantityActiveBefore + 1, "Số lượng status Active không khớp");
             Assert.assertEquals(quantityCustomerAfter, quantityCustomerBefore, "Số lượng status Customer không khớp");
@@ -428,8 +431,6 @@ public class LeadPage extends BasePage {
     }
 
     public void verifyAfterDeleteLead(String name, int typeConfirm) {
-        WebUI.sleep(1);
-        WebUI.setTextElement(inputSearchLeads, name);
         if (typeConfirm == 1) {
             Assert.assertFalse(WebUI.checkElementExist(getFirstRowItemLeadName(name)), "Xóa Lead không thành công");
         } else {

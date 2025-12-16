@@ -4,7 +4,6 @@ import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +53,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.searchLead(leadTest.leadName);
+        leadPage.checkLeadsExists(leadTest.leadName);
         leadPage.clickButtonEdit(leadTest.leadName);
         leadPage.verifyNewLeadInEditPopup(leadTest.leadName, status, source, assigned, tag, leadTest.leadName, position,
                 city, leadTest.emailAddress, state, website, country, phone, zipCode,
@@ -79,7 +79,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.searchLead(leadTest.leadName);
+        leadPage.checkLeadsExists(leadTest.leadName);
         leadPage.clickButtonEdit(leadTest.leadName);
         leadPage.verifyNewLeadInEditPopup(leadTest.leadName, status, source, assigned, tag, leadTest.leadName,
                 position, city, leadTest.emailAddress, state, website, country, phone,
@@ -104,7 +105,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadEdit.leadName, 1);
-        leadPage.searchAndCheckLeads(leadEdit.leadName);
+        leadPage.searchLead(leadEdit.leadName);
+        leadPage.checkLeadsExists(leadEdit.leadName);
     }
 
     @Test
@@ -124,10 +126,12 @@ public class LeadTest extends BaseTest {
                 language, company, description, lastContacted, flag, flagEdit);
         leadPage.clickButtonSave();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.searchLead(leadTest.leadName);
+        leadPage.checkLeadsExists(leadTest.leadName);
         leadPage.clickButtonDelete(leadTest.leadName);
         leadPage.confirmAlertDelete(1);
         leadPage.verifyDeleteLeadSuccessMessage(1);
+        leadPage.searchLead(leadTest.leadName);
         leadPage.verifyAfterDeleteLead(leadTest.leadName, 1);
     }
 
@@ -154,7 +158,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.searchLead(leadTest.leadName);
+        leadPage.checkLeadsExists(leadTest.leadName);
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
 

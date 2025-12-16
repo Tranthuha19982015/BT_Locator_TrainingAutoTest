@@ -181,7 +181,8 @@ public class TaskTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchAndCheckLeads(leadTest.leadName);
+        leadPage.searchLead(leadTest.leadName);
+        leadPage.checkLeadsExists(leadTest.leadName);
         leadPage.clickButtonEdit(leadTest.leadName);
         leadPage.verifyNewLeadInEditPopup(leadTest.leadName, leadTest.status, leadTest.source, leadTest.assigned, leadTest.tag,
                 leadTest.leadName, leadTest.position, leadTest.city, leadTest.emailAddress, leadTest.state, leadTest.website,
@@ -208,7 +209,8 @@ public class TaskTest extends BaseTest {
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadEdit.leadName, 1);
-        leadPage.searchAndCheckLeads(leadEdit.leadName);
+        leadPage.searchLead(leadEdit.leadName);
+        leadPage.checkLeadsExists(leadEdit.leadName);
 
         taskPage = leadPage.clickMenuTask();
         TaskTest taskTest = new TaskTest();
