@@ -8,11 +8,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 public class CustomerPage extends BasePage {
-    public CustomerPage(WebDriver driver) {
-        super(driver);
-        new WebUI(driver);
-    }
-
     //button
     private By buttonNewCustomer = By.xpath("//div[@class='_buttons']/descendant::a[normalize-space()='New Customer']");
     private By buttonImportCustomers = By.xpath("//div[@class='_buttons']/descendant::a[normalize-space()='Import Customers']");

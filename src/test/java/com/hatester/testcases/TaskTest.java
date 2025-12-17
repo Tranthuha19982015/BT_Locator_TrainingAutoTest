@@ -51,7 +51,7 @@ public class TaskTest extends BaseTest {
         TaskTest taskTest = new TaskTest();
         taskTest.taskName = taskName + new Random().nextInt(1000);
 
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
         taskPage.verifyTaskPageDisplayed();
@@ -73,7 +73,7 @@ public class TaskTest extends BaseTest {
 
     @Test
     public void testEditTask() throws InterruptedException, AWTException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
 
@@ -139,7 +139,7 @@ public class TaskTest extends BaseTest {
         startDate = sdf.format(start);
         dueDate = sdf.format(cal.getTime());
 
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
 
@@ -164,7 +164,7 @@ public class TaskTest extends BaseTest {
 
     @Test
     public void testLeadAndTaskManagementFlow() throws AWTException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 

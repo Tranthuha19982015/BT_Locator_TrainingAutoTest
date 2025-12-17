@@ -7,11 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class DashboardPage extends BasePage {
-    public DashboardPage(WebDriver driver) {
-        super(driver);
-        new WebUI(driver);
-    }
-
     private By buttonDashboardOptions = By.xpath("//div[normalize-space()='Dashboard Options']");
     private By labelTotalInvoicesAwaitingPayment = By.xpath("(//span[normalize-space()='Invoices Awaiting Payment']/parent::div)/following-sibling::span");
     private By labelTotalConvertedLeads = By.xpath("(//span[normalize-space()='Converted Leads']/parent::div)/following-sibling::span");

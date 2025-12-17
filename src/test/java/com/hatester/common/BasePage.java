@@ -7,13 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class BasePage {
-    protected WebDriver driver;
-
-    public BasePage(WebDriver driver) {
-        this.driver = driver;
-        new WebUI(driver);
-    }
-
     //menu
     public By menuDashboard = By.xpath("//ul[@id='side-menu']//span[normalize-space()='Dashboard' and @class='menu-text']");
     public By menuCustomers = By.xpath("//ul[@id='side-menu']//span[normalize-space()='Customers' and @class='menu-text']");
@@ -30,28 +23,28 @@ public class BasePage {
 
     public DashboardPage clickMenuDashboard() {
         WebUI.clickElement(menuDashboard);
-        return new DashboardPage(driver);
+        return new DashboardPage();
     }
 
     public CustomerPage clickMenuCustomer() {
         WebUI.clickElement(menuCustomers);
-        return new CustomerPage(driver);
+        return new CustomerPage();
     }
 
     public LeadPage clickMenuLead() {
         WebUI.clickElement(menuLead);
-        return new LeadPage(driver);
+        return new LeadPage();
     }
 
     public TaskPage clickMenuTask() {
         WebUI.clickElement(menuTasks);
-        return new TaskPage(driver);
+        return new TaskPage();
     }
 
     public LoginPage clickLogout() {
         WebUI.clickElement(iconProfile);
         WebUI.clickElement(linkLogout);
-        return new LoginPage(driver);
+        return new LoginPage();
     }
 
     public void verifyAlertMessageSuccessDisplayed(String expectedMessage) {

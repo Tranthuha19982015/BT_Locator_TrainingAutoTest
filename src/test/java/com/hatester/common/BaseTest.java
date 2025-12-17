@@ -1,5 +1,6 @@
 package com.hatester.common;
 
+import com.hatester.drivers.DriverManager;
 import com.hatester.pages.LoginPage;
 import com.hatester.keywords.WebUI;
 import org.openqa.selenium.WebDriver;
@@ -16,12 +17,12 @@ import org.testng.asserts.SoftAssert;
 import java.time.Duration;
 
 public class BaseTest {
-    public WebDriver driver;
     public SoftAssert softAssert;
 
     @Parameters("browser")
     @BeforeMethod
     public void createDriver(@Optional("chrome") String browserName) {
+        WebDriver driver;
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 System.out.println("Launching Chrome browser...");
@@ -40,14 +41,15 @@ public class BaseTest {
                 driver = new ChromeDriver();
         }
 
-        driver.manage().window().maximize();
+        DriverManager.setDriver(driver);
+        DriverManager.getDriver().manage().window().maximize();
         softAssert = new SoftAssert();
     }
 
     @AfterMethod
     public void closeDriver() {
-        if (driver != null) {
-            driver.quit();
+        if (DriverManager.getDriver() != null) {
+            DriverManager.quitDriver();
         }
         softAssert.assertAll();
     }

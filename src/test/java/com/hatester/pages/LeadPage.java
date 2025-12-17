@@ -8,12 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LeadPage extends BasePage {
-    public LeadPage(WebDriver driver) {
-        super(driver);
-        new WebUI(driver);
-    }
-
-    //Locator Lead Page
+       //Locator Lead Page
     private By buttonNewLead = By.xpath("//a[normalize-space()='New Lead']");
     private By iconLeadsSummary = By.xpath("//a[@data-title='Leads Summary']");
     private By iconSwitchToKanban = By.xpath("//a[@data-title='Switch to Kanban']");

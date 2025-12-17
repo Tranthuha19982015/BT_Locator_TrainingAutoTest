@@ -10,12 +10,7 @@ import org.testng.Assert;
 import java.awt.*;
 
 public class TaskPage extends BasePage {
-    public TaskPage(WebDriver driver) {
-        super(driver);
-        new WebUI(driver);
-    }
-
-    //Locator Tasks Page
+        //Locator Tasks Page
     private By buttonNewTask = By.xpath("//a[normalize-space()='New Task']");
     private By buttonTasksOverview = By.xpath("//a[normalize-space()='Tasks Overview']");
     private By iconFilter = By.xpath("//div[@id='vueApp']/div[@data-title='Filter by']");
@@ -428,7 +423,7 @@ public class TaskPage extends BasePage {
         WebUI.switchToFrame(iframeDescription);
         Assert.assertEquals(WebUI.getTextElement(inputDescriptionFrame).trim().toLowerCase(), description,
                 "Không đúng giá trị đã thêm mới");
-        driver.switchTo().parentFrame();
+        WebUI.switchToParentFrame();
     }
 
     public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,

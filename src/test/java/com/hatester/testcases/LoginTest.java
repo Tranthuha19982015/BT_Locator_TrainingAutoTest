@@ -9,7 +9,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 1)
     public void testLoginSuccess() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
         loginPage.loginCRM("admin@example.com", "123456");
@@ -18,7 +18,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 2)
     public void testLoginFailedWithEmailRequired() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
         loginPage.loginCRM("", "123456");
@@ -27,7 +27,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 3)
     public void testLoginFailedWithPasswordRequired() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
         loginPage.loginCRM("admin@example.com", "");
@@ -36,7 +36,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 4)
     public void testLoginFailedWithEmailInvalid() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
         loginPage.loginCRM("admin12@example.com", "123456");
@@ -45,7 +45,7 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 5)
     public void testLoginFailedWithPasswordInvalid() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
         loginPage.loginCRM("admin@example.com", "12345678");

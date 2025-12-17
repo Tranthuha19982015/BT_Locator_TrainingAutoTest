@@ -37,7 +37,7 @@ public class LeadTest extends BaseTest {
 
     @Test
     public void testAddNewLead() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
@@ -63,7 +63,7 @@ public class LeadTest extends BaseTest {
 
     @Test
     public void testEditNewLead() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
@@ -111,7 +111,7 @@ public class LeadTest extends BaseTest {
 
     @Test
     public void testDeleteNewLead() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
@@ -138,7 +138,7 @@ public class LeadTest extends BaseTest {
 
     @Test
     public void testLeadCountByStatus() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
         leadPage = dashboardPage.clickMenuLead();

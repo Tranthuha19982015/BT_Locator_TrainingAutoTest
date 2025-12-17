@@ -7,10 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginPage extends BasePage {
-    public LoginPage(WebDriver driver) {
-        super(driver);
-        new WebUI(driver);
-    }
 
     private String url = "https://crm.anhtester.com/admin/authentication";
 
@@ -57,7 +53,7 @@ public class LoginPage extends BasePage {
         enterPassword("123456");
         clickButtonLogin();
         verifyLoginSuccess();
-        return new DashboardPage(driver);
+        return new DashboardPage();
     }
 
     public void verifyLoginSuccess() {

@@ -18,7 +18,7 @@ public class CustomerTest extends BaseTest {
 
     @Test
     public void testDeleteManyCustomer() {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
         customerPage = dashboardPage.clickMenuCustomer();
