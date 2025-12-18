@@ -22,6 +22,7 @@ public class BaseTest {
     @Parameters("browser")
     @BeforeMethod
     public void createDriver(@Optional("chrome") String browserName) {
+        // Khởi tạo driver cục bộ và khởi tạo giá trị cho driver đó
         WebDriver driver;
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
@@ -41,7 +42,10 @@ public class BaseTest {
                 driver = new ChromeDriver();
         }
 
+        //Set driver vào thread
         DriverManager.setDriver(driver);
+
+        //Sử dụng driver thì phải lấy ra để dùng - Tự động truy xuất driver theo từng thread
         DriverManager.getDriver().manage().window().maximize();
         softAssert = new SoftAssert();
     }
