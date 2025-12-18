@@ -267,18 +267,7 @@ public class WebUI {
         return false;
     }
 
-    public static boolean checkElementExist(By by, int seconds) {
-        List<WebElement> element = waitForAllElementsVisible(by, seconds);
-        if (element.size() > 0) {
-            System.out.println("Phần tử tồn tại: true " + by);
-            return true;
-        } else {
-            System.out.println("Phần tử không tồn tại: false " + by);
-            return false;
-        }
-    }
-
-    //Hàm kiểm tra hiển  với WebDriverWait - tương ứng driver.findElement(By).isDisplayed()
+    //Hàm kiểm tra hiển thị với WebDriverWait - tương ứng driver.findElement(By).isDisplayed()
     public static boolean checkElementDisplay(By by, int seconds) {
         try {
             WebElement element = waitForElementVisible(by, seconds);
