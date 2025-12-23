@@ -1,17 +1,13 @@
 package com.hatester.common;
 
 import com.hatester.drivers.DriverManager;
-import com.hatester.pages.LoginPage;
-import com.hatester.keywords.WebUI;
+import com.hatester.helpers.PropertiesHelper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
@@ -19,15 +15,32 @@ import java.time.Duration;
 public class BaseTest {
     public SoftAssert softAssert;
 
+    @BeforeSuite
+    public void setupLoadProperties() {
+        PropertiesHelper.loadAllFiles();
+    }
+
     @Parameters("browser")
     @BeforeMethod
     public void createDriver(@Optional("chrome") String browserName) {
         // Khởi tạo driver cục bộ và khởi tạo giá trị cho driver đó
         WebDriver driver;
+
+        if (PropertiesHelper.getValue("browser") != null && !PropertiesHelper.getValue("browser").isBlank()) {
+            browserName = PropertiesHelper.getValue("browser");
+        }
+
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 System.out.println("Launching Chrome browser...");
-                driver = new ChromeDriver();
+
+                ChromeOptions options = new ChromeOptions();
+                if (PropertiesHelper.getValue("headless").equalsIgnoreCase("true")) {
+                    options.addArguments("--headless=new");
+                    options.addArguments("--window-size=" + PropertiesHelper.getValue("window_size"));
+                }
+
+                driver = new ChromeDriver(options);
                 break;
             case "edge":
                 System.out.println("Launching Edge browser...");
@@ -46,7 +59,9 @@ public class BaseTest {
         DriverManager.setDriver(driver);
 
         //Sử dụng driver thì phải lấy ra để dùng - Tự động truy xuất driver theo từng thread
-        DriverManager.getDriver().manage().window().maximize();
+        if (PropertiesHelper.getValue("headless").equalsIgnoreCase("false")) {
+            DriverManager.getDriver().manage().window().maximize();
+        }
         softAssert = new SoftAssert();
     }
 

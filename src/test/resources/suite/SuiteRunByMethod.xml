@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="SuiteRunByClass" verbose="1">
+<suite name="SuiteRunByClass" verbose="1" parallel="methods">
     <test name="FirstTest">
-        <parameter name="browser" value="firefox"/>
+        <parameter name="browser" value="edge"/>
         <classes>
             <class name="com.hatester.testcases.LoginTest">
             </class>
