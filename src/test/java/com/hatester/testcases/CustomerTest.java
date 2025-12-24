@@ -1,6 +1,7 @@
 package com.hatester.testcases;
 
 import com.hatester.common.BaseTest;
+import com.hatester.helpers.ExcelHelper;
 import com.hatester.pages.CustomerPage;
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LoginPage;
@@ -23,7 +24,9 @@ public class CustomerTest extends BaseTest {
         dashboardPage.verifyDashboardPageDisplayed();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        company = "Đồ Án Tốt Nghiệp";
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Customers");
+        company = excel.getCellData("CUSTOMER_NAME",1);
 
         for (int i = 0; i < 100; i++) {
             customerPage.searchCustomers(company);

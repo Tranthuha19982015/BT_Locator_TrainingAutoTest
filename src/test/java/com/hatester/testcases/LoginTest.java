@@ -1,5 +1,6 @@
 package com.hatester.testcases;
 
+import com.hatester.helpers.ExcelHelper;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
 import org.testng.annotations.Test;
@@ -12,7 +13,11 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
-        loginPage.loginCRM("admin@example.com", "123456");
+
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
+        loginPage.loginCRM(excel.getCellData("EMAIL",1), excel.getCellData("PASSWORD",1));
+
         loginPage.verifyLoginSuccess();
     }
 
@@ -21,7 +26,11 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
-        loginPage.loginCRM("", "123456");
+
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
+        loginPage.loginCRM(excel.getCellData("EMAIL",2), excel.getCellData("PASSWORD",2));
+
         loginPage.verifyLoginFailedWithEmailRequired();
     }
 
@@ -30,7 +39,11 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
-        loginPage.loginCRM("admin@example.com", "");
+
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
+        loginPage.loginCRM(excel.getCellData("EMAIL",3), excel.getCellData("PASSWORD",3));
+
         loginPage.verifyLoginFailedWithPasswordRequired();
     }
 
@@ -39,7 +52,11 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
-        loginPage.loginCRM("admin12@example.com", "123456");
+
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
+        loginPage.loginCRM(excel.getCellData("EMAIL",4), excel.getCellData("PASSWORD",4));
+
         loginPage.verifyLoginFailedWithEmailInvalid();
     }
 
@@ -48,7 +65,11 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.navigateToCRM();
         loginPage.verifyHeaderLogin();
-        loginPage.loginCRM("admin@example.com", "12345678");
+
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
+        loginPage.loginCRM(excel.getCellData("EMAIL",5), excel.getCellData("PASSWORD",5));
+
         loginPage.verifyLoginFailedWithPasswordInvalid();
     }
 }

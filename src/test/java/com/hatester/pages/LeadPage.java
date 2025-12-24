@@ -2,13 +2,17 @@ package com.hatester.pages;
 
 import com.hatester.keywords.WebUI;
 import com.hatester.common.BasePage;
+import com.hatester.models.LeadData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class LeadPage extends BasePage {
-       //Locator Lead Page
+    //Locator Lead Page
     private By buttonNewLead = By.xpath("//a[normalize-space()='New Lead']");
     private By iconLeadsSummary = By.xpath("//a[@data-title='Leads Summary']");
     private By iconSwitchToKanban = By.xpath("//a[@data-title='Switch to Kanban']");
@@ -216,27 +220,24 @@ public class LeadPage extends BasePage {
         Assert.assertTrue(WebUI.checkElementExist(headerAddNewLead), "Failed to open the “Add New Lead” popup");
     }
 
-    public void fillDataLead(String status, String source, String assigned, String tag, String name, String position,
-                             String city, String emailAddress, String state, String website, String country, String phone,
-                             String zipCode, String leadValue, String language, String company, String description,
-                             String dateContacted, int flag, int flagEdit) {
+    public void fillDataLead(LeadData lead) {
         //status
         WebUI.clickElement(dropdownStatus);
-        WebUI.setTextElement(inputSearchStatus, status);
-        WebUI.clickElement(getValueStatus(status));
+        WebUI.setTextElement(inputSearchStatus, lead.getStatus());
+        WebUI.clickElement(getValueStatus(lead.getStatus()));
 
         //source
         WebUI.clickElement(dropdownSource);
-        WebUI.setTextElement(inputSearchSource, source);
-        WebUI.clickElement(getValueSource(source));
+        WebUI.setTextElement(inputSearchSource, lead.getSource());
+        WebUI.clickElement(getValueSource(lead.getSource()));
 
         //assigned
         WebUI.clickElement(dropdownAssigned);
-        WebUI.setTextElement(inputSearchAssigned, assigned);
-        WebUI.clickElement(getValueAssigned(assigned));
+        WebUI.setTextElement(inputSearchAssigned, lead.getAssigned());
+        WebUI.clickElement(getValueAssigned(lead.getAssigned()));
 
         //input
-        if (flagEdit == 1) {
+        if (lead.getFlagEdit() == 1) {
             WebUI.clickElement(iconCloseTag);
             WebUI.clearTextElement(inputName);
 //            WebUI.clearElementText(driver,LocatorinputAddress);
@@ -260,49 +261,48 @@ public class LeadPage extends BasePage {
             WebUI.clickElement(inputTags);
         }
 
-        WebUI.setTextAndKey(inputTags, tag, Keys.ENTER);
+        WebUI.setTextAndKey(inputTags, lead.getTag(), Keys.ENTER);
         WebUI.clickElement(labelTags);
         WebUI.clickElement(labelTags);
 
-        WebUI.setTextElement(inputName, name);
+        WebUI.setTextElement(inputName, lead.getLeadName());
 //        WebUI.setTextElement(LocatorinputAddress, "");
 
-        WebUI.setTextElement(inputPosition, position);
-        WebUI.setTextElement(inputCity, city);
-        WebUI.setTextElement(inputEmailAddress, emailAddress);
-        WebUI.setTextElement(inputState, state);
-        WebUI.setTextElement(inputWebsite, website);
+        WebUI.setTextElement(inputPosition, lead.getPosition());
+        WebUI.setTextElement(inputCity, lead.getCity());
+        WebUI.setTextElement(inputEmailAddress, lead.getEmailAddress());
+        WebUI.setTextElement(inputState, lead.getState());
+        WebUI.setTextElement(inputWebsite, lead.getWebsite());
 
         //country
         WebUI.clickElement(dropdownCountry);
-        WebUI.setTextElement(inputSearchCountry, country);
-        WebUI.clickElement(getValueCountry(country));
+        WebUI.setTextElement(inputSearchCountry, lead.getCountry());
+        WebUI.clickElement(getValueCountry(lead.getCountry()));
 
         //input
-        WebUI.setTextElement(inputPhone, phone);
-        WebUI.setTextElement(inputZipcode, zipCode);
-        WebUI.setTextElement(inputLeadValue, leadValue);
+        WebUI.setTextElement(inputPhone, lead.getPhone());
+        WebUI.setTextElement(inputZipcode, lead.getZipCode());
+        WebUI.setTextElement(inputLeadValue, lead.getLeadValue());
 
         //Default Language
         WebUI.clickElement(dropdownDefaultLanguage);
-        WebUI.setTextElement(inputSearchDefaultLanguage, language);
-        WebUI.clickElement(getValueDefaultLanguage(language));
+        WebUI.setTextElement(inputSearchDefaultLanguage, lead.getLanguage());
+        WebUI.clickElement(getValueDefaultLanguage(lead.getLanguage()));
 
         //input
-        WebUI.setTextElement(inputCompany, company);
-        WebUI.setTextElement(inputDescription, description);
+        WebUI.setTextElement(inputCompany, lead.getCompany());
+        WebUI.setTextElement(inputDescription, lead.getDescription());
 
         //checkbox
         WebUI.clickElement(labelCheckboxPublic);
 
-        if (flagEdit == 0) {
-            WebUI.clickElement(labelCheckboxContactedToday);
-            WebUI.setTextElement(inputDateContacted, dateContacted);
-            WebUI.clickElement(labelPhone);
-            WebUI.clickElement(labelPhone);
-        } else {
-            WebUI.clearTextElement(inputLastContact);
-            WebUI.setTextElement(inputLastContact, dateContacted);
+        if (lead.getCheckedCheckbox() == 0) {
+            if (lead.getFlagEdit() == 0) {
+                WebUI.clickElement(labelCheckboxContactedToday);
+                WebUI.setTextElement(inputDateContacted, lead.getLastContacted());
+            } else {
+                WebUI.setTextElement(inputLastContact, lead.getLastContacted());
+            }
             WebUI.clickElement(labelPhone);
             WebUI.clickElement(labelPhone);
         }
@@ -321,7 +321,7 @@ public class LeadPage extends BasePage {
         verifyAlertMessageSuccessDisplayed(updateLeadSuccessMessage);
     }
 
-    public void clickIconClosePopupLeadDetail(String name, int flagEdit) {
+    public void clickIconClosePopupLeadDetail(String name) {
         WebUI.scrollToElementAtTop(iconClosePopupLeadDetail(name));
         WebUI.clickElement(iconClosePopupLeadDetail(name));
         WebUI.sleep(1);
@@ -355,48 +355,55 @@ public class LeadPage extends BasePage {
         WebUI.clickElement(buttonEdit(leadName));
     }
 
-    public void verifyNewLeadInEditPopup(String leadName, String status, String source, String assigned, String tag, String name,
-                                         String position, String city, String emailAddress, String state, String website, String country,
-                                         String phone, String zipCode, String leadValue, String language, String company, String description,
-                                         String dateContacted) {
-        boolean containsStatus = WebUI.getTextElement(dropdownStatus).contains(status);
+    public void verifyNewLeadInEditPopup(LeadData lead) {
+        boolean containsStatus = WebUI.getTextElement(dropdownStatus).contains(lead.getStatus());
         Assert.assertTrue(containsStatus, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getTextElement(dropdownSource), source,
+        Assert.assertEquals(WebUI.getTextElement(dropdownSource), lead.getSource(),
                 "Không đúng giá trị đã thêm mới");
-        boolean containsAssigned = WebUI.getTextElement(dropdownAssigned).contains(assigned);
+        boolean containsAssigned = WebUI.getTextElement(dropdownAssigned).contains(lead.getAssigned());
         Assert.assertTrue(containsAssigned, "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).toLowerCase(), lead.getTag().toLowerCase(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputName, "value"), name,
+        Assert.assertEquals(WebUI.getAttributeElement(inputName, "value"), lead.getLeadName(),
                 "Không đúng giá trị đã thêm mới");
 //        Assert.assertEquals(WebUI.getElementAttribute(driver,LocatorinputAddress,"value"), address,
 //        "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputPosition, "value"), position,
+        Assert.assertEquals(WebUI.getAttributeElement(inputPosition, "value"), lead.getPosition(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputCity, "value"), city,
+        Assert.assertEquals(WebUI.getAttributeElement(inputCity, "value"), lead.getCity(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputEmailAddress, "value"), emailAddress,
+        Assert.assertEquals(WebUI.getAttributeElement(inputEmailAddress, "value"), lead.getEmailAddress(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputState, "value"), state,
+        Assert.assertEquals(WebUI.getAttributeElement(inputState, "value"), lead.getState(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputWebsite, "value"), website,
+        Assert.assertEquals(WebUI.getAttributeElement(inputWebsite, "value"), lead.getWebsite(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getTextElement(dropdownCountry), country,
+        Assert.assertEquals(WebUI.getTextElement(dropdownCountry), lead.getCountry(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputPhone, "value"), phone,
+        Assert.assertEquals(WebUI.getAttributeElement(inputPhone, "value"), lead.getPhone(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputZipcode, "value"), zipCode,
+        Assert.assertEquals(WebUI.getAttributeElement(inputZipcode, "value"), lead.getZipCode(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputLeadValue, "value"), leadValue,
+
+        boolean containsLeadValue = WebUI.getAttributeElement(inputLeadValue, "value").contains(lead.getLeadValue());
+        Assert.assertTrue(containsLeadValue, "Không đúng giá trị đã thêm mới");
+
+        Assert.assertEquals(WebUI.getTextElement(dropdownDefaultLanguage), lead.getLanguage(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getTextElement(dropdownDefaultLanguage), language,
+        Assert.assertEquals(WebUI.getAttributeElement(inputCompany, "value"), lead.getCompany(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputCompany, "value"), company,
+        Assert.assertEquals(WebUI.getAttributeElement(inputDescription, "value"), lead.getDescription(),
                 "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getAttributeElement(inputDescription, "value"), description,
-                "Không đúng giá trị đã thêm mới");
-        boolean containsLastContact = WebUI.getAttributeElement(inputLastContact, "value").contains(dateContacted);
-        Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
+
+        if (lead.getCheckedCheckbox() == 0) {
+            boolean containsLastContact = WebUI.getAttributeElement(inputLastContact, "value").contains(lead.getLastContacted());
+            Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
+        } else {
+            String today = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            boolean containsLastContact = WebUI.getAttributeElement(inputLastContact, "value").contains(today);
+            Assert.assertTrue(containsLastContact, "Không đúng giá trị đã thêm mới");
+        }
+
         Assert.assertFalse(WebUI.checkElementExist(checkboxContactedToday), "Không ẩn checkbox trên màn hình Edit");
         Assert.assertTrue(WebUI.checkElementSeleted(checkboxPublic), "Không tích chọn checkbox");
         WebUI.sleep(1);

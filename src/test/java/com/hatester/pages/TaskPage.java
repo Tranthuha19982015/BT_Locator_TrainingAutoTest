@@ -2,15 +2,13 @@ package com.hatester.pages;
 
 import com.hatester.keywords.WebUI;
 import com.hatester.common.BasePage;
+import com.hatester.models.TaskData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-import java.awt.*;
-
 public class TaskPage extends BasePage {
-        //Locator Tasks Page
+    //Locator Tasks Page
     private By buttonNewTask = By.xpath("//a[normalize-space()='New Task']");
     private By buttonTasksOverview = By.xpath("//a[normalize-space()='Tasks Overview']");
     private By iconFilter = By.xpath("//div[@id='vueApp']/div[@data-title='Filter by']");
@@ -252,47 +250,45 @@ public class TaskPage extends BasePage {
         Assert.assertTrue(WebUI.checkElementExist(headerAddNewTask), "Failed to open the Add Task popup");
     }
 
-    public void fillDataNewTask(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
-                                String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                                String typeRelatedTo, String assignee, String follower, String tag, String description, int flag) {
+    public void fillDataNewTask(TaskData taskData) {
         //checkbox
-        if (flag == 1) {
+        if (taskData.getCheckedCheckbox() == 1) {
             WebUI.clickElement(labelCheckboxPublic);
         }
-        if (flag == 0) {
+        if (taskData.getCheckedCheckbox() == 0) {
             WebUI.clickElement(labelCheckboxBillable);
         }
 
         //input
-        WebUI.setTextElement(inputSubject, subject);
+        WebUI.setTextElement(inputSubject, taskData.getTaskName());
         WebUI.clearTextElement(inputHourlyRate);
-        WebUI.setTextElement(inputHourlyRate, hourlyRate);
+        WebUI.setTextElement(inputHourlyRate, taskData.getHourlyRate());
         WebUI.clearTextElement(inputStartDate);
-        WebUI.setTextElement(inputStartDate, startDate);
+        WebUI.setTextElement(inputStartDate, taskData.getStartDate());
         WebUI.clickElement(headerAddNewTask);
         WebUI.clearTextElement(inputDueDate);
-        WebUI.setTextElement(inputDueDate, dueDate);
+        WebUI.setTextElement(inputDueDate, taskData.getDueDate());
         WebUI.clickElement(headerAddNewTask);
 
         //Priority
         WebUI.clickElement(dropdownPriority);
-        WebUI.clickElement(getValuePriority(priority));
+        WebUI.clickElement(getValuePriority(taskData.getPriority()));
 
         //Repeat every
         WebUI.clickElement(dropdownRepeatEvery);
-        WebUI.clickElement(getValueRepeatEvery(repeatEvery));
-        if (repeatEvery.equals("Custom")) {
+        WebUI.clickElement(getValueRepeatEvery(taskData.getRepeatEvery()));
+        if (taskData.getRepeatEvery().equals("Custom")) {
             WebUI.clearTextElement(inputRepeatEveryCustom);
-            WebUI.setTextElement(inputRepeatEveryCustom, numberRepeatEveryCustom);
+            WebUI.setTextElement(inputRepeatEveryCustom, taskData.getNumberRepeatEveryCustom());
             WebUI.clickElement(dropdownRepeatEveryCustom);
-            WebUI.clickElement(getValueRepeatEveryCustom(typeRepeatEveryCustom));
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months")
-                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
-                || repeatEvery.equals("1 Year")) {
+            WebUI.clickElement(getValueRepeatEveryCustom(taskData.getTypeRepeatEveryCustom()));
+        } else if (taskData.getRepeatEvery().equals("Week") || taskData.getRepeatEvery().equals("2 Weeks")
+                || taskData.getRepeatEvery().equals("1 Months") || taskData.getRepeatEvery().equals("2 Months")
+                || taskData.getRepeatEvery().equals("3 Months") || taskData.getRepeatEvery().equals("6 Months")
+                || taskData.getRepeatEvery().equals("1 Year")) {
             WebUI.clickElement(checkboxInfinity);
             WebUI.clearTextElement(inputTotalCycles);
-            WebUI.setTextElement(inputTotalCycles, totalCycles);
+            WebUI.setTextElement(inputTotalCycles, taskData.getTotalCycles());
         } else {
             System.out.println("The Type Repeat Every is not exist.");
         }
@@ -300,33 +296,33 @@ public class TaskPage extends BasePage {
         WebUI.scrollToElementAtBottom(buttonSave);
         //Related To
         WebUI.clickElement(dropdownRelatedTo);
-        WebUI.clickElement(getValueRelatedTo(relatedTo));
+        WebUI.clickElement(getValueRelatedTo(taskData.getRelateTo()));
         WebUI.clickElement(dropdownTypeRelatedTo);
-        WebUI.setTextElement(inputSearchTypeRelatedTo, typeRelatedTo);
+        WebUI.setTextElement(inputSearchTypeRelatedTo, taskData.getTypeRelateTo());
         WebUI.sleep(1);
         WebUI.actionClickBase(inputSearchTypeRelatedTo, Keys.END, " ").build().perform();
-        WebUI.clickElement(getValueTypeRelatedTo(typeRelatedTo));
+        WebUI.clickElement(getValueTypeRelatedTo(taskData.getTypeRelateTo()));
 
         //Assignees
         WebUI.clickElement(dropdownAssignees);
-        WebUI.setTextElement(inputSearchAssignees, assignee);
-        WebUI.clickElement(getValueAssignees(assignee));
+        WebUI.setTextElement(inputSearchAssignees, taskData.getAssignee());
+        WebUI.clickElement(getValueAssignees(taskData.getAssignee()));
 
         //Followers
         WebUI.clickElement(dropdownFollowers);
-        WebUI.setTextElement(inputSearchFollowers, follower);
-        WebUI.clickElement(getValueFollowers(follower));
+        WebUI.setTextElement(inputSearchFollowers, taskData.getFollower());
+        WebUI.clickElement(getValueFollowers(taskData.getFollower()));
         WebUI.clickElement(dropdownFollowers);
 
         //input
-        WebUI.setTextAndKey(inputTags, tag, Keys.ENTER);
+        WebUI.setTextAndKey(inputTags, taskData.getTag(), Keys.ENTER);
         WebUI.clickElement(labelTags);
         WebUI.clickElement(labelTags);
 
         //iframe
         WebUI.clickElement(inputDescription);
         WebUI.switchToFrame(iframeDescription);
-        WebUI.setTextElement(inputDescriptionFrame, description);
+        WebUI.setTextElement(inputDescriptionFrame, taskData.getDescription());
         WebUI.switchToParentFrame();
     }
 
@@ -356,7 +352,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }
 
-    public void searchTask(String taskName){
+    public void searchTask(String taskName) {
         WebUI.refreshPage();
         WebUI.waitForPageLoaded();
         WebUI.setTextElement(inputSearchTasks, taskName);
@@ -369,124 +365,117 @@ public class TaskPage extends BasePage {
     }
 
     public void clickButtonEdit(String taskName) {
-        WebUI.sleep(0.5);
         WebUI.moveToElement(getFirstRowItemTaskName(taskName));
         WebUI.sleep(0.5);
         WebUI.clickElement(buttonEdit(taskName));
         WebUI.sleep(0.5);
     }
 
-    public void verifyNewTaskInTaskEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority,
-                                        String repeatEvery, String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles,
-                                        String relatedTo, String typeRelatedTo, String tag, String description, int flag) {
-        if (flag == 1) {
+    public void verifyNewTaskInTaskEdit(TaskData taskData) {
+        if (taskData.getCheckedCheckbox() == 1) {
             Assert.assertTrue(WebUI.checkElementSeleted(checkboxPublic), "Checkbox không được chọn");
             Assert.assertTrue(WebUI.checkElementSeleted(checkboxBillable), "Checkbox không được chọn");
         }
-        if (flag == 0) {
+        if (taskData.getCheckedCheckbox() == 0) {
             Assert.assertFalse(WebUI.checkElementSeleted(checkboxPublic), "Checkbox được tích chọn");
             Assert.assertFalse(WebUI.checkElementSeleted(checkboxBillable), "Checkbox được tích chọn");
         }
         Assert.assertEquals(WebUI.getAttributeElement(inputSubject, "value").trim(),
-                subject, "Không đúng giá trị đã thêm mới");
+                taskData.getTaskName(), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getAttributeElement(inputStartDate, "value").trim(),
-                startDate, "Không đúng giá trị đã thêm mới");
+                taskData.getStartDate(), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getAttributeElement(inputDueDate, "value").trim(),
-                dueDate, "Không đúng giá trị đã thêm mới");
+                taskData.getDueDate(), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getTextElement(dropdownPriority).trim(),
-                priority, "Không đúng giá trị đã thêm mới");
+                taskData.getPriority(), "Không đúng giá trị đã thêm mới");
         Assert.assertEquals(WebUI.getTextElement(dropdownRepeatEvery).trim(),
-                repeatEvery, "Không đúng giá trị đã thêm mới");
-        if (repeatEvery.equals("Custom")) {
+                taskData.getRepeatEvery(), "Không đúng giá trị đã thêm mới");
+        if (taskData.getRepeatEvery().equals("Custom")) {
             Assert.assertEquals(WebUI.getAttributeElement(inputRepeatEveryCustom, "value").trim(),
-                    numberRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
+                    taskData.getNumberRepeatEveryCustom(), "Không đúng giá trị đã thêm mới");
             Assert.assertEquals(WebUI.getTextElement(dropdownRepeatEveryCustom).trim(),
-                    typeRepeatEveryCustom, "Không đúng giá trị đã thêm mới");
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Months") || repeatEvery.equals("2 Months")
-                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
-                || repeatEvery.equals("1 Year")) {
+                    taskData.getTypeRepeatEveryCustom(), "Không đúng giá trị đã thêm mới");
+        } else if (taskData.getRepeatEvery().equals("Week") || taskData.getRepeatEvery().equals("2 Weeks")
+                || taskData.getRepeatEvery().equals("1 Months") || taskData.getRepeatEvery().equals("2 Months")
+                || taskData.getRepeatEvery().equals("3 Months") || taskData.getRepeatEvery().equals("6 Months")
+                || taskData.getRepeatEvery().equals("1 Year")) {
             Assert.assertFalse(WebUI.checkElementSeleted(checkboxInfinity), "Checkbox không được chọn");
             Assert.assertEquals(WebUI.getAttributeElement(inputTotalCycles, "value").trim(),
-                    totalCycles, "Không đúng giá trị đã thêm mới");
+                    taskData.getTotalCycles(), "Không đúng giá trị đã thêm mới");
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
         }
-        Assert.assertEquals(WebUI.getTextElement(dropdownRelatedTo).trim(), relatedTo,
+        Assert.assertEquals(WebUI.getTextElement(dropdownRelatedTo).trim(), taskData.getRelateTo(),
                 "Không đúng giá trị đã thêm mới");
-        boolean containsTypeRelatedTo = WebUI.getTextElement(dropdownTypeRelatedTo).contains(typeRelatedTo);
+        boolean containsTypeRelatedTo = WebUI.getTextElement(dropdownTypeRelatedTo).contains(taskData.getTypeRelateTo());
         Assert.assertTrue(containsTypeRelatedTo, "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(dropdownAssignees), "Không đúng giá trị đã thêm mới");
         Assert.assertFalse(WebUI.checkElementExist(dropdownFollowers), "Không đúng giá trị đã thêm mới");
-        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).trim().toLowerCase(), tag,
+        Assert.assertEquals(WebUI.getTextElement(inputTagsEdit).trim().toLowerCase(), taskData.getTag(),
                 "Không đúng giá trị đã thêm mới");
         WebUI.switchToFrame(iframeDescription);
-        Assert.assertEquals(WebUI.getTextElement(inputDescriptionFrame).trim().toLowerCase(), description,
+        Assert.assertEquals(WebUI.getTextElement(inputDescriptionFrame).trim().toLowerCase(), taskData.getDescription(),
                 "Không đúng giá trị đã thêm mới");
         WebUI.switchToParentFrame();
     }
 
-    public void fillDataEdit(String subject, String hourlyRate, String startDate, String dueDate, String priority, String repeatEvery,
-                             String numberRepeatEveryCustom, String typeRepeatEveryCustom, String totalCycles, String relatedTo,
-                             String typeRelatedTo, String assignee, String follower, String tag, String description, int flag) throws AWTException {
-        Robot robot = new Robot();
-        WebUI.sleep(1);
+    public void fillDataEdit(TaskData taskData) {
         //checkbox
-        if (flag == 1) {
+        if (taskData.getCheckedCheckbox() == 1) {
             WebUI.actionClick(labelCheckboxPublic).perform();
             WebUI.sleep(0.5);
         }
-        if (flag == 0) {
+        if (taskData.getCheckedCheckbox() == 0) {
             WebUI.actionClick(labelCheckboxBillable).perform();
             WebUI.sleep(0.5);
         }
 
         //input
         WebUI.actionClickAndClear(inputSubject).perform();
-        WebUI.actionClickAndSetText(inputSubject, subject).perform();
+        WebUI.actionClickAndSetText(inputSubject, taskData.getTaskName()).perform();
         WebUI.sleep(0.5);
 
         WebUI.actionClickAndClear(inputHourlyRate).perform();
-        WebUI.actionClickAndSetText(inputHourlyRate, hourlyRate).perform();
+        WebUI.actionClickAndSetText(inputHourlyRate, taskData.getHourlyRate()).perform();
         WebUI.sleep(0.5);
 
         WebUI.actionClickAndClear(inputStartDate).perform();
-        WebUI.actionClickAndSetText(inputStartDate, startDate).perform();
+        WebUI.actionClickAndSetText(inputStartDate, taskData.getStartDate()).perform();
         WebUI.sleep(0.5);
 
         WebUI.actionClickAndClear(inputDueDate).perform();
-        WebUI.actionClickAndSetText(inputDueDate, dueDate).perform();
+        WebUI.actionClickAndSetText(inputDueDate, taskData.getDueDate()).perform();
         WebUI.sleep(0.5);
 
         //Priority
         WebUI.actionClick(dropdownPriority).perform();
         WebUI.sleep(0.5);
-        WebUI.actionClick(getValuePriority(priority)).perform();
+        WebUI.actionClick(getValuePriority(taskData.getPriority())).perform();
         WebUI.sleep(0.5);
 
         //Repeat every
         WebUI.actionClick(dropdownRepeatEvery).perform();
         WebUI.sleep(1);
-        WebUI.actionClick(getValueRepeatEvery(repeatEvery)).perform();
+        WebUI.actionClick(getValueRepeatEvery(taskData.getRepeatEvery())).perform();
         WebUI.sleep(0.5);
-        if (repeatEvery.equals("Custom")) {
+        if (taskData.getRepeatEvery().equals("Custom")) {
             WebUI.actionClickAndClear(inputRepeatEveryCustom).perform();
-            WebUI.actionClickAndSetText(inputRepeatEveryCustom, numberRepeatEveryCustom).perform();
+            WebUI.actionClickAndSetText(inputRepeatEveryCustom, taskData.getNumberRepeatEveryCustom()).perform();
             WebUI.sleep(0.5);
 
             WebUI.actionClick(dropdownRepeatEveryCustom).perform();
             WebUI.sleep(1);
-            WebUI.actionClick(getValueRepeatEveryCustom(typeRepeatEveryCustom)).perform();
+            WebUI.actionClick(getValueRepeatEveryCustom(taskData.getTypeRepeatEveryCustom())).perform();
             WebUI.sleep(0.5);
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks")
-                || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months")
-                || repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months")
-                || repeatEvery.equals("1 Year")) {
+        } else if (taskData.getRepeatEvery().equals("Week") || taskData.getRepeatEvery().equals("2 Weeks")
+                || taskData.getRepeatEvery().equals("1 Month") || taskData.getRepeatEvery().equals("2 Months")
+                || taskData.getRepeatEvery().equals("3 Months") || taskData.getRepeatEvery().equals("6 Months")
+                || taskData.getRepeatEvery().equals("1 Year")) {
             WebUI.actionClick(checkboxInfinity).perform();
             WebUI.sleep(0.5);
 
             WebUI.actionClickAndClear(inputTotalCycles).perform();
-            WebUI.actionClickAndSetText(inputTotalCycles, totalCycles).perform();
+            WebUI.actionClickAndSetText(inputTotalCycles, taskData.getTotalCycles()).perform();
             WebUI.sleep(0.5);
         } else {
             System.out.println("Không tồn tại Type Repeat Every đã nhập");
@@ -496,20 +485,20 @@ public class TaskPage extends BasePage {
         //Related To
         WebUI.actionClick(dropdownRelatedTo).perform();
         WebUI.sleep(1);
-        WebUI.actionClick(getValueRelatedTo(relatedTo)).perform();
+        WebUI.actionClick(getValueRelatedTo(taskData.getRelateTo())).perform();
         WebUI.sleep(0.5);
         WebUI.actionClick(dropdownTypeRelatedTo).perform();
         WebUI.sleep(0.5);
-        WebUI.actionClickAndSetText(inputSearchTypeRelatedTo, typeRelatedTo).perform();
+        WebUI.actionClickAndSetText(inputSearchTypeRelatedTo, taskData.getTypeRelateTo()).perform();
         WebUI.sleep(1);
-        WebUI.moveToElement(getValueTypeRelatedTo(typeRelatedTo));
-        WebUI.actionClick(getValueTypeRelatedTo(typeRelatedTo)).perform();
+        WebUI.moveToElement(getValueTypeRelatedTo(taskData.getTypeRelateTo()));
+        WebUI.actionClick(getValueTypeRelatedTo(taskData.getTypeRelateTo())).perform();
         WebUI.sleep(0.5);
 
         //input
         WebUI.moveToElement(iconCloseTag);
         WebUI.actionClick(iconCloseTag).perform();
-        WebUI.actionClickAndSetText(inputTags, tag).perform();
+        WebUI.actionClickAndSetText(inputTags, taskData.getTag()).perform();
         WebUI.sleep(0.5);
         WebUI.actionClick(labelTags).perform();
         WebUI.actionClick(labelTags).perform();
@@ -518,7 +507,7 @@ public class TaskPage extends BasePage {
         //iframe
         WebUI.switchToFrame(iframeDescription);
         WebUI.sleep(0.5);
-        WebUI.actionClickAndSetText(inputDescriptionFrame, description);
+        WebUI.actionClickAndSetText(inputDescriptionFrame, taskData.getDescription()).perform();
         WebUI.sleep(0.5);
         WebUI.switchToParentFrame();
         WebUI.sleep(0.5);

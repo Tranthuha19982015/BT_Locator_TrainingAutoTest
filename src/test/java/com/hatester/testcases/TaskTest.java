@@ -1,5 +1,8 @@
 package com.hatester.testcases;
 
+import com.hatester.helpers.ExcelHelper;
+import com.hatester.models.LeadData;
+import com.hatester.models.TaskData;
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
 import com.hatester.pages.LoginPage;
@@ -14,152 +17,119 @@ import java.util.Date;
 import java.util.Random;
 
 public class TaskTest extends BaseTest {
-    String taskName = "[htest]task add" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date()),
-            hourlyRate = "8.00",
-            startDate = "08-12-2025",
-            dueDate = "12-12-2025",
-            priority = "High",
-            repeatEvery = "Week",
-            numberRepeatEveryCustom = "5",
-            typeRepeatEveryCutom = "Week(s)",
-            totalCycles = "6",
-            relateTo = "Lead",
-            typeRelateTo = "[htest]lead",
-            assignee = "Admin Anh Tester",
-            follower = "Admin Example",
-            tag = "htest",
-            description = "htest switch to frame description";
-    int flag = 0;
-
     private LoginPage loginPage;
     private DashboardPage dashboardPage;
     private LeadPage leadPage;
     private TaskPage taskPage;
 
+    TaskData getDataFromExcel(int rowIndex) {
+        ExcelHelper excel = new ExcelHelper();
+        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Tasks");
+
+        TaskData taskData = new TaskData();
+        taskData.setTaskName(excel.getCellData("TASK_NAME", rowIndex));
+        taskData.setHourlyRate(excel.getCellData("HOURLY_RATE", rowIndex));
+        taskData.setStartDate(excel.getCellData("START_DATE", rowIndex));
+        taskData.setDueDate(excel.getCellData("DUE_DATE", rowIndex));
+        taskData.setPriority(excel.getCellData("PRIORITY", rowIndex));
+        taskData.setRepeatEvery(excel.getCellData("REPEAT_EVERY", rowIndex));
+        taskData.setNumberRepeatEveryCustom(excel.getCellData("NUMBER_REPEAT_EVERY_CUSTOM", rowIndex));
+        taskData.setTypeRepeatEveryCustom(excel.getCellData("TYPE_REPEAT_EVERY_CUSTOM", rowIndex));
+        taskData.setTotalCycles(excel.getCellData("TOTAL_CYCLES", rowIndex));
+        taskData.setRelateTo(excel.getCellData("RELATED_TO", rowIndex));
+        taskData.setTypeRelateTo(excel.getCellData("TYPE_RELATED_TO", rowIndex));
+        taskData.setAssignee(excel.getCellData("ASSIGNEE", rowIndex));
+        taskData.setFollower(excel.getCellData("FOLLOWER", rowIndex));
+        taskData.setTag(excel.getCellData("TAG", rowIndex));
+        taskData.setDescription(excel.getCellData("DESCRIPTION", rowIndex));
+        taskData.setFlagEdit(Integer.parseInt(excel.getCellData("FLAG_EDIT", rowIndex)));
+        taskData.setTypeConfirm(Integer.parseInt(excel.getCellData("TYPE_CONFIRM", rowIndex)));
+
+        return taskData;
+    }
+
     @Test
     public void testAddNewTask() throws AWTException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        // Ngày bắt đầu (hôm nay)
-        Date start = new Date();
-        // Cộng thêm 6 ngày
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(start);
-        cal.add(Calendar.DAY_OF_MONTH, 6);
-        startDate = sdf.format(start);
-        dueDate = sdf.format(cal.getTime());
-
-        TaskTest taskTest = new TaskTest();
-        taskTest.taskName = taskName + new Random().nextInt(1000);
+        TaskData taskData = getDataFromExcel(1);
+        String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
 
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
-                assignee, follower, tag, description, flag);
+        taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchTask(taskTest.taskName);
-        taskPage.verifyTaskExists(taskTest.taskName);
-        taskPage.clickButtonEdit(taskTest.taskName);
-        taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
-                repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
-                typeRelateTo, tag, description, flag);
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.searchTask(taskData.getTaskName());
+        taskPage.verifyTaskExists(taskData.getTaskName());
+        taskPage.clickButtonEdit(taskData.getTaskName());
+        taskPage.verifyNewTaskInTaskEdit(taskData);
     }
 
     @Test
     public void testEditTask() throws InterruptedException, AWTException {
+        TaskData taskData = getDataFromExcel(1);
+        String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
+
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
-
-        TaskTest taskTest = new TaskTest();
-        taskTest.taskName = taskName + new Random().nextInt(1000);
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
-                assignee, follower, tag, description, flag);
+        taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchTask(taskTest.taskName);
-        taskPage.verifyTaskExists(taskTest.taskName);
-        taskPage.clickButtonEdit(taskTest.taskName);
-        taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
-                repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
-                typeRelateTo, tag, description, flag);
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.searchTask(taskData.getTaskName());
+        taskPage.verifyTaskExists(taskData.getTaskName());
 
-        TaskTest taskEdit = new TaskTest();
-        taskEdit.taskName = "[htest]task edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskPage.clickButtonEdit(taskData.getTaskName());
+        taskPage.verifyNewTaskInTaskEdit(taskData);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        // Ngày bắt đầu (hôm nay)
-        Date start = new Date();
-        // Cộng thêm 6 ngày
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(start);
-        cal.add(Calendar.DAY_OF_MONTH, 3);
-        taskEdit.startDate = sdf.format(start);
-        taskEdit.dueDate = sdf.format(cal.getTime());
+        TaskData taskDataEdit = getDataFromExcel(2);
+        String dateTimeEdit = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskDataEdit.setTaskName(taskDataEdit.getTaskName() + dateTimeEdit);
 
-        taskEdit.priority = "Medium";
-        taskEdit.repeatEvery = "1 Month";
-        taskEdit.totalCycles = "3";
-        taskEdit.typeRelateTo = "[htest]lead";
-        taskEdit.flag = 1;
-
-        taskPage.fillDataEdit(taskEdit.taskName, hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority, taskEdit.repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo,
-                typeRelateTo, assignee, follower, taskEdit.tag, description, flag);
+        taskPage.fillDataEdit(taskDataEdit);
         taskPage.clickButtonSave();
         taskPage.verifyUpdateTaskSuccessMessage();
         taskPage.clickIconCloseUpdateTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskEdit.taskName, 1);
-        taskPage.searchTask(taskEdit.taskName);
-        taskPage.verifyTaskExists(taskEdit.taskName);
+        taskPage.clickClosePopupTaskDetail(taskDataEdit.getTaskName(), taskDataEdit.getFlagEdit());
+        taskPage.searchTask(taskDataEdit.getTaskName());
+        taskPage.verifyTaskExists(taskDataEdit.getTaskName());
     }
 
     @Test
     public void testDeleteTask() throws AWTException {
-        TaskTest taskTest = new TaskTest();
-        taskTest.taskName = taskName + new Random().nextInt(1000);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        // Ngày bắt đầu (hôm nay)
-        Date start = new Date();
-        // Cộng thêm 6 ngày
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(start);
-        cal.add(Calendar.DAY_OF_MONTH, 6);
-        startDate = sdf.format(start);
-        dueDate = sdf.format(cal.getTime());
+        TaskData taskData = getDataFromExcel(1);
+        String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
 
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
-
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, typeRelateTo,
-                assignee, follower, tag, description, flag);
+        taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchTask(taskTest.taskName);
-        taskPage.verifyTaskExists(taskTest.taskName);
-        taskPage.clickButtonDelete(taskTest.taskName);
-        taskPage.confirmAlertDelete(1);
-        taskPage.verifyDeleteTaskSuccessMessage(1);
-        taskPage.clickIconCloseDeleteTaskMessage(1);
-        taskPage.searchTask(taskTest.taskName);
-        taskPage.verifyAfterDeleteTask(taskTest.taskName, 1);
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.searchTask(taskData.getTaskName());
+        taskPage.verifyTaskExists(taskData.getTaskName());
+
+        taskPage.clickButtonDelete(taskData.getTaskName());
+        taskPage.confirmAlertDelete(taskData.getTypeConfirm());
+        taskPage.verifyDeleteTaskSuccessMessage(taskData.getTypeConfirm());
+        taskPage.clickIconCloseDeleteTaskMessage(taskData.getTypeConfirm());
+        taskPage.searchTask(taskData.getTaskName());
+        taskPage.verifyAfterDeleteTask(taskData.getTaskName(), taskData.getTypeConfirm());
     }
 
     @Test
@@ -168,96 +138,67 @@ public class TaskTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
-        LeadTest leadTest = new LeadTest();
-        leadTest.leadName = leadTest.leadName + new Random().nextInt(1000);
-        leadTest.emailAddress = leadTest.emailAddress + new Random().nextInt(1000) + "@gmail.com";
+        LeadData leadData = new LeadTest().getLeadDataFromExcel(1);
+        String dateTimeLeadAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadData.setLeadName(leadData.getLeadName() + dateTimeLeadAdd);
+        leadData.setEmailAddress(leadData.getEmailAddress() + dateTimeLeadAdd + "@gmail.com");
+
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(leadTest.status, leadTest.source, leadTest.assigned, leadTest.tag, leadTest.leadName,
-                leadTest.position, leadTest.city, leadTest.emailAddress, leadTest.state, leadTest.website, leadTest.country,
-                leadTest.phone, leadTest.zipCode, leadTest.leadValue, leadTest.language, leadTest.company,
-                leadTest.description, leadTest.lastContacted, leadTest.flag, leadTest.flagEdit);
+        leadPage.fillDataLead(leadData);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadTest.leadName, 0);
-        leadPage.searchLead(leadTest.leadName);
-        leadPage.checkLeadsExists(leadTest.leadName);
-        leadPage.clickButtonEdit(leadTest.leadName);
-        leadPage.verifyNewLeadInEditPopup(leadTest.leadName, leadTest.status, leadTest.source, leadTest.assigned, leadTest.tag,
-                leadTest.leadName, leadTest.position, leadTest.city, leadTest.emailAddress, leadTest.state, leadTest.website,
-                leadTest.country, leadTest.phone, leadTest.zipCode, leadTest.leadValue + ".00",
-                leadTest.language, leadTest.company, leadTest.description, leadTest.lastContacted);
+        leadPage.clickIconClosePopupLeadDetail(leadData.getLeadName());
+        leadPage.searchLead(leadData.getLeadName());
+        leadPage.checkLeadsExists(leadData.getLeadName());
+        leadPage.clickButtonEdit(leadData.getLeadName());
+        leadPage.verifyNewLeadInEditPopup(leadData);
 
-        LeadTest leadEdit = new LeadTest();
-        leadEdit.leadName = "[htest]lead edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        leadEdit.source = "Google";
-        leadEdit.assigned = "Example";
-        leadEdit.tag += "edit" + new SimpleDateFormat("HHmmss").format(new Date());
-        leadEdit.phone = "0965898980";
-        leadEdit.zipCode += "1";
-        leadEdit.leadValue += "6";
-        leadEdit.description = "htest edit new lead";
-        leadEdit.lastContacted = "24-11-2025";
-        leadEdit.flag = 0;
-        leadEdit.flagEdit = 1;
+        LeadData leadDataEdit = new LeadTest().getLeadDataFromExcel(2);
+        String dateTimeLeadEdit = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
 
-        leadPage.fillDataLead(leadTest.status, leadEdit.source, leadEdit.assigned, leadEdit.tag, leadEdit.leadName,
-                leadTest.position, leadTest.city, leadTest.emailAddress, leadTest.state, leadTest.website, leadTest.country,
-                leadEdit.phone, leadEdit.zipCode, leadEdit.leadValue, leadTest.language, leadTest.company,
-                leadEdit.description, leadEdit.lastContacted, leadEdit.flag, leadEdit.flagEdit);
+        leadDataEdit.setLeadName(leadDataEdit.getLeadName() + dateTimeLeadEdit);
+        leadDataEdit.setTag(leadDataEdit.getTag() + dateTimeLeadEdit);
+        leadDataEdit.setEmailAddress(leadDataEdit.getEmailAddress() + dateTimeLeadEdit + "@gmail.com");
+
+        leadPage.fillDataLead(leadDataEdit);
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadEdit.leadName, 1);
-        leadPage.searchLead(leadEdit.leadName);
-        leadPage.checkLeadsExists(leadEdit.leadName);
+        leadPage.clickIconClosePopupLeadDetail(leadDataEdit.getLeadName());
+        leadPage.searchLead(leadDataEdit.getLeadName());
+        leadPage.checkLeadsExists(leadDataEdit.getLeadName());
 
         taskPage = leadPage.clickMenuTask();
-        TaskTest taskTest = new TaskTest();
-        taskTest.taskName = taskName + new Random().nextInt(1000);
-        taskTest.typeRelateTo = leadEdit.leadName;
+
+        TaskData taskData = getDataFromExcel(1);
+        String dateTimeTaskAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskData.setTaskName(taskData.getTaskName() + dateTimeTaskAdd);
+        taskData.setTypeRelateTo(leadDataEdit.getLeadName());
+
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskTest.taskName, hourlyRate, startDate, dueDate, priority, repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo, taskTest.typeRelateTo,
-                assignee, follower, tag, description, flag);
+        taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskTest.taskName, 0);
-        taskPage.searchTask(taskTest.taskName);
-        taskPage.verifyTaskExists(taskTest.taskName);
-        taskPage.clickButtonEdit(taskTest.taskName);
-        taskPage.verifyNewTaskInTaskEdit(taskTest.taskName, hourlyRate, startDate, dueDate, priority,
-                repeatEvery, numberRepeatEveryCustom, typeRepeatEveryCutom, totalCycles, relateTo,
-                typeRelateTo, tag, description, flag);
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.searchTask(taskData.getTaskName());
+        taskPage.verifyTaskExists(taskData.getTaskName());
 
-        TaskTest taskEdit = new TaskTest();
-        taskEdit.taskName = "[htest]task edit" + new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskPage.clickButtonEdit(taskData.getTaskName());
+        taskPage.verifyNewTaskInTaskEdit(taskData);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        // Ngày bắt đầu (hôm nay)
-        Date start = new Date();
-        // Cộng thêm 6 ngày
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(start);
-        cal.add(Calendar.DAY_OF_MONTH, 3);
-        taskEdit.startDate = sdf.format(start);
-        taskEdit.dueDate = sdf.format(cal.getTime());
+        TaskData taskDataEdit = getDataFromExcel(2);
+        String dateTimeTaskEdit = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        taskDataEdit.setTaskName(taskDataEdit.getTaskName() + dateTimeTaskEdit);
 
-        taskEdit.priority = "Medium";
-        taskEdit.repeatEvery = "1 Month";
-        taskEdit.totalCycles = "3";
-        taskEdit.flag = 1;
-
-        taskPage.fillDataEdit(taskEdit.taskName, hourlyRate, taskEdit.startDate, taskEdit.dueDate, taskEdit.priority, taskEdit.repeatEvery,
-                numberRepeatEveryCustom, typeRepeatEveryCutom, taskEdit.totalCycles, taskEdit.relateTo,
-                taskTest.typeRelateTo, assignee, follower, taskEdit.tag, description, flag);
+        taskPage.fillDataEdit(taskDataEdit);
         taskPage.clickButtonSave();
         taskPage.verifyUpdateTaskSuccessMessage();
         taskPage.clickIconCloseUpdateTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskEdit.taskName, 1);
-        taskPage.searchTask(taskEdit.taskName);
-        taskPage.verifyTaskExists(taskEdit.taskName);
+        taskPage.clickClosePopupTaskDetail(taskDataEdit.getTaskName(), taskDataEdit.getFlagEdit());
+        taskPage.searchTask(taskDataEdit.getTaskName());
+        taskPage.verifyTaskExists(taskDataEdit.getTaskName());
     }
 }
