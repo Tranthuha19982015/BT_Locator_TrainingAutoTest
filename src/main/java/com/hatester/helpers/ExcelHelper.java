@@ -1,6 +1,5 @@
 package com.hatester.helpers;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,27 +14,26 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 public class ExcelHelper {
 
     private FileInputStream fis;
-    private FileOutputStream fileOut;
     private Workbook wb;
     private Sheet sh;
-    private Cell cell;
-    private Row row;
-    private CellStyle cellstyle;
-    private Color mycolor;
-    private String excelFilePath;
-    private Map<String, Integer> columns = new HashMap<>();
+    private String excelFilePath; //Lưu path file Excel để dùng khi ghi lại
+
+    private Map<String, Integer> columns = new HashMap<>(); //Dùng Map để lưu tên cột và vị trí cột
+
+    private CellStyle defaultStyle;
+    private static final String DATE_FORMAT = "dd-MM-yyyy";
 
     //hàm này để đọc data từ sheet trong Excel
     public void setExcelFile(String ExcelPath, String SheetName) {
         try {
-            File f = new File(ExcelPath);
+            File file = new File(ExcelPath);
 
-            if (!f.exists()) {
-                System.out.println("File doesn't exist.");
+            if (!file.exists()) {
+                throw new RuntimeException("File doesn't exist.");
             }
-
-            fis = new FileInputStream(ExcelPath);
-            wb = WorkbookFactory.create(fis);
+            fis = new FileInputStream(file);  //Vì file đã chứa TẤT CẢ thông tin của excelPath rồi nên truyền file
+            wb = WorkbookFactory.create(fis);  //WorkbookFactory.create() → tự nhận .xls hay .xlsx
+            fis.close();
             sh = wb.getSheet(SheetName);
 
             if (sh == null) {
@@ -43,46 +41,61 @@ public class ExcelHelper {
             }
 
             this.excelFilePath = ExcelPath;
+            columns.clear();
+
+            Row headerRow = sh.getRow(0);
+            if (headerRow == null) {
+                throw new RuntimeException("Header row (row 0) is empty");
+            }
 
             //adding all the column header names to the map 'columns'
-            sh.getRow(0).forEach(cell -> {
+            headerRow.forEach(cell -> {
                 columns.put(cell.getStringCellValue(), cell.getColumnIndex());
             });
 
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException("Cannot load Excel file", e);
         }
     }
 
     //đọc data từng ô theo vị trí cột, vị trí dòng
     public String getCellData(int columnIndex, int rowIndex) {
-        try {
-            cell = sh.getRow(rowIndex).getCell(columnIndex);
-            String CellData = null;
-            switch (cell.getCellType()) {
-                case STRING:
-                    CellData = cell.getStringCellValue().trim();
-                    break;
-                case NUMERIC:
-                    if (DateUtil.isCellDateFormatted(cell)) {
-                        Date date = cell.getDateCellValue();
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                        CellData = sdf.format(date);
-                    } else {
-                        CellData = String.valueOf((long) cell.getNumericCellValue());
-                    }
-                    break;
-                case BOOLEAN:
-                    CellData = Boolean.toString(cell.getBooleanCellValue());
-                    break;
-                case BLANK:
-                    CellData = "";
-                    break;
-            }
-            return CellData;
-        } catch (Exception e) {
-            return "";
+        if (sh == null) {
+            throw new RuntimeException("Excel file is not loaded. Call setExcelFile() first.");
         }
+        Row row = sh.getRow(rowIndex);
+        if (row == null) return "";
+
+        Cell cell = row.getCell(columnIndex);
+        if (cell == null) return "";
+
+        String cellData = null;
+        switch (cell.getCellType()) {
+            case STRING:
+                cellData = cell.getStringCellValue().trim();
+                break;
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    Date date = cell.getDateCellValue();
+                    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                    cellData = sdf.format(date);
+                } else {
+                    double value = cell.getNumericCellValue();
+                    if (value == (long) value) {
+                        cellData = String.valueOf((long) value);
+                    } else {
+                        cellData = String.valueOf(value);
+                    }
+                }
+                break;
+            case BOOLEAN:
+                cellData = String.valueOf(cell.getBooleanCellValue());
+                break;
+            case BLANK:
+                cellData = "";
+                break;
+        }
+        return cellData;
     }
 
     //đọc data từng ô theo tên cột, vị trí dòng
@@ -93,63 +106,55 @@ public class ExcelHelper {
         return getCellData(columns.get(columnName), rowIndex);
     }
 
+    private CellStyle getDefaultStyle() {
+        if (defaultStyle == null) {
+            defaultStyle = wb.createCellStyle();
+            defaultStyle.setAlignment(HorizontalAlignment.CENTER);
+            defaultStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        }
+        return defaultStyle;
+    }
+
     //set by column index
     public void setCellData(String text, int columnIndex, int rowIndex) {
-        try {
-            row = sh.getRow(rowIndex);
+        if (sh == null) {
+            throw new RuntimeException("Excel file is not loaded. Call setExcelFile() first.");
+        }
+        try(FileOutputStream fileOut = new FileOutputStream(excelFilePath)) {
+            Row row = sh.getRow(rowIndex);
+
+            //Nếu row chưa tồn tại → create
             if (row == null) {
                 row = sh.createRow(rowIndex);
             }
-            cell = row.getCell(columnIndex);
+            Cell cell = row.getCell(columnIndex);
 
             if (cell == null) {
                 cell = row.createCell(columnIndex);
             }
-            cell.setCellValue(text);
+            cell.setCellValue(text); //set giá trị cho ô
 
-            XSSFCellStyle style = (XSSFCellStyle) wb.createCellStyle();
-            style.setFillPattern(FillPatternType.NO_FILL);
-            style.setAlignment(HorizontalAlignment.CENTER);
-            style.setVerticalAlignment(VerticalAlignment.CENTER);
+            cell.setCellStyle(getDefaultStyle()); //set format cho ô
 
-            cell.setCellStyle(style);
-
-            fileOut = new FileOutputStream(excelFilePath);
             wb.write(fileOut);
-            fileOut.flush();
-            fileOut.close();
         } catch (Exception e) {
-            e.getMessage();
+            throw new RuntimeException(e);
         }
     }
 
     //set by column name
     public void setCellData(String text, String columnName, int rowIndex) {
+        if (!columns.containsKey(columnName)) {
+            throw new RuntimeException("Column name " + columnName + " does not exist.");
+        }
+        setCellData(text, columns.get(columnName), rowIndex);
+    }
+
+    public void close() {
         try {
-            row = sh.getRow(rowIndex);
-            if (row == null) {
-                row = sh.createRow(rowIndex);
-            }
-            cell = row.getCell(columns.get(columnName));
-
-            if (cell == null) {
-                cell = row.createCell(columns.get(columnName));
-            }
-            cell.setCellValue(text); //set giá trị cho ô
-
-            XSSFCellStyle style = (XSSFCellStyle) wb.createCellStyle();
-            style.setFillPattern(FillPatternType.NO_FILL);
-            style.setAlignment(HorizontalAlignment.CENTER);
-            style.setVerticalAlignment(VerticalAlignment.CENTER);
-
-            cell.setCellStyle(style); //set format cho ô
-
-            fileOut = new FileOutputStream(excelFilePath);
-            wb.write(fileOut);
-            fileOut.flush();
-            fileOut.close();
+            if (wb != null) wb.close();
         } catch (Exception e) {
-            e.getMessage();
+            throw new RuntimeException(e);
         }
     }
 }
