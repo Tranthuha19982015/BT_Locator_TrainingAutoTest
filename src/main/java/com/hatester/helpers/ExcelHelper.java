@@ -91,6 +91,12 @@ public class ExcelHelper {
             case BOOLEAN:
                 cellData = String.valueOf(cell.getBooleanCellValue());
                 break;
+            case FORMULA:
+                cellData = cell.getStringCellValue();
+                break;
+            case ERROR:
+                cellData = "";
+                break;
             case BLANK:
                 cellData = "";
                 break;
