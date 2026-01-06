@@ -6,10 +6,10 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 
 public class ExcelHelper {
 
@@ -54,7 +54,8 @@ public class ExcelHelper {
             });
 
         } catch (Exception e) {
-            throw new RuntimeException("Cannot load Excel file", e);
+            throw new RuntimeException(
+                    "Cannot load Excel file: " + ExcelPath + " | Sheet: " + SheetName, e);
         }
     }
 
@@ -92,7 +93,7 @@ public class ExcelHelper {
                 cellData = String.valueOf(cell.getBooleanCellValue());
                 break;
             case FORMULA:
-                cellData = cell.getStringCellValue();
+                cellData = cell.getCellFormula();
                 break;
             case ERROR:
                 cellData = "";
@@ -106,7 +107,7 @@ public class ExcelHelper {
 
     //đọc data từng ô theo tên cột, vị trí dòng
     public String getCellData(String columnName, int rowIndex) {
-        if (columns.get(columnName) == null) {
+        if (!columns.containsKey(columnName)) {
             throw new RuntimeException("Column name " + columnName + " does not exist.");
         }
         return getCellData(columns.get(columnName), rowIndex);
@@ -126,7 +127,7 @@ public class ExcelHelper {
         if (sh == null) {
             throw new RuntimeException("Excel file is not loaded. Call setExcelFile() first.");
         }
-        try(FileOutputStream fileOut = new FileOutputStream(excelFilePath)) {
+        try (FileOutputStream fileOut = new FileOutputStream(excelFilePath)) {
             Row row = sh.getRow(rowIndex);
 
             //Nếu row chưa tồn tại → create
@@ -161,6 +162,184 @@ public class ExcelHelper {
             if (wb != null) wb.close();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    //Đọc Excel để dùng cho TestNG DataProvider
+    public Object[][] getExcelData(String filePath, String sheetName) {
+        Object[][] data = null;
+        try (FileInputStream fis = new FileInputStream(filePath); Workbook workbook = WorkbookFactory.create(fis)) {
+            // load the sheet
+            Sheet sh = workbook.getSheet(sheetName);
+
+            // load the row
+            Row row = sh.getRow(0);
+
+            int noOfRows = sh.getPhysicalNumberOfRows();
+            int noOfCols = row.getLastCellNum();
+
+            System.out.println(noOfRows + " - " + noOfCols);
+
+            Cell cell;
+            data = new Object[noOfRows - 1][noOfCols];
+
+            //
+            for (int i = 1; i < noOfRows; i++) {
+                for (int j = 0; j < noOfCols; j++) {
+                    row = sh.getRow(i);
+                    if (row == null) {
+                        data[i - 1][j] = "";
+                        continue;
+                    }
+
+                    cell = row.getCell(j);
+                    if (cell == null) {
+                        data[i - 1][j] = "";
+                        continue;
+                    }
+                    switch (cell.getCellType()) {
+                        case STRING:
+                            data[i - 1][j] = cell.getStringCellValue();
+                            break;
+                        case NUMERIC:
+                            if (DateUtil.isCellDateFormatted(cell)) {
+                                Date date = cell.getDateCellValue();
+                                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                                data[i - 1][j] = sdf.format(date);
+                            } else {
+                                double value = cell.getNumericCellValue();
+                                if (value == (long) value) {
+                                    data[i - 1][j] = String.valueOf((long) value);
+                                } else {
+                                    data[i - 1][j] = String.valueOf(value);
+                                }
+                            }
+                            break;
+                        case BOOLEAN:
+                            data[i - 1][j] = String.valueOf(cell.getBooleanCellValue());
+                            break;
+                        case FORMULA:
+                            data[i - 1][j] = cell.getCellFormula();
+                            break;
+                        case ERROR:
+                            data[i - 1][j] = "";
+                            break;
+                        case BLANK:
+                            data[i - 1][j] = cell.getStringCellValue();
+                            break;
+                        default:
+                            data[i - 1][j] = cell.getStringCellValue();
+                            break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("The exception is:" + e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return data;
+    }
+
+    //Hàm này dùng cho trường hợp nhiều Field trong File Excel
+    public int getColumns() {
+        Row row = sh.getRow(0);
+        return row.getLastCellNum();
+    }
+
+    //Get last row number (lấy vị trí dòng cuối cùng tính từ 0)
+    public int getLastRowNum() {
+        return sh.getLastRowNum();
+    }
+
+    //Lấy số dòng có data đang sử dụng
+    public int getPhysicalNumberOfRows() {
+        return sh.getPhysicalNumberOfRows();
+    }
+
+    public Object[][] getDataMap(String excelPath, String sheetName, int startRow, int endRow) {
+        // Mỗi testcase là 1 Map => Object[][1]
+        Object[][] data = new Object[(endRow - startRow) + 1][1];
+
+        File f = new File(excelPath);
+        if (!f.exists()) {
+            throw new RuntimeException("File Excel path not found: " + excelPath);
+        }
+
+        try (FileInputStream fis = new FileInputStream(excelPath); Workbook workbook = WorkbookFactory.create(fis)) {
+            Sheet sheet = workbook.getSheet(sheetName);
+            if (sheet == null) {
+                throw new RuntimeException("Sheet name not found: " + sheetName);
+            }
+
+            // Header row (row 0)
+            Row headerRow = sheet.getRow(0);
+            if (headerRow == null) {
+                throw new RuntimeException("Header row (row 0) is empty");
+            }
+
+            int totalColumns = headerRow.getPhysicalNumberOfCells();
+
+            System.out.println("Columns: " + totalColumns);
+            System.out.println("StartRow: " + startRow + " - EndRow: " + endRow);
+
+            for (int rowNum = startRow; rowNum <= endRow; rowNum++) {
+
+                Row currentRow = sheet.getRow(rowNum);
+                Map<String, String> rowData = new Hashtable<>();
+
+                for (int colNum = 0; colNum < totalColumns; colNum++) {
+
+                    // Lấy key từ header
+                    Cell headerCell = headerRow.getCell(colNum);
+                    String key = "";
+                    if (headerCell != null && headerCell.getCellType() == CellType.STRING) {
+                        key = headerCell.getStringCellValue().trim();
+                    }
+
+                    // Lấy value từ data row
+                    String value = "";
+                    if (currentRow != null) {
+                        Cell dataCell = currentRow.getCell(colNum);
+
+                        // Không dùng getCellData() vì method đó phụ thuộc state (wb, sh)
+                        // DataProvider cần đọc workbook độc lập để thread-safe
+                        value = getCellValueAsString(dataCell);
+                    }
+                    rowData.put(key, value);
+                }
+                data[rowNum - startRow][0] = rowData;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading Excel file for DataProvider", e);
+        }
+        return data;
+    }
+
+    private String getCellValueAsString(Cell cell) {
+        if (cell == null) return "";
+
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue().trim();
+
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return new SimpleDateFormat(DATE_FORMAT)
+                            .format(cell.getDateCellValue());
+                }
+                double value = cell.getNumericCellValue();
+                return (value == (long) value) ? String.valueOf((long) value) : String.valueOf(value);
+
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+
+            case FORMULA:
+                return cell.getCellFormula();
+
+            case BLANK:
+            case ERROR:
+            default:
+                return "";
         }
     }
 }

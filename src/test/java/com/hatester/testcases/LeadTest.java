@@ -1,11 +1,13 @@
 package com.hatester.testcases;
 
+import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.helpers.ExcelHelper;
 import com.hatester.models.LeadData;
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
+import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
@@ -16,75 +18,21 @@ public class LeadTest extends BaseTest {
     private DashboardPage dashboardPage;
     private LeadPage leadPage;
 
-    LeadData getLeadDataFromExcel(int rowIndex) {
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Leads");
-
-        LeadData lead = new LeadData();
-        lead.setLeadName(excel.getCellData("LEAD_NAME", rowIndex));
-        lead.setStatus(excel.getCellData("STATUS", rowIndex));
-        lead.setSource(excel.getCellData("SOURCE", rowIndex));
-        lead.setAssigned(excel.getCellData("ASSIGNED", rowIndex));
-        lead.setTag(excel.getCellData("TAG", rowIndex));
-        lead.setPosition(excel.getCellData("POSITION", rowIndex));
-        lead.setCity(excel.getCellData("CITY", rowIndex));
-        lead.setEmailAddress(excel.getCellData("EMAIL_ADDRESS", rowIndex));
-        lead.setState(excel.getCellData("STATE", rowIndex));
-        lead.setWebsite(excel.getCellData("WEBSITE", rowIndex));
-        lead.setCountry(excel.getCellData("COUNTRY", rowIndex));
-        lead.setPhone(excel.getCellData("PHONE", rowIndex));
-        lead.setZipCode(excel.getCellData("ZIP_CODE", rowIndex));
-        lead.setLeadValue(excel.getCellData("LEAD_VALUE", rowIndex));
-        lead.setLanguage(excel.getCellData("LANGUAGE", rowIndex));
-        lead.setCompany(excel.getCellData("COMPANY", rowIndex));
-        lead.setDescription(excel.getCellData("DESCRIPTION", rowIndex));
-        lead.setLastContacted(excel.getCellData("LAST_CONTACTED", rowIndex));
-        lead.setCheckedCheckbox(Integer.parseInt(excel.getCellData("CHECKED", rowIndex)));
-        lead.setFlagEdit(Integer.parseInt(excel.getCellData("FLAG_EDIT", rowIndex)));
-
-        return lead;
-    }
-
-    @Test
-    public void testAddNewLead() {
+    @Test(dataProvider = "leadData", dataProviderClass = DataProviderFactory.class)
+    public void testAddNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
-        LeadData leadData = getLeadDataFromExcel(1);
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         leadData.setLeadName(leadData.getLeadName() + dateTimeAdd);
         leadData.setEmailAddress(leadData.getEmailAddress() + dateTimeAdd + "@gmail.com");
+        boolean isEdit = leadData.getTestType().equals("EDIT");
 
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(leadData);
-        leadPage.clickButtonSave();
-        leadPage.verifyAddLeadSuccessMessage();
-        leadPage.clickIconClosePopupLeadDetail(leadData.getLeadName());
-        leadPage.searchLead(leadData.getLeadName());
-        leadPage.checkLeadsExists(leadData.getLeadName());
-        leadPage.clickButtonEdit(leadData.getLeadName());
-        leadPage.verifyNewLeadInEditPopup(leadData);
-    }
-
-    @Test
-    public void testEditNewLead() {
-        loginPage = new LoginPage();
-        dashboardPage = loginPage.loginCRM();
-        leadPage = dashboardPage.clickMenuLead();
-
-        LeadData leadData = getLeadDataFromExcel(1);
-        String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        leadData.setLeadName(leadData.getLeadName() + dateTimeAdd);
-        leadData.setEmailAddress(leadData.getEmailAddress() + dateTimeAdd + "@gmail.com");
-
-        leadPage.clickIconLeadsSummary();
-        leadPage.verifyLeadSummaryDisplay();
-        leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(leadData);
+        leadPage.fillDataLead(leadData, isEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadData.getLeadName());
@@ -93,14 +41,37 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonEdit(leadData.getLeadName());
         leadPage.verifyNewLeadInEditPopup(leadData);
 
-        LeadData leadDataEdit = getLeadDataFromExcel(2);
+    }
+
+    @Test(dataProvider = "editLeadData", dataProviderClass = DataProviderFactory.class)
+    public void testEditNewLead(LeadData leadDataAdd, LeadData leadDataEdit) {
+        loginPage = new LoginPage();
+        dashboardPage = loginPage.loginCRM();
+        leadPage = dashboardPage.clickMenuLead();
+
+        String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        leadDataAdd.setLeadName(leadDataAdd.getLeadName() + dateTimeAdd);
+        leadDataAdd.setEmailAddress(leadDataAdd.getEmailAddress() + dateTimeAdd + "@gmail.com");
+        boolean isEdit = leadDataAdd.getTestType().equals("EDIT");
+
+        leadPage.clickIconLeadsSummary();
+        leadPage.verifyLeadSummaryDisplay();
+        leadPage.clickButtonNewLead();
+        leadPage.fillDataLead(leadDataAdd, isEdit);
+        leadPage.clickButtonSave();
+        leadPage.verifyAddLeadSuccessMessage();       leadPage.clickIconClosePopupLeadDetail(leadDataAdd.getLeadName());
+        leadPage.searchLead(leadDataAdd.getLeadName());
+        leadPage.checkLeadsExists(leadDataAdd.getLeadName());
+        leadPage.clickButtonEdit(leadDataAdd.getLeadName());
+        leadPage.verifyNewLeadInEditPopup(leadDataAdd);
+
         String dateTimeEdit = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-
         leadDataEdit.setLeadName(leadDataEdit.getLeadName() + dateTimeEdit);
         leadDataEdit.setTag(leadDataEdit.getTag() + dateTimeEdit);
         leadDataEdit.setEmailAddress(leadDataEdit.getEmailAddress() + dateTimeEdit + "@gmail.com");
+        isEdit = leadDataAdd.getTestType().equals("ADD");
 
-        leadPage.fillDataLead(leadDataEdit);
+        leadPage.fillDataLead(leadDataEdit, isEdit);
         leadPage.clickButtonSave();
         leadPage.verifyUpdateLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadDataEdit.getLeadName());
@@ -108,21 +79,21 @@ public class LeadTest extends BaseTest {
         leadPage.checkLeadsExists(leadDataEdit.getLeadName());
     }
 
-    @Test
-    public void testDeleteNewLead() {
+    @Test(dataProvider = "leadData", dataProviderClass = DataProviderFactory.class)
+    public void testDeleteNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadPage = dashboardPage.clickMenuLead();
 
-        LeadData leadData = getLeadDataFromExcel(1);
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         leadData.setLeadName(leadData.getLeadName() + dateTimeAdd);
         leadData.setEmailAddress(leadData.getEmailAddress() + dateTimeAdd + "@gmail.com");
+        boolean isEdit = leadData.getTestType().equals("EDIT");
 
         leadPage.clickIconLeadsSummary();
         leadPage.verifyLeadSummaryDisplay();
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(leadData);
+        leadPage.fillDataLead(leadData, isEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadData.getLeadName());
@@ -136,8 +107,8 @@ public class LeadTest extends BaseTest {
         leadPage.verifyAfterDeleteLead(leadData.getLeadName(), leadData.getTypeConfirm());
     }
 
-    @Test
-    public void testLeadCountByStatus() {
+    @Test(dataProvider = "leadData", dataProviderClass = DataProviderFactory.class)
+    public void testLeadCountByStatus(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyDashboardPageDisplayed();
@@ -149,13 +120,13 @@ public class LeadTest extends BaseTest {
         int totalActiveBeforeAdd = Integer.parseInt(leadPage.getTotalStatusActive());
         int totalCustomerBeforeAdd = Integer.parseInt(leadPage.getTotalStatusCustomer());
 
-        LeadData leadData = getLeadDataFromExcel(1);
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         leadData.setLeadName(leadData.getLeadName() + dateTimeAdd);
         leadData.setEmailAddress(leadData.getEmailAddress() + dateTimeAdd + "@gmail.com");
+        boolean isEdit = leadData.getTestType().equals("EDIT");
 
         leadPage.clickButtonNewLead();
-        leadPage.fillDataLead(leadData);
+        leadPage.fillDataLead(leadData, isEdit);
         leadPage.clickButtonSave();
         leadPage.verifyAddLeadSuccessMessage();
         leadPage.clickIconClosePopupLeadDetail(leadData.getLeadName());

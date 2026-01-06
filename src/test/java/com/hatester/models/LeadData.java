@@ -20,7 +20,7 @@ public class LeadData {
     private String description;
     private String lastContacted;
     private int isCheckedCheckbox;
-    private int flagEdit;
+    private String testType;
     private int typeConfirm;
 
     public String getLeadName() {
@@ -175,12 +175,12 @@ public class LeadData {
         this.isCheckedCheckbox = checked;
     }
 
-    public int getFlagEdit() {
-        return flagEdit;
+    public String getTestType() {
+        return testType;
     }
 
-    public void setFlagEdit(int flagEdit) {
-        this.flagEdit = flagEdit;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
     public int getTypeConfirm() {

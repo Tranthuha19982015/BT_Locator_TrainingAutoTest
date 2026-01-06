@@ -5,7 +5,6 @@ import com.hatester.common.BasePage;
 import com.hatester.models.LeadData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 import java.time.LocalDate;
@@ -220,7 +219,7 @@ public class LeadPage extends BasePage {
         Assert.assertTrue(WebUI.checkElementExist(headerAddNewLead), "Failed to open the “Add New Lead” popup");
     }
 
-    public void fillDataLead(LeadData lead) {
+    public void fillDataLead(LeadData lead, boolean isEdit) {
         //status
         WebUI.clickElement(dropdownStatus);
         WebUI.setTextElement(inputSearchStatus, lead.getStatus());
@@ -237,7 +236,7 @@ public class LeadPage extends BasePage {
         WebUI.clickElement(getValueAssigned(lead.getAssigned()));
 
         //input
-        if (lead.getFlagEdit() == 1) {
+        if (isEdit) {
             WebUI.clickElement(iconCloseTag);
             WebUI.clearTextElement(inputName);
 //            WebUI.clearElementText(driver,LocatorinputAddress);
@@ -297,7 +296,7 @@ public class LeadPage extends BasePage {
         WebUI.clickElement(labelCheckboxPublic);
 
         if (lead.getCheckedCheckbox() == 0) {
-            if (lead.getFlagEdit() == 0) {
+            if (!isEdit) {
                 WebUI.clickElement(labelCheckboxContactedToday);
                 WebUI.setTextElement(inputDateContacted, lead.getLastContacted());
             } else {
