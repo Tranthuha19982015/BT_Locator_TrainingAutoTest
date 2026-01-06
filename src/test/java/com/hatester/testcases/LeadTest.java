@@ -59,7 +59,8 @@ public class LeadTest extends BaseTest {
         leadPage.clickButtonNewLead();
         leadPage.fillDataLead(leadDataAdd, isEdit);
         leadPage.clickButtonSave();
-        leadPage.verifyAddLeadSuccessMessage();       leadPage.clickIconClosePopupLeadDetail(leadDataAdd.getLeadName());
+        leadPage.verifyAddLeadSuccessMessage();
+        leadPage.clickIconClosePopupLeadDetail(leadDataAdd.getLeadName());
         leadPage.searchLead(leadDataAdd.getLeadName());
         leadPage.checkLeadsExists(leadDataAdd.getLeadName());
         leadPage.clickButtonEdit(leadDataAdd.getLeadName());
