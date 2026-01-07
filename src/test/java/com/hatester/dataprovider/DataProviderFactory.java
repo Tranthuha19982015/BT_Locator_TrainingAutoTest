@@ -13,24 +13,7 @@ public class DataProviderFactory {
     @DataProvider(name = "loginData")
     public Object[][] loginData() {
         ExcelHelper excel = new ExcelHelper();
-        Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login",1,5);
-//        switch (method.getName()) {
-//            case "testLoginSuccess":
-//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 1);
-//                break;
-//            case "testLoginFailedWithEmailRequired":
-//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 2, 2);
-//                break;
-//            case "testLoginFailedWithPasswordRequired":
-//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 3, 3);
-//                break;
-//            case "testLoginFailedWithEmailInvalid":
-//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 4, 4);
-//                break;
-//            case "testLoginFailedWithPasswordInvalid":
-//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 5, 5);
-//                break;
-//        }
+        Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1,5);
         return data;
     }
 

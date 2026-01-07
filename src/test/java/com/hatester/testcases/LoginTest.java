@@ -1,6 +1,7 @@
 package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
+import com.hatester.enums.ExpectedResult;
 import com.hatester.helpers.ExcelHelper;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
@@ -16,20 +17,24 @@ public class LoginTest extends BaseTest {
     public void testLogin(Map<String, String> map) {
         loginPage = new LoginPage();
         loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
-        switch (map.get("EXPECTED_RESULT")) {
-            case "success":
+
+        //Chuyển String → enum bằng valueOf()
+        ExpectedResult expectedResult = ExpectedResult.valueOf(map.get("EXPECTED_RESULT").toUpperCase());
+
+        switch (expectedResult) {
+            case SUCCESS:
                 loginPage.verifyLoginSuccess();
                 break;
-            case "email_required":
+            case EMAIL_REQUIRED:
                 loginPage.verifyLoginFailedWithEmailRequired();
                 break;
-            case "password_required":
+            case PASSWORD_REQUIRED:
                 loginPage.verifyLoginFailedWithPasswordRequired();
                 break;
-            case "email_invalid":
+            case EMAIL_INVALID:
                 loginPage.verifyLoginFailedWithEmailInvalid();
                 break;
-            case "password_invalid":
+            case PASSWORD_INVALID:
                 loginPage.verifyLoginFailedWithPasswordInvalid();
                 break;
             default:
