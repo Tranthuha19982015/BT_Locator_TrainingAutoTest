@@ -39,6 +39,8 @@ public class LoginPage extends BasePage {
     }
 
     public void loginCRM(String email, String password) {
+        navigateToCRM();
+        verifyHeaderLogin();
         enterEmail(email);
         enterPassword(password);
         clickButtonLogin();

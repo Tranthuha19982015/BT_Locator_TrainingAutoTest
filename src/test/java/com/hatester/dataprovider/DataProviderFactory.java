@@ -5,14 +5,40 @@ import com.hatester.mappers.LeadDataMapper;
 import com.hatester.models.LeadData;
 import org.testng.annotations.DataProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 public class DataProviderFactory {
+    //----------------------------------- Login -----------------------------------------------/
+    @DataProvider(name = "loginData")
+    public Object[][] loginData(Method method) {
+        ExcelHelper excel = new ExcelHelper();
+        Object[][] data = null;
+        switch (method.getName()) {
+            case "testLoginSuccess":
+                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 1);
+                break;
+            case "testLoginFailedWithEmailRequired":
+                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 2, 2);
+                break;
+            case "testLoginFailedWithPasswordRequired":
+                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 3, 3);
+                break;
+            case "testLoginFailedWithEmailInvalid":
+                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 4, 4);
+                break;
+            case "testLoginFailedWithPasswordInvalid":
+                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 5, 5);
+                break;
+        }
+        return data;
+    }
+
+
+    //----------------------------------- Leads -----------------------------------------------/
     //DataProvider là ENTRY POINT (Entry point = điểm BẮT ĐẦU mà hệ thống gọi vào để chạy code)
-    @DataProvider(name = "leadData")
-    private Object[][] getLeadDataByType() {
+    @DataProvider(name = "addLeadData")
+    public Object[][] addLeadData() {
         ExcelHelper excel = new ExcelHelper();
 
         Object[][] rawData = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Leads", 1, 1);
@@ -29,15 +55,19 @@ public class DataProviderFactory {
         return finalData;
     }
 
+    //DataProvider cung cấp nhiều cặp dữ liệu add - edit cho TCs
     @DataProvider(name = "editLeadData")
     public Object[][] editLeadData() {
         ExcelHelper excelHelper = new ExcelHelper();
 
+        //đọc dữ liệu excel từ dòng 1 đến dòng 2 => có 2 dòng dữ liệu
         Object[][] rawData = excelHelper.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Leads", 1, 2);
 
-        int totalRows = rawData.length;
-        int totalTestCases = totalRows / 2;
+        int totalRows = rawData.length; //tổng số lượng hàng (TH này là 2)
+        int totalTestCases = totalRows / 2;  //tổng số TCs (TH này là 1
 
+        //mảng 2 chiều để lưu trữ kết quả cuối cùng (trong TH này là [1][2])
+        //Mảng 2 chiều có 1 dòng dữ liệu và 2 cột (tương ứng với 2 tham số: 1 tham số là addLead, 1 tham số là editLead)
         Object[][] result = new Object[totalTestCases][2];
 
         int index = 0;

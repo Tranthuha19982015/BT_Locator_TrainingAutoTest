@@ -1,75 +1,48 @@
 package com.hatester.testcases;
 
+import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.helpers.ExcelHelper;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
 import org.testng.annotations.Test;
 
+import java.util.Map;
+
 public class LoginTest extends BaseTest {
     private LoginPage loginPage;
 
-    @Test(priority = 1)
-    public void testLoginSuccess() throws InterruptedException {
+    @Test(priority = 1, dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    public void testLoginSuccess(Map<String, String> map) {
         loginPage = new LoginPage();
-        loginPage.navigateToCRM();
-        loginPage.verifyHeaderLogin();
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
-        loginPage.loginCRM(excel.getCellData("EMAIL",1), excel.getCellData("PASSWORD",1));
-
+        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
         loginPage.verifyLoginSuccess();
     }
 
-    @Test(priority = 2)
-    public void testLoginFailedWithEmailRequired() throws InterruptedException {
+    @Test(priority = 2, dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailedWithEmailRequired(Map<String, String> map) {
         loginPage = new LoginPage();
-        loginPage.navigateToCRM();
-        loginPage.verifyHeaderLogin();
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
-        loginPage.loginCRM(excel.getCellData("EMAIL",2), excel.getCellData("PASSWORD",2));
-
+        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
         loginPage.verifyLoginFailedWithEmailRequired();
     }
 
-    @Test(priority = 3)
-    public void testLoginFailedWithPasswordRequired() throws InterruptedException {
+    @Test(priority = 3, dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailedWithPasswordRequired(Map<String, String> map) {
         loginPage = new LoginPage();
-        loginPage.navigateToCRM();
-        loginPage.verifyHeaderLogin();
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
-        loginPage.loginCRM(excel.getCellData("EMAIL",3), excel.getCellData("PASSWORD",3));
-
+        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
         loginPage.verifyLoginFailedWithPasswordRequired();
     }
 
-    @Test(priority = 4)
-    public void testLoginFailedWithEmailInvalid() throws InterruptedException {
+    @Test(priority = 4, dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailedWithEmailInvalid(Map<String, String> map) {
         loginPage = new LoginPage();
-        loginPage.navigateToCRM();
-        loginPage.verifyHeaderLogin();
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
-        loginPage.loginCRM(excel.getCellData("EMAIL",4), excel.getCellData("PASSWORD",4));
-
+        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
         loginPage.verifyLoginFailedWithEmailInvalid();
     }
 
-    @Test(priority = 5)
-    public void testLoginFailedWithPasswordInvalid() throws InterruptedException {
+    @Test(priority = 5, dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    public void testLoginFailedWithPasswordInvalid(Map<String, String> map) {
         loginPage = new LoginPage();
-        loginPage.navigateToCRM();
-        loginPage.verifyHeaderLogin();
-
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Login");
-        loginPage.loginCRM(excel.getCellData("EMAIL",5), excel.getCellData("PASSWORD",5));
-
+        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
         loginPage.verifyLoginFailedWithPasswordInvalid();
     }
 }
