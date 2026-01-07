@@ -11,26 +11,26 @@ import java.util.Map;
 public class DataProviderFactory {
     //----------------------------------- Login -----------------------------------------------/
     @DataProvider(name = "loginData")
-    public Object[][] loginData(Method method) {
+    public Object[][] loginData() {
         ExcelHelper excel = new ExcelHelper();
-        Object[][] data = null;
-        switch (method.getName()) {
-            case "testLoginSuccess":
-                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 1);
-                break;
-            case "testLoginFailedWithEmailRequired":
-                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 2, 2);
-                break;
-            case "testLoginFailedWithPasswordRequired":
-                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 3, 3);
-                break;
-            case "testLoginFailedWithEmailInvalid":
-                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 4, 4);
-                break;
-            case "testLoginFailedWithPasswordInvalid":
-                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 5, 5);
-                break;
-        }
+        Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login",1,5);
+//        switch (method.getName()) {
+//            case "testLoginSuccess":
+//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 1);
+//                break;
+//            case "testLoginFailedWithEmailRequired":
+//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 2, 2);
+//                break;
+//            case "testLoginFailedWithPasswordRequired":
+//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 3, 3);
+//                break;
+//            case "testLoginFailedWithEmailInvalid":
+//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 4, 4);
+//                break;
+//            case "testLoginFailedWithPasswordInvalid":
+//                data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 5, 5);
+//                break;
+//        }
         return data;
     }
 
@@ -40,16 +40,13 @@ public class DataProviderFactory {
     @DataProvider(name = "addLeadData")
     public Object[][] addLeadData() {
         ExcelHelper excel = new ExcelHelper();
-
         Object[][] rawData = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Leads", 1, 1);
 
         Object[][] finalData = new Object[rawData.length][1];
 
         for (int i = 0; i < rawData.length; i++) {
             Map<String, String> rowData = (Map<String, String>) rawData[i][0];
-
             LeadData leadData = LeadDataMapper.fromMap(rowData);
-
             finalData[i][0] = leadData;
         }
         return finalData;
