@@ -256,6 +256,8 @@ public class ExcelHelper {
         return sh.getPhysicalNumberOfRows();
     }
 
+    //Sau khi đọc xong Excel thì 👉 Gộp toàn bộ cột của 1 dòng → thành 1 Map
+    //Kết quả sau khi đọc xong thì có n dòng, 1 cột (Mỗi cell là 1 map chứa đầy đủ thông tin của dòng đó trong Excel)
     public Object[][] getDataMap(String excelPath, String sheetName, int startRow, int endRow) {
         // Mỗi testcase là 1 Map => Object[][1]
         Object[][] data = new Object[(endRow - startRow) + 1][1];
