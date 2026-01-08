@@ -39,10 +39,10 @@ public class DataProviderFactory {
         ExcelHelper excel = new ExcelHelper();
         Object[][] rawData = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Leads", 1, 1);
 
-        Object[][] finalData = new Object[rawData.length][1];
+        Object[][] finalData = new Object[rawData.length][1]; //[1] là số lượng cột
 
         for (int i = 0; i < rawData.length; i++) {
-            Map<String, String> rowData = (Map<String, String>) rawData[i][0];
+            Map<String, String> rowData = (Map<String, String>) rawData[i][0]; //[0] là index của cột
             LeadData leadData = LeadDataMapper.fromMap(rowData);
             finalData[i][0] = leadData;
         }
