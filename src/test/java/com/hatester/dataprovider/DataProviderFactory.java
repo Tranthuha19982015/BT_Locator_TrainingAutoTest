@@ -5,14 +5,25 @@ import com.hatester.mappers.LeadDataMapper;
 import com.hatester.models.LeadData;
 import org.testng.annotations.DataProvider;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class DataProviderFactory {
     //----------------------------------- Login -----------------------------------------------/
-    @DataProvider(name = "loginData")
+    @DataProvider(name = "loginData", parallel = true)
     public Object[][] getLoginData() {
         ExcelHelper excel = new ExcelHelper();
+
         Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 5);
+//        System.out.println(Arrays.deepToString(data));
+
+        //i = index của từng dòng dữ liệu
+        //j = index của parameter trong 1 test
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.println("data[" + i + "][" + j + "] = " + data[i][j]);
+            }
+        }
         return data;
     }
 
