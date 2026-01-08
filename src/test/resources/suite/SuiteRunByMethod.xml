@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="SuiteRunByClass" verbose="1" parallel="methods">
+<suite name="SuiteRunByClass" verbose="1" parallel="methods" thread-count="2" data-provider-thread-count="3">
     <test name="FirstTest">
-        <parameter name="browser" value="edge"/>
+        <!--        <parameter name="browser" value="edge"/>-->
         <classes>
-            <class name="com.hatester.testcases.LoginTest">
-            </class>
+            <class name="com.hatester.testcases.LoginTest"/>
+            <class name="com.hatester.testcases.LeadTest"/>
         </classes>
     </test>
 </suite>
