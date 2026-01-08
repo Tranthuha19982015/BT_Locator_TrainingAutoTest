@@ -12,13 +12,17 @@ public class DataProviderFactory {
     @DataProvider(name = "loginData")
     public Object[][] getLoginData() {
         ExcelHelper excel = new ExcelHelper();
-        Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1,5);
+        Object[][] data = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 5);
         return data;
     }
 
 
     //----------------------------------- Leads -----------------------------------------------/
     //DataProvider là ENTRY POINT (Entry point = điểm BẮT ĐẦU mà hệ thống gọi vào để chạy code)
+    //Object[][] {
+    // {leadData1} ,
+    // {leadData2}
+    // }
     @DataProvider(name = "addLeadData")
     public Object[][] getLeadDataAdd() {
         ExcelHelper excel = new ExcelHelper();
@@ -36,7 +40,8 @@ public class DataProviderFactory {
 
     //DataProvider cung cấp nhiều cặp dữ liệu add - edit cho TCs
     //Object[][] {
-    //   { addLeadData , editLeadData }
+    //   { addLeadData1 , editLeadData1 },
+    //   { addLeadData2 , editLeadData2 }
     //}
     @DataProvider(name = "editLeadData")
     public Object[][] editLeadData() {
@@ -52,12 +57,13 @@ public class DataProviderFactory {
 
         //mảng 2 chiều để lưu trữ kết quả cuối cùng (trong TH này là [1][2])
         //Mảng 2 chiều có 1 dòng dữ liệu và 2 cột (tương ứng với 2 tham số: 1 tham số là addLead, 1 tham số là editLead)
+        //index	    result[index][0]	result[index][1]
+        //0	        ADD TC01	        EDIT TC01
         Object[][] result = new Object[totalTestCases][2]; //cố định là 2 tham số - 2 cột
 
         int index = 0; //đại diện cho TCs hiện tại (index = 0 → TC01)
 
         for (int i = 0; i < totalRows; i += 2) {
-
             Map<String, String> addMap = (Map<String, String>) rawData[i][0];
 
             Map<String, String> editMap = (Map<String, String>) rawData[i + 1][0];
