@@ -12,7 +12,7 @@ import java.util.Map;
 public class LoginTest extends BaseTest {
     private LoginPage loginPage;
 
-    @Test(dataProvider = "getLoginData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
     public void testLogin(Map<String, String> map) {
         loginPage = new LoginPage();
         loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));

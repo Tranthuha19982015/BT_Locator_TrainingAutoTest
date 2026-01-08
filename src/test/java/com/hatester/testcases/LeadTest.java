@@ -16,7 +16,7 @@ public class LeadTest extends BaseTest {
     private DashboardPage dashboardPage;
     private LeadPage leadPage;
 
-    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
     public void testAddNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
@@ -78,7 +78,7 @@ public class LeadTest extends BaseTest {
         leadPage.checkLeadsExists(leadDataEdit.getLeadName());
     }
 
-    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
     public void testDeleteNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
@@ -106,7 +106,7 @@ public class LeadTest extends BaseTest {
         leadPage.verifyAfterDeleteLead(leadData.getLeadName(), leadData.getTypeConfirm());
     }
 
-    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
     public void testLeadCountByStatus(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
