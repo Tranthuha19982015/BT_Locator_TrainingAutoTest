@@ -1,13 +1,11 @@
 package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
-import com.hatester.helpers.ExcelHelper;
 import com.hatester.models.LeadData;
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
-import org.testng.SkipException;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
@@ -18,7 +16,7 @@ public class LeadTest extends BaseTest {
     private DashboardPage dashboardPage;
     private LeadPage leadPage;
 
-    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
     public void testAddNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
@@ -80,7 +78,7 @@ public class LeadTest extends BaseTest {
         leadPage.checkLeadsExists(leadDataEdit.getLeadName());
     }
 
-    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
     public void testDeleteNewLead(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
@@ -108,7 +106,7 @@ public class LeadTest extends BaseTest {
         leadPage.verifyAfterDeleteLead(leadData.getLeadName(), leadData.getTypeConfirm());
     }
 
-    @Test(dataProvider = "addLeadData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "getLeadDataAdd", dataProviderClass = DataProviderFactory.class)
     public void testLeadCountByStatus(LeadData leadData) {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();

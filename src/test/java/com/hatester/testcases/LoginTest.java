@@ -2,7 +2,6 @@ package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.enums.ExpectedResult;
-import com.hatester.helpers.ExcelHelper;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
 import org.testng.Assert;
@@ -13,7 +12,7 @@ import java.util.Map;
 public class LoginTest extends BaseTest {
     private LoginPage loginPage;
 
-    @Test(dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "getLoginData", dataProviderClass = DataProviderFactory.class)
     public void testLogin(Map<String, String> map) {
         loginPage = new LoginPage();
         loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
