@@ -2,15 +2,18 @@ package com.hatester.dataprovider;
 
 import com.hatester.helpers.ExcelHelper;
 import com.hatester.mappers.LeadDataMapper;
+import com.hatester.mappers.LoginDataMapper;
 import com.hatester.models.LeadData;
+import com.hatester.models.LoginData;
 import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataProviderFactory {
     //----------------------------------- Login -----------------------------------------------/
-    @DataProvider(name = "loginData", parallel = true)
+    @DataProvider(name = "loginData", parallel = false)
     public Object[][] getLoginData() {
         ExcelHelper excel = new ExcelHelper();
 
@@ -24,7 +27,15 @@ public class DataProviderFactory {
                 System.out.println("data[" + i + "][" + j + "] = " + data[i][j]);
             }
         }
-        return data;
+
+        Object[][] finalData = new Object[data.length][1];
+
+        for (int i = 0; i < data.length; i++) {
+            Map<String, String> map = (Map<String, String>) data[i][0];
+            LoginData login = LoginDataMapper.loginMapper(map);
+            finalData[i][0] = login;
+        }
+        return finalData;
     }
 
 

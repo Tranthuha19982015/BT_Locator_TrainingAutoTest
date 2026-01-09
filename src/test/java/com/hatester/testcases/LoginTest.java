@@ -2,6 +2,7 @@ package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.enums.ExpectedResult;
+import com.hatester.models.LoginData;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;
 import org.testng.Assert;
@@ -13,12 +14,12 @@ public class LoginTest extends BaseTest {
     private LoginPage loginPage;
 
     @Test(dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
-    public void testLogin(Map<String, String> map) {
+    public void testLogin(LoginData loginData) {
         loginPage = new LoginPage();
-        loginPage.loginCRM(map.get("EMAIL"), map.get("PASSWORD"));
+        loginPage.loginCRM(loginData.getEmail(), loginData.getPassword());
 
         //Chuyển String → enum bằng valueOf()
-        ExpectedResult expectedResult = ExpectedResult.valueOf(map.get("EXPECTED_RESULT").toUpperCase());
+        ExpectedResult expectedResult = ExpectedResult.valueOf(loginData.getExpectedResult().toUpperCase());
 
         switch (expectedResult) {
             case SUCCESS:
@@ -37,7 +38,7 @@ public class LoginTest extends BaseTest {
                 loginPage.verifyLoginFailedWithPasswordInvalid();
                 break;
             default:
-                Assert.fail("Unsupported EXPECTED_RESULT: " + map.get("EXPECTED_RESULT"));
+                Assert.fail("Unsupported EXPECTED_RESULT: " + loginData.getExpectedResult());
         }
     }
 
