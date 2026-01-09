@@ -5,7 +5,7 @@ import com.hatester.models.LeadData;
 import java.util.Map;
 
 public class LeadDataMapper {
-    public static LeadData fromMap(Map<String, String> map) {
+    public static LeadData leadMapper(Map<String, String> map) {
         LeadData lead = new LeadData();
         lead.setLeadName(map.get("LEAD_NAME"));
         lead.setStatus(map.get("STATUS"));
