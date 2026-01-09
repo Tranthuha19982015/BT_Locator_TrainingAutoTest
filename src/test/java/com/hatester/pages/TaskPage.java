@@ -347,7 +347,7 @@ public class TaskPage extends BasePage {
         WebUI.clickElement(iconCloseUpdateTaskSuccessMessage);
     }
 
-    public void clickClosePopupTaskDetail(String taskName, int flagEdit) {
+    public void clickClosePopupTaskDetail(String taskName) {
         WebUI.scrollToElementAtTop(iconClosePopupTaskDetail(taskName));
         WebUI.clickElement(iconClosePopupTaskDetail(taskName));
     }

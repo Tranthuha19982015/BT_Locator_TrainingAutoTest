@@ -17,7 +17,7 @@ public class TaskData {
     private String follower;
     private String tag;
     private String description;
-    private int flagEdit;
+    private String testType;
     private int typeConfirm;
 
     public int getCheckedCheckbox() {
@@ -148,12 +148,12 @@ public class TaskData {
         this.tag = tag;
     }
 
-    public int getFlagEdit() {
-        return flagEdit;
+    public String getTestType() {
+        return testType;
     }
 
-    public void setFlagEdit(int flagEdit) {
-        this.flagEdit = flagEdit;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
     public int getTypeConfirm() {

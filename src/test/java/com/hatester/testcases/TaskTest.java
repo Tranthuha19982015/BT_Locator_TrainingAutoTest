@@ -2,7 +2,6 @@ package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.helpers.ExcelHelper;
-import com.hatester.models.LeadData;
 import com.hatester.models.TaskData;
 import com.hatester.pages.DashboardPage;
 import com.hatester.pages.LeadPage;
@@ -13,9 +12,7 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 public class TaskTest extends BaseTest {
     private LoginPage loginPage;
@@ -23,77 +20,49 @@ public class TaskTest extends BaseTest {
     private LeadPage leadPage;
     private TaskPage taskPage;
 
-    TaskData getDataFromExcel(int rowIndex) {
-        ExcelHelper excel = new ExcelHelper();
-        excel.setExcelFile("src/test/resources/datatest/dataCRM.xlsx", "Tasks");
-
-        TaskData taskData = new TaskData();
-        taskData.setTaskName(excel.getCellData("TASK_NAME", rowIndex));
-        taskData.setHourlyRate(excel.getCellData("HOURLY_RATE", rowIndex));
-        taskData.setStartDate(excel.getCellData("START_DATE", rowIndex));
-        taskData.setDueDate(excel.getCellData("DUE_DATE", rowIndex));
-        taskData.setPriority(excel.getCellData("PRIORITY", rowIndex));
-        taskData.setRepeatEvery(excel.getCellData("REPEAT_EVERY", rowIndex));
-        taskData.setNumberRepeatEveryCustom(excel.getCellData("NUMBER_REPEAT_EVERY_CUSTOM", rowIndex));
-        taskData.setTypeRepeatEveryCustom(excel.getCellData("TYPE_REPEAT_EVERY_CUSTOM", rowIndex));
-        taskData.setTotalCycles(excel.getCellData("TOTAL_CYCLES", rowIndex));
-        taskData.setRelateTo(excel.getCellData("RELATED_TO", rowIndex));
-        taskData.setTypeRelateTo(excel.getCellData("TYPE_RELATED_TO", rowIndex));
-        taskData.setAssignee(excel.getCellData("ASSIGNEE", rowIndex));
-        taskData.setFollower(excel.getCellData("FOLLOWER", rowIndex));
-        taskData.setTag(excel.getCellData("TAG", rowIndex));
-        taskData.setDescription(excel.getCellData("DESCRIPTION", rowIndex));
-        taskData.setFlagEdit(Integer.parseInt(excel.getCellData("FLAG_EDIT", rowIndex)));
-        taskData.setTypeConfirm(Integer.parseInt(excel.getCellData("TYPE_CONFIRM", rowIndex)));
-
-        return taskData;
-    }
-
-    @Test
-    public void testAddNewTask() throws AWTException {
-        TaskData taskData = getDataFromExcel(1);
+    @Test(dataProvider = "addTaskData", dataProviderClass = DataProviderFactory.class)
+    public void testAddNewTask(TaskData taskData) {
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
 
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
+
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
         taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName());
         taskPage.searchTask(taskData.getTaskName());
         taskPage.verifyTaskExists(taskData.getTaskName());
         taskPage.clickButtonEdit(taskData.getTaskName());
         taskPage.verifyNewTaskInTaskEdit(taskData);
     }
 
-    @Test
-    public void testEditTask() throws InterruptedException, AWTException {
-        TaskData taskData = getDataFromExcel(1);
+    @Test(dataProvider = "editTaskData", dataProviderClass = DataProviderFactory.class)
+    public void testEditTask(TaskData taskAddData, TaskData taskDataEdit) {
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
-        taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
+        taskAddData.setTaskName(taskAddData.getTaskName() + dateTimeAdd);
 
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
-        taskPage.fillDataNewTask(taskData);
+        taskPage.fillDataNewTask(taskAddData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
-        taskPage.searchTask(taskData.getTaskName());
-        taskPage.verifyTaskExists(taskData.getTaskName());
+        taskPage.clickClosePopupTaskDetail(taskAddData.getTaskName());
+        taskPage.searchTask(taskAddData.getTaskName());
+        taskPage.verifyTaskExists(taskAddData.getTaskName());
 
-        taskPage.clickButtonEdit(taskData.getTaskName());
-        taskPage.verifyNewTaskInTaskEdit(taskData);
+        taskPage.clickButtonEdit(taskAddData.getTaskName());
+        taskPage.verifyNewTaskInTaskEdit(taskAddData);
 
-        TaskData taskDataEdit = getDataFromExcel(2);
         String dateTimeEdit = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         taskDataEdit.setTaskName(taskDataEdit.getTaskName() + dateTimeEdit);
 
@@ -101,27 +70,27 @@ public class TaskTest extends BaseTest {
         taskPage.clickButtonSave();
         taskPage.verifyUpdateTaskSuccessMessage();
         taskPage.clickIconCloseUpdateTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskDataEdit.getTaskName(), taskDataEdit.getFlagEdit());
+        taskPage.clickClosePopupTaskDetail(taskDataEdit.getTaskName());
         taskPage.searchTask(taskDataEdit.getTaskName());
         taskPage.verifyTaskExists(taskDataEdit.getTaskName());
     }
 
-    @Test
-    public void testDeleteTask() {
-        TaskData taskData = getDataFromExcel(1);
+    @Test(dataProvider = "addTaskData", dataProviderClass = DataProviderFactory.class)
+    public void testDeleteTask(TaskData taskData) {
         String dateTimeAdd = new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
         taskData.setTaskName(taskData.getTaskName() + dateTimeAdd);
 
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
+
         taskPage.verifyTaskPageDisplayed();
         taskPage.clickButtonNewTask();
         taskPage.fillDataNewTask(taskData);
         taskPage.clickButtonSave();
         taskPage.verifyAddTaskSuccessMessage();
         taskPage.clickIconCloseAddTaskMessage();
-        taskPage.clickClosePopupTaskDetail(taskData.getTaskName(), taskData.getFlagEdit());
+        taskPage.clickClosePopupTaskDetail(taskData.getTaskName());
         taskPage.searchTask(taskData.getTaskName());
         taskPage.verifyTaskExists(taskData.getTaskName());
 
