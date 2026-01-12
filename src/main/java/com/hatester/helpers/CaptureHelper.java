@@ -88,18 +88,20 @@ public class CaptureHelper extends ScreenRecorder {
     public static void takeScreenshot(String screenshotName) {
         //Tạo tham chiếu của TakeScreenshot
         TakesScreenshot ts = (TakesScreenshot) DriverManager.getDriver();
-        File source = ts.getScreenshotAs(OutputType.FILE);  //chụp ảnh màn hình trang hiện tại (snapshot của browser)
+
+        //chụp ảnh màn hình trang hiện tại (snapshot của browser) và lưu vào 1 file
+        File source = ts.getScreenshotAs(OutputType.FILE);
 
         //kiểm tra folder tồn tại không, nếu không thì tạo mới folder theo đường dẫn
         File theDir = new File(PropertiesHelper.getValue("SCREENSHOT_PATH"));  //Lưu file vào exports/screenshots
         if (!theDir.exists()) {
-            theDir.mkdirs();
+            theDir.mkdirs();  //khởi tạo đường dẫn để lưu file
         }
 
         //lưu file ảnh với tên cụ thể vào đường dẫn
         try {
-            FileHandler.copy(source, new File(PropertiesHelper.getValue("SCREENSHOT_PATH") + "/" + screenshotName + ".png"));
             //FileHandler.copy để copy file tạm sang vị trí đích
+            FileHandler.copy(source, new File(PropertiesHelper.getValue("SCREENSHOT_PATH") + "/" + screenshotName + ".png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
