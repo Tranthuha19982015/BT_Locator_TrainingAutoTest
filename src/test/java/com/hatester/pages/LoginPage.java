@@ -19,7 +19,7 @@ public class LoginPage extends BasePage {
     private By errorMessagePasswordRequired = By.xpath("//div[text()='The Password field is required.' and contains(@class,'alert-danger')]");
 
     public void navigateToCRM() {
-        WebUI.openURL(PropertiesHelper.getValue("url"));
+        WebUI.openURL(PropertiesHelper.getValue("URL"));
     }
 
     public void verifyHeaderLogin() {
@@ -49,8 +49,8 @@ public class LoginPage extends BasePage {
     public DashboardPage loginCRM() {
         navigateToCRM();
         verifyHeaderLogin();
-        enterEmail(PropertiesHelper.getValue("email"));
-        enterPassword(PropertiesHelper.getValue("password"));
+        enterEmail(PropertiesHelper.getValue("EMAIL"));
+        enterPassword(PropertiesHelper.getValue("PASSWORD"));
         clickButtonLogin();
         verifyLoginSuccess();
         return new DashboardPage();
@@ -60,7 +60,7 @@ public class LoginPage extends BasePage {
         WebUI.sleep(1);
         String actualCurrentURL = WebUI.getCurrentURL();
 //        String expectedURL = "https://crm.anhtester.com/admin/";
-        String expectedURL = PropertiesHelper.getValue("url_login_success");
+        String expectedURL = PropertiesHelper.getValue("URL_LOGIN_SUCCESS");
 
         Assert.assertTrue((WebUI.checkElementExist(menuDashboard) && actualCurrentURL.equals(expectedURL)),
                 "Login failed!");

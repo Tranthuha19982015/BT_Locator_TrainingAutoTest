@@ -2,6 +2,7 @@ package com.hatester.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.enums.ExpectedResult;
+import com.hatester.helpers.CaptureHelper;
 import com.hatester.models.LoginData;
 import com.hatester.pages.LoginPage;
 import com.hatester.common.BaseTest;

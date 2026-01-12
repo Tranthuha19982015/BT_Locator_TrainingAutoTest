@@ -10,6 +10,12 @@ public class LoginData {
     //DTO dùng cho: DataProvider, logging, reporting => BẮT BUỘC override toString()
     //Không override toString() thì mỗi lần này nó sẽ hiển thị kiểu này: LoginData@55f54852
     //Có override toString(): testLogin[admin@example.com | password:123456 | expectedResult:success]
+    /**
+     * RẤT QUAN TRỌNG:
+     * - Dùng cho Allure
+     * - Dùng cho log
+     * - KHÔNG in plain password
+     */
     @Override
     public String toString() {
         return String.format("email: %s | password: %s | expectedResult: %s", email, password, expectedResult);
