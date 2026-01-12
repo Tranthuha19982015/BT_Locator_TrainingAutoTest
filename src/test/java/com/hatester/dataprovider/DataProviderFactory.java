@@ -18,15 +18,6 @@ public class DataProviderFactory {
         ExcelHelper excel = new ExcelHelper();
 
         Object[][] excelDataMap = excel.getDataMap("src/test/resources/datatest/dataCRM.xlsx", "Login", 1, 5);
-//        System.out.println(Arrays.deepToString(data));
-
-        //i = index của từng dòng dữ liệu
-        //j = index của parameter trong 1 test
-        for (int i = 0; i < excelDataMap.length; i++) {
-            for (int j = 0; j < excelDataMap[i].length; j++) {
-                System.out.println("data[" + i + "][" + j + "] = " + excelDataMap[i][j]);
-            }
-        }
 
         Object[][] finalData = new Object[excelDataMap.length][1];
 
