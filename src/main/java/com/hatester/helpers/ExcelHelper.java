@@ -240,8 +240,13 @@ public class ExcelHelper {
 
     //Hàm này dùng cho trường hợp nhiều Field trong File Excel
     public int getColumns() {
-        Row row = sheet.getRow(0);
-        return row.getLastCellNum();
+        try {
+            Row row = sheet.getRow(0);
+            return row.getLastCellNum();
+        } catch (Exception e) {
+//            LogUtils.error(e.getMessage());
+            throw (e);
+        }
     }
 
     //Get last row number (lấy vị trí dòng cuối cùng tính từ 0)
@@ -439,11 +444,11 @@ public class ExcelHelper {
                 // Kiểm tra xem dòng có tồn tại không
                 if (rowNum > sheet.getLastRowNum()) {
                     System.out.println("WARNING: Row " + rowNum + " does not exist in the sheet.");
-                    data[i][0] = new Hashtable < String, String > ();
+                    data[i][0] = new Hashtable<String, String>();
                     continue;
                 }
 
-                Hashtable < String, String > table = new Hashtable < > ();
+                Hashtable<String, String> table = new Hashtable<>();
                 for (int j = 0; j < columns; j++) {
                     // Lấy tên cột từ dòng đầu tiên (header)
                     String columnName = getCellData(j, 0);
