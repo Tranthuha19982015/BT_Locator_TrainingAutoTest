@@ -15,9 +15,9 @@ import java.time.Duration;
 import java.util.List;
 
 public class WebUI {
-    private static int WAIT_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("wait_timeout"));
-    private static double STEP_TIME = Double.parseDouble(PropertiesHelper.getValue("step_time"));
-    private static int PAGE_LOAD_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("page_load_timeout"));
+    private static int WAIT_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("WAIT_TIMEOUT"));
+    private static double WAIT_SLEEP_STEP = Double.parseDouble(PropertiesHelper.getValue("WAIT_SLEEP_STEP"));
+    private static int PAGE_LOAD_TIMEOUT = Integer.parseInt(PropertiesHelper.getValue("PAGE_LOAD_TIMEOUT"));
 
     public static void sleep(double second) {
         try {
@@ -32,7 +32,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Timeout waiting for the element Visible. " + by.toString());
@@ -46,7 +46,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Timeout waiting for the element Visible with " + seconds + "s : " + by.toString());
@@ -110,7 +110,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Element not exist. " + by.toString());
@@ -124,7 +124,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.presenceOfElementLocated(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Element not exist with " + seconds + "s : " + by.toString());
@@ -138,7 +138,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.elementToBeClickable(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Timeout waiting for the element To Be Clickable. " + by.toString());
@@ -152,7 +152,7 @@ public class WebUI {
         try {
             WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             wait.until(ExpectedConditions.elementToBeClickable(by));
-            highlightElement(element);
+            highlightElement(by);
             return element;
         } catch (Throwable error) {
             System.out.println("Timeout waiting for the element To Be Clickable with " + seconds + "s : " + by.toString());
@@ -272,7 +272,7 @@ public class WebUI {
     public static boolean checkElementDisplay(By by, int seconds) {
         try {
             WebElement element = waitForElementVisible(by, seconds);
-            highlightElement(element);
+            highlightElement(by);
             System.out.println("Element found: " + by.toString() + " within " + seconds + " seconds.");
             return true;
         } catch (TimeoutException e) {
@@ -297,69 +297,69 @@ public class WebUI {
     }
 
     public static void openURL(String url) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         DriverManager.getDriver().get(url);
         System.out.println("Open URL: " + url);
     }
 
     public static String getCurrentURL() {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         String currentUrl = DriverManager.getDriver().getCurrentUrl();
         System.out.println("Current URL: " + currentUrl);
         return currentUrl;
     }
 
     public static void clearTextElement(By by) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by).clear();
         System.out.println("Clear text on element:" + by.toString());
     }
 
     public static void clearTextElement(By by, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by, seconds).clear();
         System.out.println("Clear text on element:" + by.toString() + " within " + seconds + " seconds.");
     }
 
     public static void setTextElement(By by, String text) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by).sendKeys(text);
         System.out.println("Set text " + text + " on element: " + by.toString());
     }
 
     public static void setTextElement(By by, String text, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by, seconds).sendKeys(text);
         System.out.println("Set text " + text + " on element: " + by.toString() + " within " + seconds + " seconds.");
     }
 
     public static void setTextAndKey(By by, String text, Keys key) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by).sendKeys(text, key);
         System.out.println("Set text and key " + text + " on element: " + by.toString());
     }
 
     public static void setTextAndKey(By by, String text, Keys key, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementVisible(by, seconds).sendKeys(text, key);
         System.out.println("Set text and key " + text + " on element: " + by.toString() + " within " + seconds + " seconds.");
     }
 
     public static void clickElement(By by) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementToBeClickable(by).click();
         System.out.println("Click to element: " + by.toString());
     }
 
     public static void clickElement(By by, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         waitForElementToBeClickable(by, seconds).click();
         System.out.println("Click to element: " + by.toString() + " within " + seconds + " seconds.");
     }
 
 
     public static String getTextElement(By by) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get text on element: " + by.toString());
         String text = element.getText();
@@ -368,7 +368,7 @@ public class WebUI {
     }
 
     public static String getTextElement(By by, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by, seconds);
         System.out.println("Get text on element: " + by.toString() + " within " + seconds + " seconds.");
         String text = element.getText();
@@ -377,7 +377,7 @@ public class WebUI {
     }
 
     public static String getAttributeElement(By by, String attribute) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get attribute on element: " + by.toString());
         String textAttribute = element.getAttribute(attribute);
@@ -386,7 +386,7 @@ public class WebUI {
     }
 
     public static String getAttributeElement(By by, String attribute, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get attribute on element: " + by.toString() + " within " + seconds + " seconds.");
         String textAttribute = element.getAttribute(attribute);
@@ -395,7 +395,7 @@ public class WebUI {
     }
 
     public static String getCssValueElement(By by, String cssPropertyName) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get CSS value " + cssPropertyName + " of element " + by.toString());
         String value = element.getCssValue(cssPropertyName);
@@ -404,7 +404,7 @@ public class WebUI {
     }
 
     public static String getCssValueElement(By by, String cssPropertyName, int seconds) {
-        sleep(STEP_TIME);
+        sleep(WAIT_SLEEP_STEP);
         WebElement element = waitForElementVisible(by);
         System.out.println("Get CSS value " + cssPropertyName + " of element " + by.toString() + " within " + seconds + " seconds.");
         String value = element.getCssValue(cssPropertyName);

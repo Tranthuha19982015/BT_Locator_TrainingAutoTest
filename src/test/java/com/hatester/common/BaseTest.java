@@ -24,12 +24,12 @@ public class BaseTest {
 
     @Parameters("browser")
     @BeforeMethod
-    public void createDriver(@Optional("chrome") String browserName) {
+    public void createDriver(@Optional("browser") String browserName) {
         // Khởi tạo driver cục bộ và khởi tạo giá trị cho driver đó
         WebDriver driver;
 
-        if (PropertiesHelper.getValue("browser") != null && !PropertiesHelper.getValue("browser").isBlank()) {
-            browserName = PropertiesHelper.getValue("browser");
+        if (PropertiesHelper.getValue("BROWSER") != null && !PropertiesHelper.getValue("BROWSER").isBlank()) {
+            browserName = PropertiesHelper.getValue("BROWSER");
         }
 
         switch (browserName.trim().toLowerCase()) {
@@ -37,9 +37,9 @@ public class BaseTest {
                 System.out.println("Launching Chrome browser...");
 
                 ChromeOptions options = new ChromeOptions();
-                if (PropertiesHelper.getValue("headless").equalsIgnoreCase("true")) {
+                if (PropertiesHelper.getValue("HEADLESS").equalsIgnoreCase("true")) {
                     options.addArguments("--headless=new");
-                    options.addArguments("--window-size=" + PropertiesHelper.getValue("window_size"));
+                    options.addArguments("--window-size=" + PropertiesHelper.getValue("WINDOW_SIZE"));
                 }
 
                 driver = new ChromeDriver(options);
@@ -61,7 +61,7 @@ public class BaseTest {
         DriverManager.setDriver(driver);
 
         //Sử dụng driver thì phải lấy ra để dùng - Tự động truy xuất driver theo từng thread
-        if (PropertiesHelper.getValue("headless").equalsIgnoreCase("false")) {
+        if (PropertiesHelper.getValue("HEADLESS").equalsIgnoreCase("false")) {
             DriverManager.getDriver().manage().window().maximize();
         }
         softAssert = new SoftAssert();
