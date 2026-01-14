@@ -14,7 +14,7 @@ public class SystemHelper {
     }
 
     public static String getCurrentDatetime() {
-        return new SimpleDateFormat("_ddMMyyyy_HHmmss").format(new Date());
+        return new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
     }
 
     public static String getDateTimeNowFormat() {
