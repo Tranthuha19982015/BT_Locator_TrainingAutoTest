@@ -1,12 +1,12 @@
 package com.hatester.dataprovider;
 
 import com.hatester.helpers.ExcelHelper;
-import com.hatester.mappers.LeadDataMapper;
-import com.hatester.mappers.LoginDataMapper;
-import com.hatester.mappers.TaskDataMapper;
-import com.hatester.models.LeadData;
-import com.hatester.models.LoginData;
-import com.hatester.models.TaskData;
+import com.hatester.projects.mappers.LeadDataMapper;
+import com.hatester.projects.mappers.LoginDataMapper;
+import com.hatester.projects.mappers.TaskDataMapper;
+import com.hatester.projects.models.LeadData;
+import com.hatester.projects.models.LoginData;
+import com.hatester.projects.models.TaskData;
 import org.testng.annotations.DataProvider;
 
 import java.util.Map;
