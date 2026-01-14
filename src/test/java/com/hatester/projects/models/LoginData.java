@@ -1,4 +1,4 @@
-package com.hatester.models;
+package com.hatester.projects.models;
 
 public class LoginData {
     String email;

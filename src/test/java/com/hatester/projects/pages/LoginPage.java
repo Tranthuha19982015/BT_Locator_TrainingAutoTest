@@ -1,10 +1,9 @@
-package com.hatester.pages;
+package com.hatester.projects.pages;
 
 import com.hatester.helpers.PropertiesHelper;
 import com.hatester.keywords.WebUI;
 import com.hatester.common.BasePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginPage extends BasePage {

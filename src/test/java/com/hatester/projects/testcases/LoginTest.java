@@ -1,15 +1,12 @@
-package com.hatester.testcases;
+package com.hatester.projects.testcases;
 
 import com.hatester.dataprovider.DataProviderFactory;
 import com.hatester.enums.ExpectedResult;
-import com.hatester.helpers.CaptureHelper;
-import com.hatester.models.LoginData;
-import com.hatester.pages.LoginPage;
+import com.hatester.projects.models.LoginData;
+import com.hatester.projects.pages.LoginPage;
 import com.hatester.common.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 public class LoginTest extends BaseTest {
     private LoginPage loginPage;

@@ -1,8 +1,6 @@
-package com.hatester.mappers;
+package com.hatester.projects.mappers;
 
-import com.hatester.models.LoginData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.hatester.projects.models.LoginData;
 
 import java.util.Map;
 
