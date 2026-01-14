@@ -6,7 +6,7 @@
 <!--            <package name="com.hatester.testcases"/>-->
 <!--        </packages>-->
         <classes>
-            <class name="com.hatester.testcases.TaskTest">
+            <class name="com.hatester.projects.testcases.TaskTest">
                 <methods>
                     <include name="testAddNewTaskAndVerify"/>
                 </methods>

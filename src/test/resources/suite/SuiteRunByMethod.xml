@@ -4,8 +4,8 @@
     <test name="FirstTest">
         <!--        <parameter name="browser" value="edge"/>-->
         <classes>
-            <class name="com.hatester.testcases.LoginTest"/>
-            <class name="com.hatester.testcases.LeadTest"/>
+            <class name="com.hatester.projects.testcases.LoginTest"/>
+            <class name="com.hatester.projects.testcases.LeadTest"/>
         </classes>
     </test>
 </suite>

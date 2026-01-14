@@ -3,10 +3,10 @@
 <suite name="SuiteRunByClass" verbose="1">
     <test name="FirstTest" parallel="methods" thread-count="4">
         <classes>
-            <class name="com.hatester.testcases.LoginTest"/>
-            <class name="com.hatester.testcases.DashboardTest"/>
-            <class name="com.hatester.testcases.LeadTest"/>
-            <class name="com.hatester.testcases.TaskTest"/>
+            <class name="com.hatester.projects.testcases.LoginTest"/>
+            <class name="com.hatester.projects.testcases.DashboardTest"/>
+            <class name="com.hatester.projects.testcases.LeadTest"/>
+            <class name="com.hatester.projects.testcases.TaskTest"/>
         </classes>
     </test>
 </suite>
