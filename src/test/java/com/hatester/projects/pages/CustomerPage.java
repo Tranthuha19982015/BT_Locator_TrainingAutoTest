@@ -1,4 +1,4 @@
-package com.hatester.pages;
+package com.hatester.projects.pages;
 
 import com.hatester.common.BasePage;
 import com.hatester.keywords.WebUI;

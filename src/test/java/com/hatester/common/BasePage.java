@@ -1,9 +1,8 @@
 package com.hatester.common;
 
 import com.hatester.keywords.WebUI;
-import com.hatester.pages.*;
+import com.hatester.projects.pages.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class BasePage {

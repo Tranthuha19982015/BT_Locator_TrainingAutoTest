@@ -1,10 +1,10 @@
-package com.hatester.testcases;
+package com.hatester.projects.testcases;
 
 import com.hatester.common.BaseTest;
-import com.hatester.pages.DashboardPage;
-import com.hatester.pages.LeadPage;
-import com.hatester.pages.LoginPage;
-import com.hatester.pages.TaskPage;
+import com.hatester.projects.pages.DashboardPage;
+import com.hatester.projects.pages.LeadPage;
+import com.hatester.projects.pages.LoginPage;
+import com.hatester.projects.pages.TaskPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

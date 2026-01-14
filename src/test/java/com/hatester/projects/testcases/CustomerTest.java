@@ -1,14 +1,11 @@
-package com.hatester.testcases;
+package com.hatester.projects.testcases;
 
 import com.hatester.common.BaseTest;
 import com.hatester.helpers.ExcelHelper;
-import com.hatester.pages.CustomerPage;
-import com.hatester.pages.DashboardPage;
-import com.hatester.pages.LoginPage;
+import com.hatester.projects.pages.CustomerPage;
+import com.hatester.projects.pages.DashboardPage;
+import com.hatester.projects.pages.LoginPage;
 import org.testng.annotations.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class CustomerTest extends BaseTest {
     private LoginPage loginPage;
