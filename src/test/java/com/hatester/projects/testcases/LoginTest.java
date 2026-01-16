@@ -11,7 +11,8 @@ import org.testng.annotations.Test;
 public class LoginTest extends BaseTest {
     private LoginPage loginPage;
 
-    @Test(dataProvider = "loginData", dataProviderClass = DataProviderFactory.class)
+    @Test(dataProvider = "loginData", dataProviderClass = DataProviderFactory.class,
+            invocationCount = 2, successPercentage = 90)
     public void testLogin(LoginData loginData) {
         loginPage = new LoginPage();
         loginPage.loginCRM(loginData.getEmail(), loginData.getPassword());

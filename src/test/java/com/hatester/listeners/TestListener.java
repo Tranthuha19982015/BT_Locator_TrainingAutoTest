@@ -35,6 +35,7 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         System.out.println("Test case " + result.getName() + " is failed.");
         System.out.println("==> Status: " + result.getStatus());
+        System.out.println("==> Reason: " + result.getThrowable().getMessage());
 
         CaptureHelper.takeScreenshot(result.getName());
         CaptureHelper.stopRecord();
@@ -46,5 +47,15 @@ public class TestListener implements ITestListener {
         System.out.println("==> Status: " + result.getStatus());
 
         CaptureHelper.stopRecord();
+    }
+
+
+    //onTestFailedButWithinSuccessPercentage() chỉ được gọi khi:
+        //Có successPercentage
+        //Có invocationCount > 1
+        //Có ít nhất 1 lần FAIL
+    @Override
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        System.out.println("Tên của testcase failed nhưng có phần trăm passed là " + result.getName());
     }
 }
