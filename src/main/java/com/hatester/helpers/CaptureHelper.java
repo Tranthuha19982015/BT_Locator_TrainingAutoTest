@@ -1,6 +1,7 @@
 package com.hatester.helpers;
 
 import com.hatester.drivers.DriverManager;
+import com.hatester.utils.LogUtils;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.Registry;
@@ -76,9 +77,9 @@ public class CaptureHelper extends ScreenRecorder {
             if (screenRecorder != null) {
                 screenRecorder.stop();
                 screenRecorder = null;
-                System.out.println("Video recording stopped successfully.");
+                LogUtils.info("Video recording stopped successfully.");
             } else {
-                System.out.println("screenRecorder is null — skipping stopRecord.");
+                LogUtils.warn("screenRecorder is null — skipping stopRecord.");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

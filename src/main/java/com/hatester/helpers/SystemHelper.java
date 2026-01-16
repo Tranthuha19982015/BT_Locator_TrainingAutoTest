@@ -1,5 +1,7 @@
 package com.hatester.helpers;
 
+import com.hatester.utils.LogUtils;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -9,6 +11,7 @@ import java.util.Date;
 public class SystemHelper {
     //Lấy ra đường dẫn từ ổ đĩa tới source code hiện tại của mình  ---   E:\BT_Locator_TrainingAutoTest
     public static String getCurrentDir() {
+        LogUtils.info("Current Directory: " + System.getProperty("user.dir"));
         String current = System.getProperty("user.dir") + File.separator;
         return current;
     }
