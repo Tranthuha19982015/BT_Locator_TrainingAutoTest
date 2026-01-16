@@ -296,10 +296,10 @@ public class WebUI {
         DriverManager.getDriver().navigate().refresh();
     }
 
-    public static void openURL(String url) {
+    public static void navigateToURL(String url) {
         sleep(WAIT_SLEEP_STEP);
         DriverManager.getDriver().get(url);
-        System.out.println("Open URL: " + url);
+        System.out.println("Navigated to URL: " + url);
     }
 
     public static String getCurrentURL() {

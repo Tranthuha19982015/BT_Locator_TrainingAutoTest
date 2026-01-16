@@ -18,7 +18,7 @@ public class LoginPage extends BasePage {
     private By errorMessagePasswordRequired = By.xpath("//div[text()='The Password field is required.' and contains(@class,'alert-danger')]");
 
     public void navigateToCRM() {
-        WebUI.openURL(PropertiesHelper.getValue("URL"));
+        WebUI.navigateToURL(PropertiesHelper.getValue("URL"));
     }
 
     public void verifyHeaderLogin() {
